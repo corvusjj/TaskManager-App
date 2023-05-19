@@ -35,5 +35,50 @@ const fileId = (() => {
         usedIDs.splice(index, 1);
     }
 
-    return { generateId, removeId}
+    return { generateId, removeId }
+})();
+
+const projectCreator = (() => {
+    const newProject = (name, color, favorite) => {
+        let tasks = [];
+
+        return { name, color, favorite, tasks }
+    }
+
+    return { newProject };
+})();
+
+const projectModifier = (() => {
+    const changeName = (project, value) => project.name = value;
+    const changeColor = (project, value) => project.color = value;
+    const changeFavorite = (project, value) => project.favorite = value;
+
+    return { changeColor, changeName, changeFavorite };
+})();
+
+const taskCreator = (() => {
+    const newTask = (title, description, dueDate, priority) => {
+        let notes = [];
+
+        return { title, description, dueDate, priority, notes}
+    }
+
+    return { newTask };
+})();
+
+const taskModifier = (() => {
+    const changeTitle = (task, value) => task.title = value;
+    const changeDescription = (task, value) => task.description = value;
+    const changeDueDate = (task, value) => task.dueDate = value;
+    const changePriority = (task, value) => task.priority = value;
+
+    return { changeTitle, changeDescription, changeDueDate, changePriority}
+})();
+
+const noteCreator = (() => {
+    function addNote(newNote) {
+        return newNote;
+    }
+
+    return { addNote };
 })();
