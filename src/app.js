@@ -2,8 +2,9 @@ const App = (() => {
     const files = (() => {
         let projects = [];
         let tasks = [];
+        let notes = [];
     
-        return { projects, tasks }
+        return { projects, tasks, notes }
     })();
     
     const fileId = (() => {
@@ -79,11 +80,13 @@ const App = (() => {
     })();
     
     const noteCreator = (() => {
-        function addNote(newNote) {
-            return newNote;
+        const newNote = (note, taskId) => {
+            const id = fileId.generateId();
+
+            return { note, id, taskId }
         }
-    
-        return { addNote };
+
+        return { newNote }
     })();
     
     return {
