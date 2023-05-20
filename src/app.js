@@ -42,8 +42,9 @@ const App = (() => {
     const projectCreator = (() => {
         const newProject = (name, color, favorite) => {
             let tasks = [];
+            const id = fileId.generateId();
     
-            return { name, color, favorite, tasks }
+            return { name, color, favorite, tasks, id }
         }
     
         return { newProject };
@@ -58,10 +59,11 @@ const App = (() => {
     })();
     
     const taskCreator = (() => {
-        const newTask = (title, description, dueDate, priority) => {
+        const newTask = (title, description, dueDate, priority, projectId) => {
             let notes = [];
-    
-            return { title, description, dueDate, priority, notes}
+            const id = fileId.generateId();
+
+            return { title, description, dueDate, priority, notes, id, projectId }
         }
     
         return { newTask };
@@ -73,7 +75,7 @@ const App = (() => {
         const changeDueDate = (task, value) => task.dueDate = value;
         const changePriority = (task, value) => task.priority = value;
     
-        return { changeTitle, changeDescription, changeDueDate, changePriority}
+        return { changeTitle, changeDescription, changeDueDate, changePriority }
     })();
     
     const noteCreator = (() => {
