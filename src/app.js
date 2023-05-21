@@ -1,101 +1,127 @@
-const App = (() => {
-    const files = (() => {
-        let projects = [];
-        let tasks = [];
-        let notes = [];
-    
-        return { projects, tasks, notes }
-    })();
-    
-    const fileId = (() => {
-        let usedIDs = [];
-    
-        const generateId = () => {
-            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()';
-            let randomId = '';
-    
-            function placeCharacters() {
-                for (let i = 0; i < 8; i++) {
-                    const randomIndex = Math.floor(Math.random() * characters.length);
-                    randomId += characters.charAt(randomIndex);
-                }
+class Project {
+    constructor(name, color, favorite) {
+      this.name = name;
+      this.color = color;
+      this.favorite = favorite;
+      this.tasks = [];
+    }
+
+    changeName(newName) {
+      this.name = newName;
+    }
+  
+    changeColor(newColor) {
+      this.color = newColor;
+    }
+  
+    changeFavorite(newFavorite) {
+      this.favorite = newFavorite;
+    }
+  }
+
+class Task {
+  constructor(title, description, dueDate, priority, projectId) {
+    this.title = title;
+    this.description = description;
+    this.dueDate = dueDate;
+    this.priority = priority;
+    this.notes = [];
+    this.projectId = projectId;
+  }
+
+  changeTitle(newTitle) {
+    this.title = newTitle;
+  }
+
+  changeDescription(newDescription) {
+    this.description = newDescription;
+  }
+
+  changeDueDate(newDueDate) {
+    this.dueDate = newDueDate;
+  }
+
+  changePriority(newPriority) {
+    this.priority = newPriority;
+  }
+}
+
+class Note {
+    constructor(note, taskId) {
+        this.note = note;
+        this.taskId = taskId;
+    }
+}
+
+const fileId = (() => {
+    let usedIDs = [];
+
+    const generateId = () => {
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()';
+        let randomId = '';
+
+        function placeCharacters() {
+            for (let i = 0; i < 8; i++) {
+                const randomIndex = Math.floor(Math.random() * characters.length);
+                randomId += characters.charAt(randomIndex);
             }
-    
+        }
+
+        placeCharacters();
+
+        if(usedIDs.includes(randomId)) {
+            randomId = '';
             placeCharacters();
-    
-            if(usedIDs.includes(randomId)) {
-                randomId = '';
-                placeCharacters();
-            };
-    
-            usedIDs.push(randomId);
-            return randomId;
-        }
-    
-        const removeId = (id) => {
-            const index = usedIDs.indexOf(id);
-            usedIDs.splice(index, 1);
-        }
-    
-        return { generateId, removeId }
-    })();
-    
-    const projectCreator = (() => {
-        const newProject = (name, color, favorite) => {
-            let tasks = [];
-            const id = fileId.generateId();
-    
-            return { name, color, favorite, tasks, id }
-        }
-    
-        return { newProject };
-    })();
-    
-    const projectModifier = (() => {
-        const changeName = (project, value) => project.name = value;
-        const changeColor = (project, value) => project.color = value;
-        const changeFavorite = (project, value) => project.favorite = value;
-    
-        return { changeColor, changeName, changeFavorite };
-    })();
-    
-    const taskCreator = (() => {
-        const newTask = (title, description, dueDate, priority, projectId) => {
-            let notes = [];
-            const id = fileId.generateId();
+        };
 
-            return { title, description, dueDate, priority, notes, id, projectId }
-        }
-    
-        return { newTask };
-    })();
-    
-    const taskModifier = (() => {
-        const changeTitle = (task, value) => task.title = value;
-        const changeDescription = (task, value) => task.description = value;
-        const changeDueDate = (task, value) => task.dueDate = value;
-        const changePriority = (task, value) => task.priority = value;
-    
-        return { changeTitle, changeDescription, changeDueDate, changePriority }
-    })();
-    
-    const noteCreator = (() => {
-        const newNote = (note, taskId) => {
-            const id = fileId.generateId();
+        usedIDs.push(randomId);
+        return randomId;
+    }
 
-            return { note, id, taskId }
-        }
+    const removeId = (id) => {
+        const index = usedIDs.indexOf(id);
+        usedIDs.splice(index, 1);
+    }
 
-        return { newNote }
-    })();
-    
-    return {
-        files,
-        fileId,
-        projectCreator,
-        projectModifier,
-        taskCreator,
-        taskModifier,
-        noteCreator
-    }    
+    return { generateId, removeId, usedIDs }
 })();
+
+const projectManager = (() => {
+    let projects = [];
+
+    const createProject = (name, color, favorite) => {
+        const project = new Project(name, color, favorite);
+        project.id = fileId.generateId();
+        projects.push(project);
+    }
+
+    return { projects, createProject}
+})();
+
+const taskManager = (() => {
+    let tasks = [];
+
+    const createTask = (title, description, dueDate, priority, projectId) => {
+        const task = new Task(title, description, dueDate, priority, projectId);
+        task.id = fileId.generateId();
+        tasks.push(task);
+    }
+
+    return { tasks, createTask }
+})();
+
+const noteManager = (() => {
+    let notes = [];
+
+    const createNote = (note, taskId) => {
+        const newNote = new Note(note, taskId);
+        newNote.id = fileId.generateId();
+        notes.push(newNote);
+    }
+
+    return { notes, createNote }
+})();
+
+//  file remover
+//  generate tasks from projectParents through projectIds
+//  setup prettier
