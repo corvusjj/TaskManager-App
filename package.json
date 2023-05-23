@@ -1,25 +1,27 @@
 {
-  "name": "top-todolist",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --progress --mode=production",  
-    "watch": "webpack --progress --watch" 
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/john0ground/TOP-toDoList.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/john0ground/TOP-toDoList/issues"
-  },
-  "homepage": "https://github.com/john0ground/TOP-toDoList#readme",
-  "devDependencies": {
-    "webpack": "^5.83.1",
-    "webpack-cli": "^5.1.1"
-  }
+    "name": "top-todolist",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "webpack --progress --mode=production",
+        "watch": "webpack --progress --watch",
+        "format": "prettier --write ."
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/john0ground/TOP-toDoList.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/john0ground/TOP-toDoList/issues"
+    },
+    "homepage": "https://github.com/john0ground/TOP-toDoList#readme",
+    "devDependencies": {
+        "prettier": "2.8.8",
+        "webpack": "^5.83.1",
+        "webpack-cli": "^5.1.1"
+    }
 }

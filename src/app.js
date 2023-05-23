@@ -1,49 +1,49 @@
 class Project {
     constructor(name, color, favorite) {
-      this.name = name;
-      this.color = color;
-      this.favorite = favorite;
-      this.tasks = [];
+        this.name = name;
+        this.color = color;
+        this.favorite = favorite;
+        this.tasks = [];
     }
 
     changeName(newName) {
-      this.name = newName;
+        this.name = newName;
     }
-  
+
     changeColor(newColor) {
-      this.color = newColor;
+        this.color = newColor;
     }
-  
+
     changeFavorite(newFavorite) {
-      this.favorite = newFavorite;
+        this.favorite = newFavorite;
     }
-  }
+}
 
 class Task {
-  constructor(title, description, dueDate, priority, projectId) {
-    this.title = title;
-    this.description = description;
-    this.dueDate = dueDate;
-    this.priority = priority;
-    this.notes = [];
-    this.projectId = projectId;
-  }
+    constructor(title, description, dueDate, priority, projectId) {
+        this.title = title;
+        this.description = description;
+        this.dueDate = dueDate;
+        this.priority = priority;
+        this.notes = [];
+        this.projectId = projectId;
+    }
 
-  changeTitle(newTitle) {
-    this.title = newTitle;
-  }
+    changeTitle(newTitle) {
+        this.title = newTitle;
+    }
 
-  changeDescription(newDescription) {
-    this.description = newDescription;
-  }
+    changeDescription(newDescription) {
+        this.description = newDescription;
+    }
 
-  changeDueDate(newDueDate) {
-    this.dueDate = newDueDate;
-  }
+    changeDueDate(newDueDate) {
+        this.dueDate = newDueDate;
+    }
 
-  changePriority(newPriority) {
-    this.priority = newPriority;
-  }
+    changePriority(newPriority) {
+        this.priority = newPriority;
+    }
 }
 
 class Note {
@@ -57,33 +57,36 @@ const fileId = (() => {
     let usedIDs = [];
 
     const generateId = () => {
-        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()';
+        const characters =
+            'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()';
         let randomId = '';
 
         function placeCharacters() {
             for (let i = 0; i < 8; i++) {
-                const randomIndex = Math.floor(Math.random() * characters.length);
+                const randomIndex = Math.floor(
+                    Math.random() * characters.length
+                );
                 randomId += characters.charAt(randomIndex);
             }
         }
 
         placeCharacters();
 
-        if(usedIDs.includes(randomId)) {
+        if (usedIDs.includes(randomId)) {
             randomId = '';
             placeCharacters();
-        };
+        }
 
         usedIDs.push(randomId);
         return randomId;
-    }
+    };
 
     const removeId = (id) => {
         const index = usedIDs.indexOf(id);
         usedIDs.splice(index, 1);
-    }
+    };
 
-    return { generateId, removeId, usedIDs }
+    return { generateId, removeId, usedIDs };
 })();
 
 const projectManager = (() => {
@@ -93,16 +96,18 @@ const projectManager = (() => {
         const project = new Project(name, color, favorite);
         project.id = fileId.generateId();
         projects.push(project);
-    }
+    };
 
     const deleteProject = (projectId) => {
-        const indexOfProject = projects.indexOf(projects.find(obj => obj.id === projectId));
+        const indexOfProject = projects.indexOf(
+            projects.find((obj) => obj.id === projectId)
+        );
         projects.splice(indexOfProject, 1);
 
         taskManager.clearTasksFromDeletedProject(projectId);
-    }
+    };
 
-    return { projects, createProject, deleteProject}
+    return { projects, createProject, deleteProject };
 })();
 
 const taskManager = (() => {
@@ -112,22 +117,26 @@ const taskManager = (() => {
         const task = new Task(title, description, dueDate, priority, projectId);
         task.id = fileId.generateId();
         tasks.push(task);
-    }
+    };
 
     const deleteTask = (taskId) => {
-        const indexOfTask = tasks.indexOf(tasks.find(obj => obj.id === taskId));
+        const indexOfTask = tasks.indexOf(
+            tasks.find((obj) => obj.id === taskId)
+        );
         tasks.splice(indexOfTask, 1);
 
         noteManager.clearNotesFromDeletedTask(taskId);
-    }
+    };
 
     const clearTasksFromDeletedProject = (deletedProjectId) => {
-        const tasksRemained = tasks.filter(task => task.projectId !== deletedProjectId);
+        const tasksRemained = tasks.filter(
+            (task) => task.projectId !== deletedProjectId
+        );
         tasks = [];
         tasks.push(...tasksRemained);
-    }
+    };
 
-    return { tasks, createTask, deleteTask, clearTasksFromDeletedProject }
+    return { tasks, createTask, deleteTask, clearTasksFromDeletedProject };
 })();
 
 const noteManager = (() => {
@@ -137,21 +146,27 @@ const noteManager = (() => {
         const newNote = new Note(note, taskId);
         newNote.id = fileId.generateId();
         notes.push(newNote);
-    }
+    };
 
     const deleteNote = (noteId) => {
-        const indexOfNote = notes.indexOf(notes.find(obj => obj.id === noteId));
+        const indexOfNote = notes.indexOf(
+            notes.find((obj) => obj.id === noteId)
+        );
         notes.splice(indexOfNote, 1);
-    }
+    };
 
     const clearNotesFromDeletedTask = (deletedTaskId) => {
-        const notesRemained = notes.filter(notes.filter(obj => obj.taskId !== deletedTaskId));
+        const notesRemained = notes.filter(
+            notes.filter((obj) => obj.taskId !== deletedTaskId)
+        );
         notes = [];
         notes.push(...notesRemained);
-    }
+    };
 
-    return { notes, createNote, deleteNote, clearNotesFromDeletedTask }
+    return { notes, createNote, deleteNote, clearNotesFromDeletedTask };
 })();
+
+console.log('sa');
 
 //  create push task to project
 
