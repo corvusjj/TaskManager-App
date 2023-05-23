@@ -95,7 +95,14 @@ const projectManager = (() => {
         projects.push(project);
     }
 
-    return { projects, createProject}
+    const deleteProject = (projectId) => {
+        const indexOfProject = projects.indexOf(projects.find(obj => obj.id === projectId));
+        projects.splice(indexOfProject, 1);
+
+        taskManager.clearTasksFromDeletedProject(projectId);
+    }
+
+    return { projects, createProject, deleteProject}
 })();
 
 const taskManager = (() => {
@@ -107,7 +114,20 @@ const taskManager = (() => {
         tasks.push(task);
     }
 
-    return { tasks, createTask }
+    const deleteTask = (taskId) => {
+        const indexOfTask = tasks.indexOf(tasks.find(obj => obj.id === taskId));
+        tasks.splice(indexOfTask, 1);
+
+        noteManager.clearNotesFromDeletedTask(taskId);
+    }
+
+    const clearTasksFromDeletedProject = (deletedProjectId) => {
+        const tasksRemained = tasks.filter(task => task.projectId !== deletedProjectId);
+        tasks = [];
+        tasks.push(...tasksRemained);
+    }
+
+    return { tasks, createTask, deleteTask, clearTasksFromDeletedProject }
 })();
 
 const noteManager = (() => {
@@ -119,9 +139,21 @@ const noteManager = (() => {
         notes.push(newNote);
     }
 
-    return { notes, createNote }
+    const deleteNote = (noteId) => {
+        const indexOfNote = notes.indexOf(notes.find(obj => obj.id === noteId));
+        notes.splice(indexOfNote, 1);
+    }
+
+    const clearNotesFromDeletedTask = (deletedTaskId) => {
+        const notesRemained = notes.filter(notes.filter(obj => obj.taskId !== deletedTaskId));
+        notes = [];
+        notes.push(...notesRemained);
+    }
+
+    return { notes, createNote, deleteNote, clearNotesFromDeletedTask }
 })();
 
-//  file remover
+//  create push task to project
+
 //  generate tasks from projectParents through projectIds
 //  setup prettier
