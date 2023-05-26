@@ -107,7 +107,12 @@ const projectManager = (() => {
         taskManager.clearTasksFromDeletedProject(projectId);
     };
 
-    return { projects, createProject, deleteProject };
+    const insertTaskToProject = (task) => {
+        const appliedProject = projects.find(obj => obj.id === task.projectId);
+        appliedProject.tasks.push(task);
+    }
+
+    return { projects, createProject, deleteProject, insertTaskToProject };
 })();
 
 const taskManager = (() => {
@@ -117,6 +122,8 @@ const taskManager = (() => {
         const task = new Task(title, description, dueDate, priority, projectId);
         task.id = fileId.generateId();
         tasks.push(task);
+
+        projectManager.insertTaskToProject(task);
     };
 
     const deleteTask = (taskId) => {
@@ -129,6 +136,16 @@ const taskManager = (() => {
     };
 
     const clearTasksFromDeletedProject = (deletedProjectId) => {
+        // const deletedTaskIds = tasks
+        //     .filter((task) => task.projectId === deletedProjectId)
+        //     .map((task) => task.projectId);
+
+        // if (deletedTaskIds.length > 0) {
+        //     for (let i = 0; deletedTaskIds.length - 1; i++) {
+        //         noteManager.clearNotesFromDeletedTask(deletedTaskIds[i]);
+        //     }
+        // }
+
         const tasksRemained = tasks.filter(
             (task) => task.projectId !== deletedProjectId
         );
@@ -136,7 +153,12 @@ const taskManager = (() => {
         tasks.push(...tasksRemained);
     };
 
-    return { tasks, createTask, deleteTask, clearTasksFromDeletedProject };
+    const insertNoteToTask = (note) => {
+        const appliedTask = tasks.find(obj => obj.id === note.taskId);
+        appliedTask.notes.push(note);
+    }
+
+    return { tasks, createTask, deleteTask, clearTasksFromDeletedProject, insertNoteToTask };
 })();
 
 const noteManager = (() => {
@@ -146,6 +168,8 @@ const noteManager = (() => {
         const newNote = new Note(note, taskId);
         newNote.id = fileId.generateId();
         notes.push(newNote);
+
+        taskManager.insertNoteToTask(newNote);
     };
 
     const deleteNote = (noteId) => {
@@ -166,9 +190,27 @@ const noteManager = (() => {
     return { notes, createNote, deleteNote, clearNotesFromDeletedTask };
 })();
 
-console.log('sa');
+// (title, description, dueDate, priority, projectId)
+
+projectManager.createProject('Parkour', 'red', true);
+projectManager.createProject('Drumming', 'white', false);
+projectManager.projects[0].id = 'cxNHxBHN';
+projectManager.projects[1].id = '7tPb2SWL';
+
+taskManager.createTask('Kong Vault', 'monkey style', 'date Magellan died', 'least Prio', 'cxNHxBHN');
+taskManager.createTask('Drum Fill Lesson', 'just the basics', 'january 1, 1947', 'no prio', '7tPb2SWL');
+taskManager.tasks[0].id = '0K*b4HIW';
+taskManager.tasks[1].id = 'YhtETU7z';
+
+noteManager.createNote('warmup', '0K*b4HIW');
+noteManager.createNote('dive and raise hips', '0K*b4HIW');
+noteManager.createNote('drumeo vid 1', 'YhtETU7z');
+
+console.log(projectManager.projects);
+console.log(taskManager.tasks);
 
 //  create push task to project
+//  create remove task from project
+//  implement clearing task notes from deleting project
 
 //  generate tasks from projectParents through projectIds
-//  setup prettier
