@@ -146,15 +146,16 @@ const taskManager = (() => {
     };
 
     const clearTasksFromDeletedProject = (deletedProjectId) => {
-        // const deletedTaskIds = tasks
-        //     .filter((task) => task.projectId === deletedProjectId)
-        //     .map((task) => task.projectId);
+        const deletedTaskIds = tasks
+            .filter((task) => task.projectId === deletedProjectId)
+            .map((task) => task.id);
 
-        // if (deletedTaskIds.length > 0) {
-        //     for (let i = 0; deletedTaskIds.length - 1; i++) {
-        //         noteManager.clearNotesFromDeletedTask(deletedTaskIds[i]);
-        //     }
-        // }
+        if (deletedTaskIds.length > 0) {
+            for (let i = 0; i < deletedTaskIds.length; i++) {
+                noteManager.clearNotesFromDeletedTask(deletedTaskIds[i]);
+            }
+        }
+        //  code above clears the notes on the noteManager affected by the deleted tasks.
 
         const tasksRemained = tasks.filter(
             (task) => task.projectId !== deletedProjectId
@@ -196,7 +197,7 @@ const noteManager = (() => {
 
         notes.length = 0;
         notes.push(...notesRemained);
-    };
+    };  
 
     return { notes, createNote, deleteNote, clearNotesFromDeletedTask };
 })();
@@ -217,13 +218,12 @@ noteManager.createNote('warmup', '0K*b4HIW');
 noteManager.createNote('dive and raise hips', '0K*b4HIW');
 noteManager.createNote('drumeo vid 1', 'YhtETU7z');
 
-// taskManager.deleteTask('0K*b4HIW');
-// projectManager.deleteProject('cxNHxBHN');
+// taskManager.deleteTask('YhtETU7z');
+// projectManager.deleteProject('7tPb2SWL');
 
 console.log(projectManager.projects);
 console.log(taskManager.tasks);
 console.log(noteManager.notes);
 
 //  create task, remove task, ====> make it a method
-//  implement clearing task notes from deleting project
 //  generate tasks from projectParents through projectIds
