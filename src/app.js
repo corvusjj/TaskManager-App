@@ -112,6 +112,13 @@ const projectManager = (() => {
         appliedProject.tasks.push(task);
     }
 
+    // const removeTaskFromProject = (task) => {
+    //     const appliedProject = projects.find(obj => obj.id === task.projectId);
+    //     const remainedTasks = appliedProject.tasks.filter(obj => obj.id === task.id);
+    //     appliedProject.tasks = [];
+    //     appliedProject.tasks.push(...remainedTasks);
+    // }
+
     return { projects, createProject, deleteProject, insertTaskToProject };
 })();
 
@@ -127,6 +134,9 @@ const taskManager = (() => {
     };
 
     const deleteTask = (taskId) => {
+        // const task = tasks.find(obj => obj.id === taskId);
+        // projectManager.removeTaskFromProject(task);
+
         const indexOfTask = tasks.indexOf(
             tasks.find((obj) => obj.id === taskId)
         );
@@ -149,7 +159,7 @@ const taskManager = (() => {
         const tasksRemained = tasks.filter(
             (task) => task.projectId !== deletedProjectId
         );
-        tasks = [];
+        tasks.length = 0;
         tasks.push(...tasksRemained);
     };
 
@@ -181,9 +191,10 @@ const noteManager = (() => {
 
     const clearNotesFromDeletedTask = (deletedTaskId) => {
         const notesRemained = notes.filter(
-            notes.filter((obj) => obj.taskId !== deletedTaskId)
+            ((obj) => obj.taskId !== deletedTaskId)
         );
-        notes = [];
+
+        notes.length = 0;
         notes.push(...notesRemained);
     };
 
@@ -206,11 +217,13 @@ noteManager.createNote('warmup', '0K*b4HIW');
 noteManager.createNote('dive and raise hips', '0K*b4HIW');
 noteManager.createNote('drumeo vid 1', 'YhtETU7z');
 
+// taskManager.deleteTask('0K*b4HIW');
+// projectManager.deleteProject('cxNHxBHN');
+
 console.log(projectManager.projects);
 console.log(taskManager.tasks);
+console.log(noteManager.notes);
 
-//  create push task to project
-//  create remove task from project
+//  create task, remove task, ====> make it a method
 //  implement clearing task notes from deleting project
-
 //  generate tasks from projectParents through projectIds
