@@ -206,17 +206,13 @@ const noteManager = (() => {
 
 projectManager.createProject('Parkour', 'red', true);
 projectManager.createProject('Drumming', 'white', false);
-projectManager.projects[0].id = 'cxNHxBHN';
-projectManager.projects[1].id = '7tPb2SWL';
 
-taskManager.createTask('Kong Vault', 'monkey style', 'date Magellan died', 'least Prio', 'cxNHxBHN');
-taskManager.createTask('Drum Fill Lesson', 'just the basics', 'january 1, 1947', 'no prio', '7tPb2SWL');
-taskManager.tasks[0].id = '0K*b4HIW';
-taskManager.tasks[1].id = 'YhtETU7z';
+taskManager.createTask('Kong Vault', 'monkey style', 'date Magellan died', 'least Prio', projectManager.projects[0].id);
+taskManager.createTask('Drum Fill Lesson', 'just the basics', 'january 1, 1947', 'no prio', projectManager.projects[1].id);
 
-noteManager.createNote('warmup', '0K*b4HIW');
-noteManager.createNote('dive and raise hips', '0K*b4HIW');
-noteManager.createNote('drumeo vid 1', 'YhtETU7z');
+noteManager.createNote('warmup', taskManager.tasks[0].id);
+noteManager.createNote('dive and raise hips', taskManager.tasks[0].id);
+noteManager.createNote('drumeo vid 1', taskManager.tasks[1].id);
 
 // taskManager.deleteTask('YhtETU7z');
 // projectManager.deleteProject('7tPb2SWL');
@@ -225,5 +221,8 @@ console.log(projectManager.projects);
 console.log(taskManager.tasks);
 console.log(noteManager.notes);
 
-//  create task, remove task, ====> make it a method
+console.log(fileId.usedIDs);
+
+//  remove deleted Id
+//  insert task to Project, remove task, ====> make it a method
 //  generate tasks from projectParents through projectIds
