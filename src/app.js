@@ -47,9 +47,10 @@ class Task {
 }
 
 class Note {
-    constructor(note, taskId) {
+    constructor(note, taskId, projectId) {
         this.note = note;
         this.taskId = taskId;
+        this.projectId = projectId;
     }
 
     updateNote(newNote) {
@@ -185,8 +186,8 @@ const taskManager = (() => {
 const noteManager = (() => {
     let notes = [];
 
-    const createNote = (note, taskId) => {
-        const newNote = new Note(note, taskId);
+    const createNote = (note, taskId, projectId) => {
+        const newNote = new Note(note, taskId, projectId);
         newNote.id = fileId.generateId();
         notes.push(newNote);
 
@@ -232,9 +233,9 @@ projectManager.createProject('Drumming', 'white', false);
 taskManager.createTask('Kong Vault', 'monkey style', 'date Magellan died', 'least Prio', projectManager.projects[0].id);
 taskManager.createTask('Drum Fill Lesson', 'just the basics', 'january 1, 1947', 'no prio', projectManager.projects[1].id);
 
-noteManager.createNote('warmup', taskManager.tasks[0].id);
-noteManager.createNote('dive and raise hips', taskManager.tasks[0].id);
-noteManager.createNote('drumeo vid 1', taskManager.tasks[1].id);
+noteManager.createNote('warmup', taskManager.tasks[0].id, projectManager.projects[0].id);
+noteManager.createNote('dive and raise hips', taskManager.tasks[0].id, projectManager.projects[0].id);
+noteManager.createNote('drumeo vid 1', taskManager.tasks[1].id, projectManager.projects[1].id);
 
 // taskManager.deleteTask(taskManager.tasks[0].id);
 // projectManager.deleteProject(projectManager.projects[0].id);
