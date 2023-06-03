@@ -110,14 +110,17 @@ const projectManager = (() => {
         projects.splice(indexOfProject, 1);
 
         taskManager.clearTasksFromDeletedProject(projectId);
+        noteManager.clearNotesFromDeletedProject(projectId);
 
         fileId.removeId(projectId);
     };
 
     const insertTaskToProject = (task) => {
-        const appliedProject = projects.find(obj => obj.id === task.projectId);
+        const appliedProject = projects.find(
+            (obj) => obj.id === task.projectId
+        );
         appliedProject.tasks.push(task);
-    }
+    };
 
     // const removeTaskFromProject = (task) => {
     //     const appliedProject = projects.find(obj => obj.id === task.projectId);
@@ -141,9 +144,6 @@ const taskManager = (() => {
     };
 
     const deleteTask = (taskId) => {
-        // const task = tasks.find(obj => obj.id === taskId);
-        // projectManager.removeTaskFromProject(task);
-
         const indexOfTask = tasks.indexOf(
             tasks.find((obj) => obj.id === taskId)
         );
@@ -155,32 +155,39 @@ const taskManager = (() => {
     };
 
     const clearTasksFromDeletedProject = (deletedProjectId) => {
-        const deletedTaskIds = tasks
-            .filter((task) => task.projectId === deletedProjectId)
-            .map((task) => task.id);
+        // const deletedTaskIds = tasks
+        //     .filter((task) => task.projectId === deletedProjectId)
+        //     .map((task) => task.id);
 
-        if (deletedTaskIds.length > 0) {
-            deletedTaskIds.forEach(id => {
-                noteManager.clearNotesFromDeletedTask(id);
+        // if (deletedTaskIds.length > 0) {
+        //     deletedTaskIds.forEach(id => {
+        //         noteManager.clearNotesFromDeletedTask(id);
 
-                fileId.removeId(id);
-            });
-        }
+        //         fileId.removeId(id);
+        //     });
+        // }
         //  code above clears the notes on the noteManager affected by the deleted tasks.
 
         const tasksRemained = tasks.filter(
             (task) => task.projectId !== deletedProjectId
         );
+
         tasks.length = 0;
         tasks.push(...tasksRemained);
     };
 
     const insertNoteToTask = (note) => {
-        const appliedTask = tasks.find(obj => obj.id === note.taskId);
+        const appliedTask = tasks.find((obj) => obj.id === note.taskId);
         appliedTask.notes.push(note);
-    }
+    };
 
-    return { tasks, createTask, deleteTask, clearTasksFromDeletedProject, insertNoteToTask };
+    return {
+        tasks,
+        createTask,
+        deleteTask,
+        clearTasksFromDeletedProject,
+        insertNoteToTask,
+    };
 })();
 
 const noteManager = (() => {
@@ -204,42 +211,71 @@ const noteManager = (() => {
     };
 
     const clearNotesFromDeletedTask = (deletedTaskId) => {
-        const deletedNoteIds = notes.filter(note => {
-            note.taskId === deletedTaskId
-        });
-
-        if (deletedNoteIds.length > 0) {
-            deletedNoteIds.forEach(id => {
-                fileId.removeId(id);
-            });
-        }
-
         const notesRemained = notes.filter(
-            ((obj) => obj.taskId !== deletedTaskId)
+            (obj) => obj.taskId !== deletedTaskId
         );
 
         notes.length = 0;
         notes.push(...notesRemained);
-    };  
+    };
 
-    return { notes, createNote, deleteNote, clearNotesFromDeletedTask };
+    const clearNotesFromDeletedProject = (deletedProjectId) => {
+        const notesRemained = notes.filter(
+            (obj) => obj.projectId !== deletedProjectId
+        );
+
+        notes.length = 0;
+        notes.push(...notesRemained);
+    };
+
+    return {
+        notes,
+        createNote,
+        deleteNote,
+        clearNotesFromDeletedTask,
+        clearNotesFromDeletedProject,
+    };
 })();
 
 // (title, description, dueDate, priority, projectId)
 
 projectManager.createProject('Parkour', 'red', true);
 projectManager.createProject('Drumming', 'white', false);
+// projectManager.projects[0].id = 'x0GjU12#';
 
-taskManager.createTask('Kong Vault', 'monkey style', 'date Magellan died', 'least Prio', projectManager.projects[0].id);
-taskManager.createTask('Drum Fill Lesson', 'just the basics', 'january 1, 1947', 'no prio', projectManager.projects[1].id);
+taskManager.createTask(
+    'Kong Vault',
+    'monkey style',
+    'date Magellan died',
+    'least Prio',
+    projectManager.projects[0].id
+);
+taskManager.createTask(
+    'Drum Fill Lesson',
+    'just the basics',
+    'january 1, 1947',
+    'no prio',
+    projectManager.projects[1].id
+);
 
-noteManager.createNote('warmup', taskManager.tasks[0].id, projectManager.projects[0].id);
-noteManager.createNote('dive and raise hips', taskManager.tasks[0].id, projectManager.projects[0].id);
-noteManager.createNote('drumeo vid 1', taskManager.tasks[1].id, projectManager.projects[1].id);
+noteManager.createNote(
+    'warmup',
+    taskManager.tasks[0].id,
+    projectManager.projects[0].id
+);
+noteManager.createNote(
+    'dive and raise hips',
+    taskManager.tasks[0].id,
+    projectManager.projects[0].id
+);
+noteManager.createNote(
+    'drumeo vid 1',
+    taskManager.tasks[1].id,
+    projectManager.projects[1].id
+);
 
 // taskManager.deleteTask(taskManager.tasks[0].id);
 // projectManager.deleteProject(projectManager.projects[0].id);
-// console.log(projectManager.projects[0].id);
 
 console.log(projectManager.projects);
 console.log(taskManager.tasks);
