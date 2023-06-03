@@ -51,6 +51,10 @@ class Note {
         this.note = note;
         this.taskId = taskId;
     }
+
+    updateNote(newNote) {
+        this.note = newNote;
+    }
 }
 
 const fileId = (() => {
