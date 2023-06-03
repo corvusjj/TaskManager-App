@@ -105,6 +105,8 @@ const projectManager = (() => {
         projects.splice(indexOfProject, 1);
 
         taskManager.clearTasksFromDeletedProject(projectId);
+
+        fileId.removeId(projectId);
     };
 
     const insertTaskToProject = (task) => {
@@ -143,6 +145,8 @@ const taskManager = (() => {
         tasks.splice(indexOfTask, 1);
 
         noteManager.clearNotesFromDeletedTask(taskId);
+
+        fileId.removeId(taskId);
     };
 
     const clearTasksFromDeletedProject = (deletedProjectId) => {
@@ -151,9 +155,11 @@ const taskManager = (() => {
             .map((task) => task.id);
 
         if (deletedTaskIds.length > 0) {
-            for (let i = 0; i < deletedTaskIds.length; i++) {
-                noteManager.clearNotesFromDeletedTask(deletedTaskIds[i]);
-            }
+            deletedTaskIds.forEach(id => {
+                noteManager.clearNotesFromDeletedTask(id);
+
+                fileId.removeId(id);
+            });
         }
         //  code above clears the notes on the noteManager affected by the deleted tasks.
 
@@ -188,9 +194,21 @@ const noteManager = (() => {
             notes.find((obj) => obj.id === noteId)
         );
         notes.splice(indexOfNote, 1);
+
+        fileId.removeId(noteId);
     };
 
     const clearNotesFromDeletedTask = (deletedTaskId) => {
+        const deletedNoteIds = notes.filter(note => {
+            note.taskId === deletedTaskId
+        });
+
+        if (deletedNoteIds.length > 0) {
+            deletedNoteIds.forEach(id => {
+                fileId.removeId(id);
+            });
+        }
+
         const notesRemained = notes.filter(
             ((obj) => obj.taskId !== deletedTaskId)
         );
@@ -214,8 +232,9 @@ noteManager.createNote('warmup', taskManager.tasks[0].id);
 noteManager.createNote('dive and raise hips', taskManager.tasks[0].id);
 noteManager.createNote('drumeo vid 1', taskManager.tasks[1].id);
 
-// taskManager.deleteTask('YhtETU7z');
-// projectManager.deleteProject('7tPb2SWL');
+// taskManager.deleteTask(taskManager.tasks[0].id);
+// projectManager.deleteProject(projectManager.projects[0].id);
+// console.log(projectManager.projects[0].id);
 
 console.log(projectManager.projects);
 console.log(taskManager.tasks);
