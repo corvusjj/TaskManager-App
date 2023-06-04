@@ -155,18 +155,13 @@ const taskManager = (() => {
     };
 
     const clearTasksFromDeletedProject = (deletedProjectId) => {
-        // const deletedTaskIds = tasks
-        //     .filter((task) => task.projectId === deletedProjectId)
-        //     .map((task) => task.id);
+        const deletedTaskIds = tasks
+            .filter((task) => task.projectId === deletedProjectId)
+            .map((task) => task.id);
 
-        // if (deletedTaskIds.length > 0) {
-        //     deletedTaskIds.forEach(id => {
-        //         noteManager.clearNotesFromDeletedTask(id);
-
-        //         fileId.removeId(id);
-        //     });
-        // }
-        //  code above clears the notes on the noteManager affected by the deleted tasks.
+        deletedTaskIds.forEach(
+            (id) => fileId.removeId(id)
+        );
 
         const tasksRemained = tasks.filter(
             (task) => task.projectId !== deletedProjectId
@@ -211,6 +206,14 @@ const noteManager = (() => {
     };
 
     const clearNotesFromDeletedTask = (deletedTaskId) => {
+        const deletedNoteIds = notes
+            .filter((note) => note.taskId === deletedTaskId)
+            .map((note) => note.id);
+
+        deletedNoteIds.forEach(
+            (id) => fileId.removeId(id)
+        );
+
         const notesRemained = notes.filter(
             (obj) => obj.taskId !== deletedTaskId
         );
@@ -220,6 +223,14 @@ const noteManager = (() => {
     };
 
     const clearNotesFromDeletedProject = (deletedProjectId) => {
+        const deletedNoteIds = notes
+            .filter((note) => note.projectId === deletedProjectId)
+            .map((note) => note.id);
+
+        deletedNoteIds.forEach(
+            (id) => fileId.removeId(id)
+        );
+
         const notesRemained = notes.filter(
             (obj) => obj.projectId !== deletedProjectId
         );
