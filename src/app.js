@@ -201,7 +201,19 @@ const taskManager = (() => {
     };
 
     const placeNote = (note) => {
+        const appliedTask = tasks.find(
+            (task) => task.id === note.taskId
+        );
 
+        appliedTask.addNote(note);
+    }
+
+    const removeNote = (note) => {
+        const appliedTask = tasks.find(
+            (task) => task.id === note.taskId  
+        );
+
+        appliedTask.removeNote(note);
     }
 
     return {
@@ -210,6 +222,7 @@ const taskManager = (() => {
         deleteTask,
         clearTasksFromDeletedProject,
         placeNote,
+        removeNote
     };
 })();
 
@@ -221,10 +234,13 @@ const noteManager = (() => {
         newNote.id = fileId.generateId();
         notes.push(newNote);
 
-        taskManager.insertNoteToTask(newNote);
+        taskManager.placeNote(newNote);
     };
 
     const deleteNote = (noteId) => {
+        const noteToRemove = notes.find((note) => note.id === noteId);
+        taskManager.removeNote(noteToRemove);
+
         const indexOfNote = notes.indexOf(
             notes.find((obj) => obj.id === noteId)
         );
@@ -315,6 +331,7 @@ noteManager.createNote(
 
 // taskManager.deleteTask(taskManager.tasks[0].id);
 // projectManager.deleteProject(projectManager.projects[0].id);
+// noteManager.deleteNote(noteManager.notes[0].id);
 
 console.log(projectManager.projects);
 console.log(taskManager.tasks);
@@ -322,6 +339,5 @@ console.log(noteManager.notes);
 
 console.log(fileId.usedIDs);
 
-//  figure out placing notes to parentFiles
-//  insert task to Project, remove task, ====> make it a method
+//  note ====> place to parentFiles
 //  generate tasks from projectParents through projectIds
