@@ -17,6 +17,19 @@ class Project {
     changeFavorite(newFavorite) {
         this.favorite = newFavorite;
     }
+
+    addTask(newTask) {
+        this.tasks.push(newTask);
+    }
+
+    removeTask(taskToRemove) {
+        const tasksRemained = this.tasks.filter(
+            (task) => task.id !== taskToRemove.id
+        );
+
+        this.tasks.length = 0;
+        this.tasks.push(...tasksRemained);
+    }
 }
 
 class Task {
@@ -43,6 +56,17 @@ class Task {
 
     changePriority(newPriority) {
         this.priority = newPriority;
+    }
+
+    addNote(newNote) {
+        this.notes.push(newNote);
+    }
+
+    removeNote(noteToRemove) {
+        const notesRemained = this.notes.filter((note) => note.id !== noteToRemove.id);
+        
+        this.notes.length = 0;
+        this.notes.push(...notesRemained);
     }
 }
 
@@ -115,21 +139,23 @@ const projectManager = (() => {
         fileId.removeId(projectId);
     };
 
-    const insertTaskToProject = (task) => {
+    const placeTask = (newTask) => {
         const appliedProject = projects.find(
-            (obj) => obj.id === task.projectId
+            (project) => project.id === newTask.projectId
         );
-        appliedProject.tasks.push(task);
-    };
 
-    // const removeTaskFromProject = (task) => {
-    //     const appliedProject = projects.find(obj => obj.id === task.projectId);
-    //     const remainedTasks = appliedProject.tasks.filter(obj => obj.id === task.id);
-    //     appliedProject.tasks = [];
-    //     appliedProject.tasks.push(...remainedTasks);
-    // }
+        appliedProject.addTask(newTask);
+    }
 
-    return { projects, createProject, deleteProject, insertTaskToProject };
+    const removeTask = (task) => {
+        const appliedProject = projects.find(
+            (project) => project.id === task.projectId
+        );
+
+        appliedProject.removeTask(task);
+    }
+
+    return { projects, createProject, deleteProject, placeTask, removeTask };
 })();
 
 const taskManager = (() => {
@@ -140,10 +166,13 @@ const taskManager = (() => {
         task.id = fileId.generateId();
         tasks.push(task);
 
-        projectManager.insertTaskToProject(task);
+        projectManager.placeTask(task);
     };
 
     const deleteTask = (taskId) => {
+        const taskToRemove = tasks.find((task) => task.id === taskId);
+        projectManager.removeTask(taskToRemove);
+
         const indexOfTask = tasks.indexOf(
             tasks.find((obj) => obj.id === taskId)
         );
@@ -171,17 +200,16 @@ const taskManager = (() => {
         tasks.push(...tasksRemained);
     };
 
-    const insertNoteToTask = (note) => {
-        const appliedTask = tasks.find((obj) => obj.id === note.taskId);
-        appliedTask.notes.push(note);
-    };
+    const placeNote = (note) => {
+
+    }
 
     return {
         tasks,
         createTask,
         deleteTask,
         clearTasksFromDeletedProject,
-        insertNoteToTask,
+        placeNote,
     };
 })();
 
@@ -294,6 +322,6 @@ console.log(noteManager.notes);
 
 console.log(fileId.usedIDs);
 
-//  remove deleted Id
+//  figure out placing notes to parentFiles
 //  insert task to Project, remove task, ====> make it a method
 //  generate tasks from projectParents through projectIds
