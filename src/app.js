@@ -339,5 +339,4 @@ console.log(noteManager.notes);
 
 console.log(fileId.usedIDs);
 
-//  note ====> place to parentFiles
 //  generate tasks from projectParents through projectIds
