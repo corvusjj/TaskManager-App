@@ -1,3 +1,5 @@
+const { parse } = require("date-fns");
+
 class Project {
     constructor(name, color, favorite) {
         this.name = name;
@@ -338,5 +340,13 @@ console.log(taskManager.tasks);
 console.log(noteManager.notes);
 
 console.log(fileId.usedIDs);
+
+localStorage.setItem('projects', JSON.stringify(projectManager.projects));
+localStorage.setItem('tasks', JSON.stringify(taskManager.tasks));
+localStorage.setItem('notes', JSON.stringify(noteManager.notes));
+
+// const displayItems = JSON.parse(localStorage.getItem('projects'));
+
+console.log(localStorage);
 
 //  generate tasks from projectParents through projectIds
