@@ -109,13 +109,22 @@ const fileId = (() => {
         }
 
         usedIDs.push(randomId);
+
+        updateIdStorage();
+
         return randomId;
     };
 
     const removeId = (id) => {
         const index = usedIDs.indexOf(id);
         usedIDs.splice(index, 1);
+
+        updateIdStorage();
     };
+
+    const updateIdStorage = () => {
+        localStorage.setItem('usedIDs', JSON.stringify(usedIDs));
+    }
 
     return { generateId, removeId, usedIDs };
 })();
