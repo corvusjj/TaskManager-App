@@ -1,5 +1,3 @@
-const { parse } = require("date-fns");
-
 class Project {
     constructor(name, color, favorite) {
         this.name = name;
@@ -132,10 +130,16 @@ const fileId = (() => {
 const projectManager = (() => {
     let projects = [];
 
+    const updateProjectStorage = () => {
+        localStorage.setItem('projects', JSON.stringify(projects));
+    }
+
     const createProject = (name, color, favorite) => {
         const project = new Project(name, color, favorite);
         project.id = fileId.generateId();
         projects.push(project);
+
+        updateProjectStorage();
     };
 
     const deleteProject = (projectId) => {
@@ -148,6 +152,7 @@ const projectManager = (() => {
         noteManager.clearNotesFromDeletedProject(projectId);
 
         fileId.removeId(projectId);
+        updateProjectStorage();
     };
 
     const placeTask = (newTask) => {
@@ -156,6 +161,7 @@ const projectManager = (() => {
         );
 
         appliedProject.addTask(newTask);
+        updateProjectStorage();
     }
 
     const removeTask = (task) => {
@@ -164,13 +170,18 @@ const projectManager = (() => {
         );
 
         appliedProject.removeTask(task);
+        updateProjectStorage();
     }
 
-    return { projects, createProject, deleteProject, placeTask, removeTask };
+    return { projects, createProject, deleteProject, placeTask, removeTask, updateProjectStorage };
 })();
 
 const taskManager = (() => {
     let tasks = [];
+
+    const updateTaskStorage = () => {
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+    }
 
     const createTask = (title, description, dueDate, priority, projectId) => {
         const task = new Task(title, description, dueDate, priority, projectId);
@@ -178,6 +189,7 @@ const taskManager = (() => {
         tasks.push(task);
 
         projectManager.placeTask(task);
+        updateTaskStorage();
     };
 
     const deleteTask = (taskId) => {
@@ -192,6 +204,7 @@ const taskManager = (() => {
         noteManager.clearNotesFromDeletedTask(taskId);
 
         fileId.removeId(taskId);
+        updateTaskStorage();
     };
 
     const clearTasksFromDeletedProject = (deletedProjectId) => {
@@ -209,6 +222,8 @@ const taskManager = (() => {
 
         tasks.length = 0;
         tasks.push(...tasksRemained);
+
+        updateTaskStorage();
     };
 
     const placeNote = (note) => {
@@ -217,6 +232,7 @@ const taskManager = (() => {
         );
 
         appliedTask.addNote(note);
+        updateTaskStorage();
     }
 
     const removeNote = (note) => {
@@ -225,6 +241,7 @@ const taskManager = (() => {
         );
 
         appliedTask.removeNote(note);
+        updateTaskStorage();
     }
 
     return {
@@ -233,17 +250,24 @@ const taskManager = (() => {
         deleteTask,
         clearTasksFromDeletedProject,
         placeNote,
-        removeNote
+        removeNote,
+        updateTaskStorage
     };
 })();
 
 const noteManager = (() => {
     let notes = [];
 
+    const updateNoteStorage = () => {
+        localStorage.setItem('notes', JSON.stringify(notes));
+    }
+
     const createNote = (note, taskId, projectId) => {
         const newNote = new Note(note, taskId, projectId);
         newNote.id = fileId.generateId();
         notes.push(newNote);
+
+        updateNoteStorage();
 
         taskManager.placeNote(newNote);
     };
@@ -258,6 +282,7 @@ const noteManager = (() => {
         notes.splice(indexOfNote, 1);
 
         fileId.removeId(noteId);
+        updateNoteStorage();
     };
 
     const clearNotesFromDeletedTask = (deletedTaskId) => {
@@ -275,6 +300,8 @@ const noteManager = (() => {
 
         notes.length = 0;
         notes.push(...notesRemained);
+
+        updateNoteStorage();
     };
 
     const clearNotesFromDeletedProject = (deletedProjectId) => {
@@ -292,6 +319,8 @@ const noteManager = (() => {
 
         notes.length = 0;
         notes.push(...notesRemained);
+
+        updateNoteStorage();
     };
 
     return {
@@ -300,6 +329,7 @@ const noteManager = (() => {
         deleteNote,
         clearNotesFromDeletedTask,
         clearNotesFromDeletedProject,
+        updateNoteStorage,
     };
 })();
 
@@ -355,7 +385,9 @@ localStorage.setItem('tasks', JSON.stringify(taskManager.tasks));
 localStorage.setItem('notes', JSON.stringify(noteManager.notes));
 
 // const displayItems = JSON.parse(localStorage.getItem('projects'));
+// console.log(displayItems);
 
-console.log(localStorage);
+
+
 
 //  generate tasks from projectParents through projectIds
