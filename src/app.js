@@ -58,6 +58,10 @@ class Task {
         this.priority = newPriority;
     }
 
+    changeProjectId(newProjectId) {
+        this.projectId = newProjectId;
+    }
+
     addNote(newNote) {
         this.notes.push(newNote);
     }
@@ -173,7 +177,18 @@ const projectManager = (() => {
         updateProjectStorage();
     }
 
-    return { projects, createProject, deleteProject, placeTask, removeTask, updateProjectStorage };
+    const transferTask = (task, newProjectId) => {
+        const currentProject = projects.find((project) => project.id === task.projectId);
+        const taskIndex = currentProject.tasks.indexOf(task);
+        currentProject.tasks.splice(taskIndex, 1);
+
+        const newProject = projects.find((project) => project.id === newProjectId);
+        newProject.tasks.push(task);
+
+        updateProjectStorage();
+    }
+
+    return { projects, createProject, deleteProject, placeTask, removeTask, transferTask, updateProjectStorage };
 })();
 
 const taskManager = (() => {
@@ -206,6 +221,14 @@ const taskManager = (() => {
         fileId.removeId(taskId);
         updateTaskStorage();
     };
+
+    const transferToOtherProject = (taskId, newProjectId) => {
+        const task = tasks.find((task) => task.id === taskId);
+        projectManager.transferTask(task, newProjectId);
+
+        task.changeProjectId(newProjectId);
+        updateTaskStorage();
+    }
 
     const clearTasksFromDeletedProject = (deletedProjectId) => {
         const deletedTaskIds = tasks
@@ -251,6 +274,7 @@ const taskManager = (() => {
         clearTasksFromDeletedProject,
         placeNote,
         removeNote,
+        transferToOtherProject,
         updateTaskStorage
     };
 })();
