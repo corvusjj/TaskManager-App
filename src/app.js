@@ -1,3 +1,5 @@
+import './style.scss';
+
 class Project {
     constructor(name, color, favorite) {
         this.name = name;
@@ -410,8 +412,6 @@ localStorage.setItem('notes', JSON.stringify(noteManager.notes));
 
 // const displayItems = JSON.parse(localStorage.getItem('projects'));
 // console.log(displayItems);
-
-
 
 
 //  generate tasks from projectParents through projectIds
