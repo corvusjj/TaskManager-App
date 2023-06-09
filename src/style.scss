@@ -1,4 +1,14 @@
-$header-background: #2E2E2E;
+$font-stack: 'Helvetica', sans-serif;
+$header-bg: #2E2E2E;
+$nav-bg: #FAFAFA;
+$main-bg: #FFFFFF;
+
+$font-primary: #202020;
+$font-secondary: #666666;
+// $font-primary: #ffffff;
+
+$hover-bg-color: #EEEEEE;
+// $hover-bg-color: #363636;
 
 *, *::before, *::after {
     box-sizing: border-box;
@@ -7,11 +17,13 @@ $header-background: #2E2E2E;
 }
 
 body {
-    font-family: 'Helvetica';
+    font-family: $font-stack;
+    font-size: 0.9rem;
+    color: $font-primary;
 }
 
 header {
-    background: $header-background;
+    background: $header-bg;
     display: flex;
     justify-content: space-between;
     padding: 7px 25px 7px 20px;
@@ -52,4 +64,51 @@ header {
 
     display: flex;
     align-items: center;
+}
+
+.sidebar {
+    ul {
+        display: flex;
+        flex-direction: column;
+    }
+
+    position: relative;
+    height: 100vh;
+    width: 300px;
+    background: $nav-bg;
+    padding: 30px 20px;
+}
+
+// .tasks-timeline {
+//     border: 1px solid #000;
+// }
+
+.nav-file {
+    svg {
+        width: 33px;
+        height: 33px;
+        margin-right: 3px;
+    }
+
+    p {
+        white-space: nowrap;
+    }
+
+    .file-amount {
+        margin-left: auto;
+        text-align: end;
+        padding-right: 10px;
+        color: $font-secondary;
+        font-size: 0.8rem;
+    }
+
+    display: flex;
+    align-items: center;
+    padding: 3px 0;
+    border-radius: 5px;
+}
+
+.nav-file:hover {
+    background: $hover-bg-color;
+    cursor: pointer;
 }
