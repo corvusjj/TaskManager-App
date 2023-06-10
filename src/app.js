@@ -70,7 +70,7 @@ class Task {
 
     removeNote(noteToRemove) {
         const notesRemained = this.notes.filter((note) => note.id !== noteToRemove.id);
-        
+
         this.notes.length = 0;
         this.notes.push(...notesRemained);
     }
@@ -258,15 +258,19 @@ const taskManager = (() => {
 
         appliedTask.addNote(note);
         updateTaskStorage();
+
+        projectManager.updateProjectStorage();
     }
 
     const removeNote = (note) => {
         const appliedTask = tasks.find(
             (task) => task.id === note.taskId  
         );
-
+        console.log(appliedTask);
         appliedTask.removeNote(note);
         updateTaskStorage();
+
+        projectManager.updateProjectStorage();
     }
 
     return {
@@ -359,59 +363,12 @@ const noteManager = (() => {
     };
 })();
 
-// (title, description, dueDate, priority, projectId)
-
-projectManager.createProject('Parkour', 'red', true);
-projectManager.createProject('Drumming', 'white', false);
-// projectManager.projects[0].id = 'x0GjU12#';
-
-taskManager.createTask(
-    'Kong Vault',
-    'monkey style',
-    'date Magellan died',
-    'least Prio',
-    projectManager.projects[0].id
-);
-taskManager.createTask(
-    'Drum Fill Lesson',
-    'just the basics',
-    'january 1, 1947',
-    'no prio',
-    projectManager.projects[1].id
-);
-
-noteManager.createNote(
-    'warmup',
-    taskManager.tasks[0].id,
-    projectManager.projects[0].id
-);
-noteManager.createNote(
-    'dive and raise hips',
-    taskManager.tasks[0].id,
-    projectManager.projects[0].id
-);
-noteManager.createNote(
-    'drumeo vid 1',
-    taskManager.tasks[1].id,
-    projectManager.projects[1].id
-);
-
-// taskManager.deleteTask(taskManager.tasks[0].id);
-// projectManager.deleteProject(projectManager.projects[0].id);
-// noteManager.deleteNote(noteManager.notes[0].id);
-
-console.log(projectManager.projects);
-console.log(taskManager.tasks);
-console.log(noteManager.notes);
-
-console.log(fileId.usedIDs);
-
-localStorage.setItem('projects', JSON.stringify(projectManager.projects));
-localStorage.setItem('tasks', JSON.stringify(taskManager.tasks));
-localStorage.setItem('notes', JSON.stringify(noteManager.notes));
-
-// const displayItems = JSON.parse(localStorage.getItem('projects'));
-// console.log(displayItems);
-
-
-//  generate tasks from projectParents through projectIds
+export {
+    Project,
+    Task,
+    Note,
+    fileId,
+    projectManager,
+    taskManager,
+    noteManager
+}
