@@ -38,12 +38,26 @@ assignMethodsToFiles(Project, projectManager.projects);
 assignMethodsToFiles(Note, noteManager.notes);
 
 
-// inbox Project
-const inboxProjectExist = projectManager.projects.find((proj) => proj.name === 'Inbox');
+// assign files to parent (notes to task / tasks to project)
+projectManager.projects.forEach((project) => project.tasks = []);
+taskManager.tasks.forEach((task) => task.notes = []);
 
-if(!inboxProjectExist) {
-    projectManager.createProject('Inbox', null, null);
-}
+noteManager.notes.forEach((note) => {
+    const parentTask = taskManager.tasks.find((task) => task.id === note.taskId);
+    parentTask.addNote(note);
+});
+
+taskManager.tasks.forEach((task) => {
+    const parentProject = projectManager.projects.find((project) => project.id === task.projectId);
+    parentProject.addTask(task);
+});
+
+// inbox Project
+// const inboxProjectExist = projectManager.projects.find((proj) => proj.name === 'Inbox');
+
+// if(!inboxProjectExist) {
+//     projectManager.createProject('Inbox', null, null);
+// }
 
 // localStorage.clear();
 // projectManager.createProject('Parkour', 'red', true);
@@ -93,7 +107,14 @@ console.log(noteManager.notes);
 
 const btn = document.querySelector('.btn');
 btn.addEventListener('click', () => {
-    // noteManager.createNote('read technique', taskManager.tasks[0].id, taskManager.tasks[0].projectId);
+    noteManager.createNote('read technique', taskManager.tasks[0].id, taskManager.tasks[0].projectId);
+    // noteManager.deleteNote(noteManager.notes[noteManager.notes.length - 1].id);
+    console.log(noteManager.notes);
+    console.log(projectManager.projects);
+});
+
+const btnDelete = document.querySelector('.delete');
+btnDelete.addEventListener('click', () => {
     noteManager.deleteNote(noteManager.notes[noteManager.notes.length - 1].id);
     console.log(noteManager.notes);
 });
