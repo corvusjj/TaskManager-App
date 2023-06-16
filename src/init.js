@@ -12,6 +12,31 @@ if (tasksLocalData) taskManager.tasks.push(...(JSON.parse(tasksLocalData)));
 if (notesLocalData) noteManager.notes.push(...(JSON.parse(notesLocalData)));
 if (usedIDsLocalData) fileId.usedIDs.push(...(JSON.parse(usedIDsLocalData)));
 
+const getMethodNames = (classType) => {
+    const propertyNames = Object.getOwnPropertyNames(classType.prototype);
+    return propertyNames.filter(
+        (methodName) => methodName !== 'constructor'
+    );
+}
+
+const assignMethodsToFiles = (classType, fileArray) => {
+    const methodNames = getMethodNames(classType);
+    const fileMethod = {};
+
+    methodNames.forEach((methodName) => {
+        const method = classType.prototype[methodName];
+        fileMethod[methodName] = method;
+    });
+
+    fileArray.forEach((file) => {
+        Object.assign(file, fileMethod);
+    });
+}
+
+assignMethodsToFiles(Task, taskManager.tasks);
+assignMethodsToFiles(Project, projectManager.projects);
+assignMethodsToFiles(Note, noteManager.notes);
+
 
 // inbox Project
 const inboxProjectExist = projectManager.projects.find((proj) => proj.name === 'Inbox');
@@ -20,6 +45,7 @@ if(!inboxProjectExist) {
     projectManager.createProject('Inbox', null, null);
 }
 
+// localStorage.clear();
 // projectManager.createProject('Parkour', 'red', true);
 // projectManager.createProject('Drumming', 'white', false);
 
@@ -54,6 +80,20 @@ if(!inboxProjectExist) {
 //     projectManager.projects[1].id
 // );
 
+// noteManager.createNote('read technique', taskManager.tasks[0].id, taskManager.tasks[0].projectId);
+// taskManager.createTask('Lockpick', 'study pins', 'Jan 1, 2025', 'low', projectManager.projects[1].id); 
+// projectManager.createProject('Architecture', 'blue', true);
+
+// noteManager.deleteNote(noteManager.notes[0].id);
+
 console.log(projectManager.projects);
 console.log(taskManager.tasks);
 console.log(noteManager.notes);
+//  review if note added to project
+
+const btn = document.querySelector('.btn');
+btn.addEventListener('click', () => {
+    // noteManager.createNote('read technique', taskManager.tasks[0].id, taskManager.tasks[0].projectId);
+    noteManager.deleteNote(noteManager.notes[noteManager.notes.length - 1].id);
+    console.log(noteManager.notes);
+});

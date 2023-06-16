@@ -303,6 +303,8 @@ const noteManager = (() => {
     };
 
     const deleteNote = (noteId) => {
+        localStorage.removeItem('notes');
+
         const noteToRemove = notes.find((note) => note.id === noteId);
         taskManager.removeNote(noteToRemove);
 
