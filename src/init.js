@@ -52,15 +52,13 @@ import {Project, Task, Note, fileId, projectManager, taskManager, noteManager} f
         const parentProject = projectManager.projects.find((project) => project.id === task.projectId);
         parentProject.addTask(task);
     });
+
+    // inbox Project
+    const inboxProjectExist = projectManager.projects.find((proj) => proj.name === 'Inbox@XFvW$W7');
+    if(!inboxProjectExist) {
+        projectManager.createProject('Inbox@XFvW$W7', null, null);
+    }
 })();
-
-
-// inbox Project
-// const inboxProjectExist = projectManager.projects.find((proj) => proj.name === 'Inbox');
-
-// if(!inboxProjectExist) {
-//     projectManager.createProject('Inbox', null, null);
-// }
 
 // localStorage.clear();
 // projectManager.createProject('Parkour', 'red', true);
