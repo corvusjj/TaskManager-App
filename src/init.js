@@ -1,4 +1,6 @@
 import {Project, Task, Note, fileId, projectManager, taskManager, noteManager} from './app.js';
+import {Interface} from './interface.js';
+import './style.scss';
 
 (function() {
     // if not empty
@@ -58,6 +60,8 @@ import {Project, Task, Note, fileId, projectManager, taskManager, noteManager} f
     if(!inboxProjectExist) {
         projectManager.createProject('Inbox@XFvW$W7', null, null);
     }
+
+    Interface.logThis();
 })();
 
 // localStorage.clear();

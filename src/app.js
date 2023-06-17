@@ -1,5 +1,3 @@
-import './style.scss';
-
 class Project {
     constructor(name, color, favorite) {
         this.name = name;
