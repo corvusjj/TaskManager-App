@@ -62,7 +62,7 @@ import './style.scss';
     }
 
     // generate favorites
-    Interface.NavModule.generateFavoritesToNav();
+    // Interface.NavModule.generateFavoritesToNav();
 })();
 
 // localStorage.clear();

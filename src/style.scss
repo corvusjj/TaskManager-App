@@ -11,7 +11,7 @@ $font-secondary: #707070;
 $hover-bg-color: #EEEEEE;
 // $hover-bg-color: #363636;
 
-$hover-icon-color: #494949;
+$hover-icon-color: #3b3b3b;
 
 *, *::before, *::after {
     box-sizing: border-box;
@@ -196,9 +196,28 @@ header {
     cursor: pointer;
 }
 
+.projects {
+    padding-left: 5px;
+}
+
+.projects .nav-head {
+    .add-icon {
+        fill: $font-secondary;
+        width: 27px;
+        height: 27px;
+        margin-left: auto;
+        border-radius: 5px;
+    }
+}
+
+.add-icon:hover {
+    fill: $hover-icon-color !important;
+    background: $hover-bg-color;
+    cursor: pointer;
+}
+
 button {
     width: 100px;
     height: 100px;
     background-color: orange;
 }
-
