@@ -61,6 +61,7 @@ import './style.scss';
         projectManager.createProject('Inbox@XFvW$W7', null, false);
     }
 
+    // generate favorites
     Interface.NavModule.generateFavoritesToNav();
 })();
 
