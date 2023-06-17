@@ -58,10 +58,10 @@ import './style.scss';
     // inbox Project
     const inboxProjectExist = projectManager.projects.find((proj) => proj.name === 'Inbox@XFvW$W7');
     if(!inboxProjectExist) {
-        projectManager.createProject('Inbox@XFvW$W7', null, null);
+        projectManager.createProject('Inbox@XFvW$W7', null, false);
     }
 
-    Interface.logThis();
+    Interface.NavModule.generateFavoritesToNav();
 })();
 
 // localStorage.clear();
@@ -112,7 +112,8 @@ console.log(noteManager.notes);
 
 const btn = document.querySelector('.btn');
 btn.addEventListener('click', () => {
-    noteManager.createNote('read technique', taskManager.tasks[0].id, taskManager.tasks[0].projectId);
+    projectManager.createProject('Architecture', 'blue', true);
+    // noteManager.createNote('read technique', taskManager.tasks[0].id, taskManager.tasks[0].projectId);
     // noteManager.deleteNote(noteManager.notes[noteManager.notes.length - 1].id);
     console.log(noteManager.notes);
     console.log(projectManager.projects);
