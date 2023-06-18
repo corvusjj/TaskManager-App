@@ -4,6 +4,7 @@ const Interface = (() => {
 
     const NavModule = (() => {
         const favoriteList = document.querySelector('.favorites-list');
+        const projectList = document.querySelector('.projects-list');
 
         const addProjectToFavorites = (project) => {
             const li = document.createElement('li');
@@ -32,7 +33,34 @@ const Interface = (() => {
             favorites.forEach((project) => addProjectToFavorites(project));
         }
 
-        return {addProjectToFavorites, generateFavoritesToNav}
+        const addProject = (project) => {
+            const li = document.createElement('li');
+            li.classList.add('nav-project');
+            li.id = project.id;
+
+            const colorDiv = document.createElement('div');
+            colorDiv.classList.add('project-color');
+            colorDiv.style.background = project.color;
+            li.appendChild(colorDiv);
+
+            const name = document.createElement('p');
+            name.textContent = project.name;
+            li.appendChild(name);
+
+            const taskAmount = document.createElement('p');
+            taskAmount.classList.add('file-amount');
+            taskAmount.textContent = project.tasks.length;
+            li.appendChild(taskAmount);
+
+            projectList.appendChild(li);
+        }
+
+        const generateProjectsToNav  = () => {
+            const projects = projectManager.projects.filter((proj) => proj.name !== 'Inbox@XFvW$W7');
+            projects.forEach((project) => addProject(project));
+        }
+
+        return {addProjectToFavorites, generateFavoritesToNav, addProject, generateProjectsToNav}
     })();
 
     return {NavModule}

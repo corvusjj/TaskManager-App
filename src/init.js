@@ -56,13 +56,16 @@ import './style.scss';
     });
 
     // inbox Project
-    const inboxProjectExist = projectManager.projects.find((proj) => proj.name === 'Inbox@XFvW$W7');
+    const inboxProjectExist = projectManager.projects.includes((proj) => proj.name === 'Inbox@XFvW$W7');
     if(!inboxProjectExist) {
         projectManager.createProject('Inbox@XFvW$W7', null, false);
     }
 
     // generate favorites
-    // Interface.NavModule.generateFavoritesToNav();
+    Interface.NavModule.generateFavoritesToNav();
+
+    // generate projects on nav
+    Interface.NavModule.generateProjectsToNav();
 })();
 
 // localStorage.clear();
