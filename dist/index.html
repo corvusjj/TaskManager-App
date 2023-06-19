@@ -78,18 +78,7 @@
                         </g>
                     </svg>
                 </div>
-                <ul class="favorites-list">
-                    <li class="nav-project" id="projectId">
-                        <div class="project-color"></div>
-                        <p>Calisthenics Burnout</p>
-                        <p class="file-amount">3</p>
-                    </li>
-                    <li class="nav-project" id="projectId">
-                        <div class="project-color"></div>
-                        <p>App Development</p>
-                        <p class="file-amount">5</p>
-                    </li>
-                </ul>
+                <ul class="favorites-list"></ul>
             </nav>
             <nav class="projects">
                 <div class="nav-head">
@@ -107,21 +96,27 @@
                         </g>
                     </svg>
                 </div>
-                <ul class="projects-list">
-                    <li class="nav-project" id="projectId">
-                        <div class="project-color"></div>
-                        <p>Calisthenics Burnout</p>
-                        <p class="file-amount">3</p>
-                    </li>
-                    <li class="nav-project" id="projectId">
-                        <div class="project-color"></div>
-                        <p>App Development</p>
-                        <p class="file-amount">5</p>
-                    </li>
-                </ul>
+                <ul class="projects-list"></ul>
             </nav>
         </div>
-        <button class="btn">Click</button>
-        <button class="delete">Delete</button>
+        <main></main>
+        <div class="add-project-modal">
+            <form class="add-project-form">
+                <p class="form-title">Add Project</p>
+                <div class="form-row">
+                    <label for="form-project-name">Name</label>
+                    <input id="form-project-name" type="text" name="project-name">
+                </div> 
+                <div class="form-row">
+                    <label for="form-project-color">Color</label>
+                    <button type="button" id="form-project-color">
+                        <div id="current-color"></div>
+                        <p>Charcoal</p>
+                    </button>
+                </div>
+            </form>
+        </div>
+        <!-- <button class="btn">Click</button>
+        <button class="delete">Delete</button> -->
     </body>
 </html>
