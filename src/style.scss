@@ -226,14 +226,29 @@ header {
 }
 
 .add-project-modal {
+
     .add-project-form {
+
+        .form-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+
+        .form-row {
+            display: flex;
+            flex-direction: column;
+            margin-top: 1.3rem;
+        }
+
         background: $main-bg;
-        position: absolute;
+        position: fixed;
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%);
-        min-width: 300px;
-        max-width: 50%;;
+        width: 80%;
+        max-width: 450px;
+        padding: 20px;
+        border-radius: 10px;
     }
 
     position: absolute;
@@ -241,13 +256,122 @@ header {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
+    color: $font-primary;
 }
 
-#current-color {
-    width: 10px;
-    height: 10px;
-    background: red;
+.form-row {
+    label {
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    input {
+        padding: 7px 5px;
+        color: $font-primary;
+        border-radius: 5px;
+        border: 1px solid #0000003a;
+        transition: border 0.3s;
+    }
+
+    input:focus {
+        border: 1px solid $font-secondary;
+        outline: none;
+    }
+
+    input:valid {
+        border: 1px solid #009600;
+    }
+
+    button {
+        #current-color {
+            border-radius: 50%;
+            width: 13px;
+            height: 13px;
+            background: #6ACCBC;
+            margin-right: 10px;
+        }
+
+        p {
+            line-height: 1;
+        }
+
+        padding: 9px 12px;
+        display: flex;
+        align-items: center;
+        background: none;
+        border: 1px solid #0000003a;
+        border-radius: 5px;
+        color: $font-primary;
+    }
+
+    button:focus {
+        border: 1px solid $font-secondary;
+    }
+
+    position: relative;
 }
+
+.color-list {
+    ul {    
+        li {
+            list-style: none;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            padding: 10px 12px;
+        }
+
+        li > div {
+            margin-right: 12px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        li > p {
+            white-space: nowrap;
+            font-size: 0.8rem;
+            color: $font-primary;
+        }
+
+        li * {
+            user-select: none;
+        }
+
+        li[data-color-option="#B8256F"] > div {background: #B8256F}
+        li[data-color-option="#DB4035"] > div {background: #DB4035}
+        li[data-color-option="#FF9933"] > div {background: #FF9933}
+        li[data-color-option="#FAD000"] > div {background: #FAD000}
+        li[data-color-option="#AFB83B"] > div {background: #AFB83B}
+        li[data-color-option="#7ECC49"] > div {background: #7ECC49}
+        li[data-color-option="#299438"] > div {background: #299438}
+        li[data-color-option="#6ACCBC"] > div {background: #6ACCBC}
+        li[data-color-option="#158FAD"] > div {background: #158FAD}
+        li[data-color-option="#14AAF5"] > div {background: #14AAF5}
+        li[data-color-option="#96C3EB"] > div {background: #96C3EB}
+        li[data-color-option="#4073FF"] > div {background: #4073FF}
+        li[data-color-option="#884DFF"] > div {background: #884DFF}
+        li[data-color-option="#AF38EB"] > div {background: #AF38EB}
+        li[data-color-option="#EB96EB"] > div {background: #EB96EB}
+        li[data-color-option="#808080"] > div {background: #808080}
+        li[data-color-option="#B8B8B8"] > div {background: #B8B8B8}
+        li[data-color-option="#CCAC93"] > div {background: #CCAC93}
+
+        li:hover {
+            background: $hover-bg-color;
+            cursor: pointer;
+        }
+    }
+
+    background: $main-bg;
+    height: 200px;
+    overflow-y: scroll;
+    border-radius: 5px;
+    position: absolute;
+    top: 100%;
+    width: 100%;
+}
+
 
 // button {
 //     width: 100px;
