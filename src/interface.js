@@ -63,7 +63,32 @@ const Interface = (() => {
         return {addProjectToFavorites, generateFavoritesToNav, addProject, generateProjectsToNav}
     })();
 
-    return {NavModule}
+    const ProjectFormModule = (() => {
+        const projectModal = document.querySelector('.add-project-modal');
+        const projectForm = document.querySelector('.add-project-form');
+        const addProjectIcon = document.querySelector('#add-project-icon');
+        const cancelProjectBtn = document.querySelector('#cancel-project');
+
+        const openProjectModal = () => {
+            projectModal.style.display = 'block';
+        }
+
+        const closeProjectModal = () => {
+            projectModal.style.display = 'none';
+        }
+
+        addProjectIcon.addEventListener('click', () => openProjectModal());
+        projectForm.addEventListener('click', (e) => e.stopPropagation());
+
+        projectModal.addEventListener('click', () => closeProjectModal());
+        cancelProjectBtn.addEventListener('click', () => closeProjectModal());
+
+        document.addEventListener('keydown', (e) => {
+            if(e.key === 'Escape') closeProjectModal();
+        });
+    })();
+
+    return {NavModule, ProjectFormModule}
 })();
 
 export {Interface}

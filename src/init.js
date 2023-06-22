@@ -56,7 +56,7 @@ import './style.scss';
     });
 
     // inbox Project
-    const inboxProjectExist = projectManager.projects.includes((proj) => proj.name === 'Inbox@XFvW$W7');
+    const inboxProjectExist = projectManager.projects.find((proj) => proj.name === 'Inbox@XFvW$W7');
     if(!inboxProjectExist) {
         projectManager.createProject('Inbox@XFvW$W7', null, false);
     }
@@ -68,7 +68,7 @@ import './style.scss';
     Interface.NavModule.generateProjectsToNav();
 })();
 
-// localStorage.clear();
+localStorage.clear();
 // projectManager.createProject('Parkour', 'red', true);
 // projectManager.createProject('Drumming', 'white', false);
 
