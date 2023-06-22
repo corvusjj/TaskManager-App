@@ -64,27 +64,43 @@ const Interface = (() => {
     })();
 
     const ProjectFormModule = (() => {
+
+        //  open/close projectForm & colorList
         const projectModal = document.querySelector('.add-project-modal');
         const projectForm = document.querySelector('.add-project-form');
         const addProjectIcon = document.querySelector('#add-project-icon');
         const cancelProjectBtn = document.querySelector('#cancel-project');
+        const colorBtn = document.querySelector('#form-project-color');
+        const colorList = document.querySelector('.color-list');
 
-        const openProjectModal = () => {
-            projectModal.style.display = 'block';
-        }
+        const openProjectModal = () => projectModal.style.display = 'block';
+        const openColorList = () => colorList.style.display = 'block';
 
         const closeProjectModal = () => {
+            if (colorList.style.display === 'block') return closeColorList();
             projectModal.style.display = 'none';
         }
 
+        const closeColorList = () => {
+            colorList.style.display = 'none';
+        }
+
         addProjectIcon.addEventListener('click', () => openProjectModal());
-        projectForm.addEventListener('click', (e) => e.stopPropagation());
+        projectForm.addEventListener('click', (e) => {
+            e.stopPropagation();
+            closeColorList();
+        });
 
         projectModal.addEventListener('click', () => closeProjectModal());
         cancelProjectBtn.addEventListener('click', () => closeProjectModal());
 
         document.addEventListener('keydown', (e) => {
             if(e.key === 'Escape') closeProjectModal();
+        });
+
+        colorBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            openColorList();
         });
     })();
 

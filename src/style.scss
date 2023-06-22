@@ -316,6 +316,10 @@ header {
     position: relative;
 }
 
+label[for="form-project-color"] {
+    width: fit-content;
+}
+
 .color-list {
     ul {    
         li {
@@ -343,24 +347,24 @@ header {
             user-select: none;
         }
 
-        li[data-color-option="#B8256F"] > div {background: #B8256F}
-        li[data-color-option="#DB4035"] > div {background: #DB4035}
-        li[data-color-option="#FF9933"] > div {background: #FF9933}
-        li[data-color-option="#FAD000"] > div {background: #FAD000}
-        li[data-color-option="#AFB83B"] > div {background: #AFB83B}
-        li[data-color-option="#7ECC49"] > div {background: #7ECC49}
-        li[data-color-option="#299438"] > div {background: #299438}
-        li[data-color-option="#6ACCBC"] > div {background: #6ACCBC}
-        li[data-color-option="#158FAD"] > div {background: #158FAD}
-        li[data-color-option="#14AAF5"] > div {background: #14AAF5}
-        li[data-color-option="#96C3EB"] > div {background: #96C3EB}
-        li[data-color-option="#4073FF"] > div {background: #4073FF}
-        li[data-color-option="#884DFF"] > div {background: #884DFF}
-        li[data-color-option="#AF38EB"] > div {background: #AF38EB}
-        li[data-color-option="#EB96EB"] > div {background: #EB96EB}
-        li[data-color-option="#808080"] > div {background: #808080}
-        li[data-color-option="#B8B8B8"] > div {background: #B8B8B8}
-        li[data-color-option="#CCAC93"] > div {background: #CCAC93}
+        li[data-color-hex="#B8256F"] > div {background: #B8256F}
+        li[data-color-hex="#DB4035"] > div {background: #DB4035}
+        li[data-color-hex="#FF9933"] > div {background: #FF9933}
+        li[data-color-hex="#FAD000"] > div {background: #FAD000}
+        li[data-color-hex="#AFB83B"] > div {background: #AFB83B}
+        li[data-color-hex="#7ECC49"] > div {background: #7ECC49}
+        li[data-color-hex="#299438"] > div {background: #299438}
+        li[data-color-hex="#6ACCBC"] > div {background: #6ACCBC}
+        li[data-color-hex="#158FAD"] > div {background: #158FAD}
+        li[data-color-hex="#14AAF5"] > div {background: #14AAF5}
+        li[data-color-hex="#96C3EB"] > div {background: #96C3EB}
+        li[data-color-hex="#4073FF"] > div {background: #4073FF}
+        li[data-color-hex="#884DFF"] > div {background: #884DFF}
+        li[data-color-hex="#AF38EB"] > div {background: #AF38EB}
+        li[data-color-hex="#EB96EB"] > div {background: #EB96EB}
+        li[data-color-hex="#808080"] > div {background: #808080}
+        li[data-color-hex="#B8B8B8"] > div {background: #B8B8B8}
+        li[data-color-hex="#CCAC93"] > div {background: #CCAC93}
 
         li:hover {
             background: $hover-bg-color;
