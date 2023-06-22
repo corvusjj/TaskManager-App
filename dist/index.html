@@ -103,6 +103,7 @@
         <div class="add-project-modal">
             <form class="add-project-form">
                 <p class="form-title">Add Project</p>
+                <div class="line-row"></div>
                 <div class="form-row">
                     <label for="form-project-name">Name</label>
                     <input id="form-project-name" type="text" name="project-name" required>
@@ -135,6 +136,18 @@
                             <li class="color-option" data-color-option="#CCAC93"><div></div><p>Taupe</p></li>
                         </ul>
                     </div>
+                </div>
+                <div class="form-row">
+                    <input type="checkbox" id="favorites-checkbox">
+                    <label for="favorites-checkbox">
+                        <div id="switch"></div>
+                        <span>Add to favorites</span>                  
+                    </label>
+                </div>
+                <div class="line-row"></div>
+                <div class="form-row" id="form-btn">
+                    <button id="cancel-project" type="button"><span>Cancel</span></button>
+                    <button id="save-project" type="submit"><span>Save</span></button>
                 </div>
             </form>
         </div>
