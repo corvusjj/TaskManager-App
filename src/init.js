@@ -68,7 +68,7 @@ import './style.scss';
     Interface.NavModule.generateProjectsToNav();
 })();
 
-localStorage.clear();
+// localStorage.clear();
 // projectManager.createProject('Parkour', 'red', true);
 // projectManager.createProject('Drumming', 'white', false);
 

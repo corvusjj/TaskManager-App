@@ -345,6 +345,7 @@ label[for="form-project-color"] {
 
         li * {
             user-select: none;
+            pointer-events: none;
         }
 
         li[data-color-hex="#B8256F"] > div {background: #B8256F}
@@ -441,7 +442,7 @@ label[for="favorites-checkbox"] {
     margin-top: 20px;
 }
 
-#save-project, #cancel-project {
+#save-project, #cancel-project, #add-project {
     width: 4rem;
     height: 1.8rem;
     display: flex;
@@ -461,13 +462,9 @@ label[for="favorites-checkbox"] {
     color: $hover-icon-color;
 }
 
-#save-project {
+#save-project, #add-project {
     color: #ffffff;
     background: $header-bg;
-}
-
-#save-project:invalid {
-    background: green;
 }
 
 #form-btn {
