@@ -91,6 +91,7 @@ const Interface = (() => {
             changeFormState('add');
             projectModal.style.display = 'block';
         }
+
         const openColorList = () => colorList.style.display = 'block';
 
         const closeProjectModal = () => {
@@ -134,6 +135,24 @@ const Interface = (() => {
         });
 
         //  add newProject
+        const addProjectBtn = document.querySelector('#add-project');
+        const saveProjectBtn = document.querySelector('#save-project');
+
+        addProjectBtn.addEventListener('click', (e) => {
+
+            e.preventDefault();
+            const name = document.querySelector('#form-project-name');
+
+            if (!projectForm.checkValidity()) {
+                return;
+            }
+
+            console.log(name.value);
+            closeProjectModal();
+            projectForm.reset();
+
+            toggleBtnStyle(addProjectBtn);
+        });
     })();
 
     return {NavModule, ProjectFormModule}

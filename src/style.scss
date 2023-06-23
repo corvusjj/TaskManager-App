@@ -258,6 +258,7 @@ header {
     background-color: rgba(0, 0, 0, 0.5);
     color: $font-primary;
     display: none;
+    user-select: none;
 }
 
 .form-row {
@@ -465,6 +466,12 @@ label[for="favorites-checkbox"] {
 #save-project, #add-project {
     color: #ffffff;
     background: $header-bg;
+    opacity: 0.5;
+}
+
+#add-project,
+#save-project:hover  {
+    cursor: not-allowed;
 }
 
 #form-btn {
@@ -473,12 +480,5 @@ label[for="favorites-checkbox"] {
     flex-direction: row;
     width: 100%;
 }
-
-
-// button {
-//     width: 100px;
-//     height: 100px;
-//     background-color: orange;
-// }
 
 

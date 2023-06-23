@@ -114,17 +114,17 @@ console.log(taskManager.tasks);
 console.log(noteManager.notes);
 //  review if note added to project
 
-const btn = document.querySelector('.btn');
-btn.addEventListener('click', () => {
-    projectManager.createProject('Architecture', 'blue', true);
-    // noteManager.createNote('read technique', taskManager.tasks[0].id, taskManager.tasks[0].projectId);
-    // noteManager.deleteNote(noteManager.notes[noteManager.notes.length - 1].id);
-    console.log(noteManager.notes);
-    console.log(projectManager.projects);
-});
+// const btn = document.querySelector('.btn');
+// btn.addEventListener('click', () => {
+//     projectManager.createProject('Architecture', 'blue', true);
+//     // noteManager.createNote('read technique', taskManager.tasks[0].id, taskManager.tasks[0].projectId);
+//     // noteManager.deleteNote(noteManager.notes[noteManager.notes.length - 1].id);
+//     console.log(noteManager.notes);
+//     console.log(projectManager.projects);
+// });
 
-const btnDelete = document.querySelector('.delete');
-btnDelete.addEventListener('click', () => {
-    noteManager.deleteNote(noteManager.notes[noteManager.notes.length - 1].id);
-    console.log(noteManager.notes);
-});
+// const btnDelete = document.querySelector('.delete');
+// btnDelete.addEventListener('click', () => {
+//     noteManager.deleteNote(noteManager.notes[noteManager.notes.length - 1].id);
+//     console.log(noteManager.notes);
+// });
