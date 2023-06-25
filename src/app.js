@@ -67,7 +67,9 @@ class Task {
     }
 
     removeNote(noteToRemove) {
-        const notesRemained = this.notes.filter((note) => note.id !== noteToRemove.id);
+        const notesRemained = this.notes.filter(
+            (note) => note.id !== noteToRemove.id
+        );
 
         this.notes.length = 0;
         this.notes.push(...notesRemained);
@@ -126,7 +128,7 @@ const fileId = (() => {
 
     const updateIdStorage = () => {
         localStorage.setItem('usedIDs', JSON.stringify(usedIDs));
-    }
+    };
 
     return { generateId, removeId, usedIDs };
 })();
@@ -136,7 +138,7 @@ const projectManager = (() => {
 
     const updateProjectStorage = () => {
         localStorage.setItem('projects', JSON.stringify(projects));
-    }
+    };
 
     const createProject = (name, color, favorite) => {
         const project = new Project(name, color, favorite);
@@ -166,7 +168,7 @@ const projectManager = (() => {
 
         appliedProject.addTask(newTask);
         updateProjectStorage();
-    }
+    };
 
     const removeTask = (task) => {
         const appliedProject = projects.find(
@@ -175,20 +177,32 @@ const projectManager = (() => {
 
         appliedProject.removeTask(task);
         updateProjectStorage();
-    }
+    };
 
     const transferTask = (task, newProjectId) => {
-        const currentProject = projects.find((project) => project.id === task.projectId);
+        const currentProject = projects.find(
+            (project) => project.id === task.projectId
+        );
         const taskIndex = currentProject.tasks.indexOf(task);
         currentProject.tasks.splice(taskIndex, 1);
 
-        const newProject = projects.find((project) => project.id === newProjectId);
+        const newProject = projects.find(
+            (project) => project.id === newProjectId
+        );
         newProject.tasks.push(task);
 
         updateProjectStorage();
-    }
+    };
 
-    return { projects, createProject, deleteProject, placeTask, removeTask, transferTask, updateProjectStorage };
+    return {
+        projects,
+        createProject,
+        deleteProject,
+        placeTask,
+        removeTask,
+        transferTask,
+        updateProjectStorage,
+    };
 })();
 
 const taskManager = (() => {
@@ -196,7 +210,7 @@ const taskManager = (() => {
 
     const updateTaskStorage = () => {
         localStorage.setItem('tasks', JSON.stringify(tasks));
-    }
+    };
 
     const createTask = (title, description, dueDate, priority, projectId) => {
         const task = new Task(title, description, dueDate, priority, projectId);
@@ -228,16 +242,14 @@ const taskManager = (() => {
 
         task.changeProjectId(newProjectId);
         updateTaskStorage();
-    }
+    };
 
     const clearTasksFromDeletedProject = (deletedProjectId) => {
         const deletedTaskIds = tasks
             .filter((task) => task.projectId === deletedProjectId)
             .map((task) => task.id);
 
-        deletedTaskIds.forEach(
-            (id) => fileId.removeId(id)
-        );
+        deletedTaskIds.forEach((id) => fileId.removeId(id));
 
         const tasksRemained = tasks.filter(
             (task) => task.projectId !== deletedProjectId
@@ -250,26 +262,22 @@ const taskManager = (() => {
     };
 
     const placeNote = (note) => {
-        const appliedTask = tasks.find(
-            (task) => task.id === note.taskId
-        );
+        const appliedTask = tasks.find((task) => task.id === note.taskId);
 
         appliedTask.addNote(note);
         updateTaskStorage();
 
         projectManager.updateProjectStorage();
-    }
+    };
 
     const removeNote = (note) => {
-        const appliedTask = tasks.find(
-            (task) => task.id === note.taskId  
-        );
+        const appliedTask = tasks.find((task) => task.id === note.taskId);
         console.log(appliedTask);
         appliedTask.removeNote(note);
         updateTaskStorage();
 
         projectManager.updateProjectStorage();
-    }
+    };
 
     return {
         tasks,
@@ -279,7 +287,7 @@ const taskManager = (() => {
         placeNote,
         removeNote,
         transferToOtherProject,
-        updateTaskStorage
+        updateTaskStorage,
     };
 })();
 
@@ -288,7 +296,7 @@ const noteManager = (() => {
 
     const updateNoteStorage = () => {
         localStorage.setItem('notes', JSON.stringify(notes));
-    }
+    };
 
     const createNote = (note, taskId, projectId) => {
         const newNote = new Note(note, taskId, projectId);
@@ -320,9 +328,7 @@ const noteManager = (() => {
             .filter((note) => note.taskId === deletedTaskId)
             .map((note) => note.id);
 
-        deletedNoteIds.forEach(
-            (id) => fileId.removeId(id)
-        );
+        deletedNoteIds.forEach((id) => fileId.removeId(id));
 
         const notesRemained = notes.filter(
             (obj) => obj.taskId !== deletedTaskId
@@ -339,9 +345,7 @@ const noteManager = (() => {
             .filter((note) => note.projectId === deletedProjectId)
             .map((note) => note.id);
 
-        deletedNoteIds.forEach(
-            (id) => fileId.removeId(id)
-        );
+        deletedNoteIds.forEach((id) => fileId.removeId(id));
 
         const notesRemained = notes.filter(
             (obj) => obj.projectId !== deletedProjectId
@@ -370,5 +374,5 @@ export {
     fileId,
     projectManager,
     taskManager,
-    noteManager
-}
+    noteManager,
+};

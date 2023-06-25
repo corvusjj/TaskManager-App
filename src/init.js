@@ -1,63 +1,78 @@
-import {Project, Task, Note, fileId, projectManager, taskManager, noteManager} from './app.js';
-import {Interface} from './interface.js';
+import {
+    Project,
+    Task,
+    Note,
+    fileId,
+    projectManager,
+    taskManager,
+    noteManager,
+} from './app.js';
+import { toggleFavorites } from './utils.js';
+import { Interface } from './interface.js';
 import './style.scss';
 
-(function() {
+(function () {
     // if not empty
     // generate files from localStorage
     const projectsLocalData = localStorage.getItem('projects');
     const tasksLocalData = localStorage.getItem('tasks');
     const notesLocalData = localStorage.getItem('notes');
     const usedIDsLocalData = localStorage.getItem('usedIDs');
-    
-    if (projectsLocalData) projectManager.projects.push(...(JSON.parse(projectsLocalData)));
-    if (tasksLocalData) taskManager.tasks.push(...(JSON.parse(tasksLocalData)));
-    if (notesLocalData) noteManager.notes.push(...(JSON.parse(notesLocalData)));
-    if (usedIDsLocalData) fileId.usedIDs.push(...(JSON.parse(usedIDsLocalData)));
-    
+
+    if (projectsLocalData)
+        projectManager.projects.push(...JSON.parse(projectsLocalData));
+    if (tasksLocalData) taskManager.tasks.push(...JSON.parse(tasksLocalData));
+    if (notesLocalData) noteManager.notes.push(...JSON.parse(notesLocalData));
+    if (usedIDsLocalData) fileId.usedIDs.push(...JSON.parse(usedIDsLocalData));
+
     const getMethodNames = (classType) => {
         const propertyNames = Object.getOwnPropertyNames(classType.prototype);
         return propertyNames.filter(
             (methodName) => methodName !== 'constructor'
         );
-    }
-    
+    };
+
     const assignMethodsToFiles = (classType, fileArray) => {
         const methodNames = getMethodNames(classType);
         const fileMethod = {};
-    
+
         methodNames.forEach((methodName) => {
             const method = classType.prototype[methodName];
             fileMethod[methodName] = method;
         });
-    
+
         fileArray.forEach((file) => {
             Object.assign(file, fileMethod);
         });
-    }
-    
+    };
+
     assignMethodsToFiles(Task, taskManager.tasks);
     assignMethodsToFiles(Project, projectManager.projects);
     assignMethodsToFiles(Note, noteManager.notes);
-    
-    
+
     // assign files to parent (notes to task / tasks to project)
-    projectManager.projects.forEach((project) => project.tasks = []);
-    taskManager.tasks.forEach((task) => task.notes = []);
-    
+    projectManager.projects.forEach((project) => (project.tasks = []));
+    taskManager.tasks.forEach((task) => (task.notes = []));
+
     noteManager.notes.forEach((note) => {
-        const parentTask = taskManager.tasks.find((task) => task.id === note.taskId);
+        const parentTask = taskManager.tasks.find(
+            (task) => task.id === note.taskId
+        );
         parentTask.addNote(note);
     });
-    
+
     taskManager.tasks.forEach((task) => {
-        const parentProject = projectManager.projects.find((project) => project.id === task.projectId);
+        const parentProject = projectManager.projects.find(
+            (project) => project.id === task.projectId
+        );
         parentProject.addTask(task);
     });
 
     // inbox Project
-    const inboxProjectExist = projectManager.projects.find((proj) => proj.name === 'Inbox@XFvW$W7');
-    if(!inboxProjectExist) {
+    const inboxProjectExist = projectManager.projects.find(
+        (proj) => proj.name === 'Inbox@XFvW$W7'
+    );
+    if (!inboxProjectExist) {
         projectManager.createProject('Inbox@XFvW$W7', null, false);
     }
 
@@ -104,7 +119,7 @@ import './style.scss';
 // );
 
 // noteManager.createNote('read technique', taskManager.tasks[0].id, taskManager.tasks[0].projectId);
-// taskManager.createTask('Lockpick', 'study pins', 'Jan 1, 2025', 'low', projectManager.projects[1].id); 
+// taskManager.createTask('Lockpick', 'study pins', 'Jan 1, 2025', 'low', projectManager.projects[1].id);
 // projectManager.createProject('Architecture', 'blue', true);
 
 // noteManager.deleteNote(noteManager.notes[0].id);

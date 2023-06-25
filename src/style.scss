@@ -1,7 +1,7 @@
 $font-stack: 'Helvetica', sans-serif;
-$header-bg: #2E2E2E;
-$nav-bg: #FAFAFA;
-$main-bg: #FFFFFF;
+$header-bg: #2e2e2e;
+$nav-bg: #fafafa;
+$main-bg: #ffffff;
 // $main-bg: #202020
 
 $font-primary: #202020;
@@ -9,12 +9,14 @@ $font-secondary: #707070;
 // $font-primary: #ffffff;
 // #font-secondary: #ffffff;
 
-$hover-bg-color: #EEEEEE;
+$hover-bg-color: #eeeeee;
 // $hover-bg-color: #363636;
 
 $hover-icon-color: #3b3b3b;
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
     box-sizing: border-box;
     padding: 0;
     margin: 0;
@@ -60,7 +62,7 @@ header {
 .profile {
     img {
         width: 30px;
-        height:30x;
+        height: 30x;
         object-fit: cover;
         margin-left: 15px;
     }
@@ -125,9 +127,12 @@ header {
     cursor: pointer;
 }
 
-.favorites {
-    width: 100%;;
+.projects-nav-section {
     position: relative;
+}
+
+.favorites {
+    width: 100%;
     padding-left: 5px;
 }
 
@@ -211,6 +216,12 @@ header {
 .projects {
     padding-top: 20px;
     padding-left: 5px;
+    width: 100%;
+    z-index: 1;
+    background: $nav-bg;
+    position: absolute;
+    top: 30px;
+    transition: top 0.3s;
 }
 
 .projects .nav-head {
@@ -230,13 +241,11 @@ header {
 }
 
 // .projects-list {
-    
+
 // }
 
 .add-project-modal {
-
     .add-project-form {
-
         .form-title {
             font-size: 1.3rem;
             font-weight: bold;
@@ -297,7 +306,7 @@ header {
             border-radius: 50%;
             width: 13px;
             height: 13px;
-            background: #6ACCBC;
+            background: #6accbc;
             margin-right: 10px;
         }
 
@@ -325,12 +334,12 @@ header {
     position: relative;
 }
 
-label[for="form-project-color"] {
+label[for='form-project-color'] {
     width: fit-content;
 }
 
 .color-list {
-    ul {    
+    ul {
         li {
             list-style: none;
             width: 100%;
@@ -357,24 +366,60 @@ label[for="form-project-color"] {
             pointer-events: none;
         }
 
-        li[data-color-hex="#B8256F"] > div {background: #B8256F}
-        li[data-color-hex="#DB4035"] > div {background: #DB4035}
-        li[data-color-hex="#FF9933"] > div {background: #FF9933}
-        li[data-color-hex="#FAD000"] > div {background: #FAD000}
-        li[data-color-hex="#AFB83B"] > div {background: #AFB83B}
-        li[data-color-hex="#7ECC49"] > div {background: #7ECC49}
-        li[data-color-hex="#299438"] > div {background: #299438}
-        li[data-color-hex="#6ACCBC"] > div {background: #6ACCBC}
-        li[data-color-hex="#158FAD"] > div {background: #158FAD}
-        li[data-color-hex="#14AAF5"] > div {background: #14AAF5}
-        li[data-color-hex="#96C3EB"] > div {background: #96C3EB}
-        li[data-color-hex="#4073FF"] > div {background: #4073FF}
-        li[data-color-hex="#884DFF"] > div {background: #884DFF}
-        li[data-color-hex="#AF38EB"] > div {background: #AF38EB}
-        li[data-color-hex="#EB96EB"] > div {background: #EB96EB}
-        li[data-color-hex="#808080"] > div {background: #808080}
-        li[data-color-hex="#B8B8B8"] > div {background: #B8B8B8}
-        li[data-color-hex="#CCAC93"] > div {background: #CCAC93}
+        li[data-color-hex='#B8256F'] > div {
+            background: #b8256f;
+        }
+        li[data-color-hex='#DB4035'] > div {
+            background: #db4035;
+        }
+        li[data-color-hex='#FF9933'] > div {
+            background: #ff9933;
+        }
+        li[data-color-hex='#FAD000'] > div {
+            background: #fad000;
+        }
+        li[data-color-hex='#AFB83B'] > div {
+            background: #afb83b;
+        }
+        li[data-color-hex='#7ECC49'] > div {
+            background: #7ecc49;
+        }
+        li[data-color-hex='#299438'] > div {
+            background: #299438;
+        }
+        li[data-color-hex='#6ACCBC'] > div {
+            background: #6accbc;
+        }
+        li[data-color-hex='#158FAD'] > div {
+            background: #158fad;
+        }
+        li[data-color-hex='#14AAF5'] > div {
+            background: #14aaf5;
+        }
+        li[data-color-hex='#96C3EB'] > div {
+            background: #96c3eb;
+        }
+        li[data-color-hex='#4073FF'] > div {
+            background: #4073ff;
+        }
+        li[data-color-hex='#884DFF'] > div {
+            background: #884dff;
+        }
+        li[data-color-hex='#AF38EB'] > div {
+            background: #af38eb;
+        }
+        li[data-color-hex='#EB96EB'] > div {
+            background: #eb96eb;
+        }
+        li[data-color-hex='#808080'] > div {
+            background: #808080;
+        }
+        li[data-color-hex='#B8B8B8'] > div {
+            background: #b8b8b8;
+        }
+        li[data-color-hex='#CCAC93'] > div {
+            background: #ccac93;
+        }
 
         li:hover {
             background: $hover-bg-color;
@@ -405,7 +450,7 @@ input#favorites-checkbox {
     position: relative;
 
     &:after {
-        content: "";
+        content: '';
         position: absolute;
         width: 12px;
         height: 12px;
@@ -413,7 +458,7 @@ input#favorites-checkbox {
         top: 3px;
         background: #ffffff;
         border-radius: 12px;
-        transition: 0.3s
+        transition: 0.3s;
     }
 }
 
@@ -422,18 +467,18 @@ input#favorites-checkbox {
 }
 
 #favorites-checkbox:checked + label #switch {
-    background: #CCAC93;
+    background: #ccac93;
 }
 
 #favorites-checkbox:active + label #switch:after {
     width: 18px;
 }
 
-label[for="favorites-checkbox"]:hover {
+label[for='favorites-checkbox']:hover {
     cursor: pointer;
 }
 
-label[for="favorites-checkbox"] {
+label[for='favorites-checkbox'] {
     display: flex;
     align-items: center;
     width: fit-content;
@@ -451,7 +496,9 @@ label[for="favorites-checkbox"] {
     margin-top: 20px;
 }
 
-#save-project, #cancel-project, #add-project {
+#save-project,
+#cancel-project,
+#add-project {
     width: 4rem;
     height: 1.8rem;
     display: flex;
@@ -471,14 +518,15 @@ label[for="favorites-checkbox"] {
     color: $hover-icon-color;
 }
 
-#save-project, #add-project {
+#save-project,
+#add-project {
     color: #ffffff;
     background: $header-bg;
     opacity: 0.5;
 }
 
 #add-project,
-#save-project:hover  {
+#save-project:hover {
     cursor: pointer;
 }
 
@@ -488,5 +536,3 @@ label[for="favorites-checkbox"] {
     flex-direction: row;
     width: 100%;
 }
-
-

@@ -1,7 +1,7 @@
-import { projectManager } from "./app";
+import { projectManager } from './app';
+import { toggleFavorites } from './utils';
 
 const Interface = (() => {
-
     const NavModule = (() => {
         const favoriteList = document.querySelector('.favorites-list');
         const projectList = document.querySelector('.projects-list');
@@ -26,13 +26,15 @@ const Interface = (() => {
             li.appendChild(taskAmount);
 
             favoriteList.appendChild(li);
-        }
+        };
 
         const generateFavoritesToNav = () => {
             favoriteList.innerHTML = '';
-            const favorites = projectManager.projects.filter((project) => project.favorite);
+            const favorites = projectManager.projects.filter(
+                (project) => project.favorite
+            );
             favorites.forEach((project) => addProjectToFavorites(project));
-        }
+        };
 
         const addProject = (project) => {
             const li = document.createElement('li');
@@ -54,19 +56,25 @@ const Interface = (() => {
             li.appendChild(taskAmount);
 
             projectList.appendChild(li);
-        }
+        };
 
-        const generateProjectsToNav  = () => {
+        const generateProjectsToNav = () => {
             projectList.innerHTML = '';
-            const projects = projectManager.projects.filter((proj) => proj.name !== 'Inbox@XFvW$W7');
+            const projects = projectManager.projects.filter(
+                (proj) => proj.name !== 'Inbox@XFvW$W7'
+            );
             projects.forEach((project) => addProject(project));
-        }
+        };
 
-        return {addProjectToFavorites, generateFavoritesToNav, addProject, generateProjectsToNav}
+        return {
+            addProjectToFavorites,
+            generateFavoritesToNav,
+            addProject,
+            generateProjectsToNav,
+        };
     })();
 
     const ProjectFormModule = (() => {
-
         //  open/close projectForm & colorList listener
         const projectModal = document.querySelector('.add-project-modal');
         const projectForm = document.querySelector('.add-project-form');
@@ -86,24 +94,24 @@ const Interface = (() => {
                 addBtn.style.display = 'none';
                 saveProjectBtn.style.display = 'flex';
             }
-        }
+        };
 
         const openProjectModal = () => {
             projectForm.reset();
             changeFormState('add');
             projectModal.style.display = 'block';
-        }
+        };
 
-        const openColorList = () => colorList.style.display = 'block';
+        const openColorList = () => (colorList.style.display = 'block');
 
         const closeProjectModal = () => {
             if (colorList.style.display === 'block') return closeColorList();
             projectModal.style.display = 'none';
-        }
+        };
 
         const closeColorList = () => {
             colorList.style.display = 'none';
-        }
+        };
 
         addProjectIcon.addEventListener('click', () => openProjectModal());
         projectForm.addEventListener('click', (e) => {
@@ -115,7 +123,7 @@ const Interface = (() => {
         cancelProjectBtn.addEventListener('click', () => closeProjectModal());
 
         document.addEventListener('keydown', (e) => {
-            if(e.key === 'Escape') closeProjectModal();
+            if (e.key === 'Escape') closeProjectModal();
         });
 
         colorBtn.addEventListener('click', (e) => {
@@ -148,7 +156,7 @@ const Interface = (() => {
                 btn.style.opacity = '1';
                 btn.removeAttribute('disabled');
             }
-        }   
+        };
 
         projectForm.addEventListener('input', () => {
             toggleBtnStyle(addProjectBtn);
@@ -157,7 +165,6 @@ const Interface = (() => {
 
         //  add project listener
         addProjectBtn.addEventListener('click', (e) => {
-
             e.preventDefault();
             if (!projectForm.checkValidity()) {
                 return;
@@ -165,13 +172,19 @@ const Interface = (() => {
 
             //  create new project
             const name = document.querySelector('#form-project-name').value;
-            const color = document.querySelector('#form-project-color').dataset.colorSelected;
-            const favorite = document.querySelector('#favorites-checkbox').checked;
+            const color = document.querySelector('#form-project-color').dataset
+                .colorSelected;
+            const favorite = document.querySelector(
+                '#favorites-checkbox'
+            ).checked;
 
             projectManager.createProject(name, color, favorite);
             NavModule.generateProjectsToNav();
-            if (favorite === true) NavModule.generateFavoritesToNav();
-            
+            if (favorite === true) {
+                NavModule.generateFavoritesToNav();
+                toggleFavorites.extend();
+            }
+
             //  reset form to default
             closeProjectModal();
             projectForm.reset();
@@ -179,10 +192,10 @@ const Interface = (() => {
         });
     })();
 
-    return {NavModule, ProjectFormModule}
+    return { NavModule, ProjectFormModule };
 })();
 
-export {Interface}
+export { Interface };
 
 //  toggle drop downs
 //  calendar
