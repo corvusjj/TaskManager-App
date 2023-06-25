@@ -7,7 +7,7 @@ import {
     taskManager,
     noteManager,
 } from './app.js';
-import { toggleFavorites } from './utils.js';
+import { Utils } from './utils.js';
 import { Interface } from './interface.js';
 import './style.scss';
 
@@ -81,6 +81,9 @@ import './style.scss';
 
     // generate projects on nav
     Interface.NavModule.generateProjectsToNav();
+
+    // initiate div with its height === projectHeight to hide projects
+    Utils.toggleProjects.hide();
 })();
 
 // localStorage.clear();

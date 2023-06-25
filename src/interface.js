@@ -1,5 +1,5 @@
 import { projectManager } from './app';
-import { toggleFavorites } from './utils';
+import { Utils } from './utils';
 
 const Interface = (() => {
     const NavModule = (() => {
@@ -180,9 +180,10 @@ const Interface = (() => {
 
             projectManager.createProject(name, color, favorite);
             NavModule.generateProjectsToNav();
+            Utils.toggleProjects.extend();
             if (favorite === true) {
                 NavModule.generateFavoritesToNav();
-                toggleFavorites.extend();
+                Utils.toggleFavorites.extend();
             }
 
             //  reset form to default
