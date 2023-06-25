@@ -25,6 +25,14 @@ const Interface = (() => {
             taskAmount.textContent = project.tasks.length;
             li.appendChild(taskAmount);
 
+            const menuIcon = document.createElement('div');
+            menuIcon.classList.add('project-menu-icon');
+            menuIcon.setAttribute('data-project-id', `${project.id}`);
+            menuIcon.appendChild(document.createElement('div'));
+            menuIcon.appendChild(document.createElement('div'));
+            menuIcon.appendChild(document.createElement('div'));
+            li.appendChild(menuIcon);
+
             favoriteList.appendChild(li);
         };
 
@@ -56,7 +64,7 @@ const Interface = (() => {
             li.appendChild(taskAmount);
 
             const menuIcon = document.createElement('div');
-            menuIcon.classList.add('project-menu');
+            menuIcon.classList.add('project-menu-icon');
             menuIcon.setAttribute('data-project-id', `${project.id}`);
             menuIcon.appendChild(document.createElement('div'));
             menuIcon.appendChild(document.createElement('div'));
@@ -75,9 +83,7 @@ const Interface = (() => {
         };
 
         return {
-            addProjectToFavorites,
             generateFavoritesToNav,
-            addProject,
             generateProjectsToNav,
         };
     })();
@@ -205,6 +211,3 @@ const Interface = (() => {
 })();
 
 export { Interface };
-
-//  toggle drop downs
-//  calendar

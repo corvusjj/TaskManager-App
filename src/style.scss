@@ -201,7 +201,7 @@ header {
         font-size: 0.8rem;
     }
 
-    .project-menu {
+    .project-menu-icon {
         div {
             width: 3px;
             height: 3px;
@@ -212,7 +212,7 @@ header {
 
         display: none;
         margin-left: auto;
-        padding: 7px;
+        padding: 5px 7px 5px 0;
     }
 
     display: flex;
@@ -231,7 +231,11 @@ header {
     display: none;
 }
 
-.project-menu:hover div {
+.nav-project:hover > .project-menu-icon {
+    display: flex;
+}
+
+.project-menu-icon:hover div {
     background: $hover-icon-color;
 }
 
