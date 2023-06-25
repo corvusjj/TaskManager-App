@@ -55,6 +55,14 @@ const Interface = (() => {
             taskAmount.textContent = project.tasks.length;
             li.appendChild(taskAmount);
 
+            const menuIcon = document.createElement('div');
+            menuIcon.classList.add('project-menu');
+            menuIcon.setAttribute('data-project-id', `${project.id}`);
+            menuIcon.appendChild(document.createElement('div'));
+            menuIcon.appendChild(document.createElement('div'));
+            menuIcon.appendChild(document.createElement('div'));
+            li.appendChild(menuIcon);
+
             projectList.appendChild(li);
         };
 

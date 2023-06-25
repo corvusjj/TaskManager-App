@@ -50,8 +50,10 @@ const Utils = (() => {
         }
 
         const extend = () => {
-            const projectsHeight = document.querySelector('.projects').clientHeight;
-            hideProjectsDiv.style.top = projectsHeight + 'px';
+            if (dropDownIcon.classList.contains('drop')) {
+                const projectsHeight = document.querySelector('.projects').clientHeight;
+                hideProjectsDiv.style.top = projectsHeight + 'px';
+            }
         }
         
         dropDownIcon.addEventListener('click', () => {
@@ -69,5 +71,3 @@ const Utils = (() => {
 })();
 
 export { Utils };
-
-//  figure out opening favorites nav when adding new fav

@@ -201,6 +201,20 @@ header {
         font-size: 0.8rem;
     }
 
+    .project-menu {
+        div {
+            width: 3px;
+            height: 3px;
+            background: $font-secondary;
+            border-radius: 50%;
+            margin-left: 3px;
+        }
+
+        display: none;
+        margin-left: auto;
+        padding: 7px;
+    }
+
     display: flex;
     align-items: center;
     padding: 3px 0;
@@ -211,6 +225,14 @@ header {
 .nav-project:hover {
     background: $hover-bg-color;
     cursor: pointer;
+}
+
+.nav-project:hover > .file-amount {
+    display: none;
+}
+
+.project-menu:hover div {
+    background: $hover-icon-color;
 }
 
 .projects {
