@@ -14,6 +14,8 @@ $hover-bg-color: #eeeeee;
 
 $hover-icon-color: #3b3b3b;
 
+$form-border-color: #00000034;
+
 *,
 *::before,
 *::after {
@@ -275,6 +277,50 @@ header {
     top: 50px;
     z-index: 2;
     transition: top 0.3s;
+}
+
+.project-menu {
+    li {
+        display: flex;
+        align-items: center;
+        padding: 3px 5px;
+        border-radius: 5px;
+        color: $font-primary;
+    }
+
+    li * {
+        pointer-events: none;
+        user-select: none;
+    }
+
+    li:hover {
+        background: $hover-bg-color;
+        cursor: pointer;
+    }
+
+    svg {
+        g#SVGRepo_iconCarrier > path {
+            stroke: $hover-icon-color;
+        }
+
+        width: 26px;
+        height: 26px;
+        margin-right: 7px;
+    }
+
+    #remove-from-favorites {
+        display: none;
+    }
+
+    width: 270px;
+    padding: 7px;
+    background: $main-bg;
+    border-radius: 5px;
+    border: 1px solid $form-border-color;
+    position: relative;
+    right: -100px;
+    top: -100px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .add-project-modal {
