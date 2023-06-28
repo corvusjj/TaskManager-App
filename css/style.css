@@ -1,93 +1,568 @@
 *,
 *::before,
 *::after {
-    box-sizing: border-box;
-    padding: 0;
-    margin: 0;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
 }
 
 body {
-    font-family: 'Helvetica', sans-serif;
-    font-size: 0.9rem;
-    color: #202020;
+  font-family: "Helvetica", sans-serif;
+  font-size: 0.9rem;
+  color: #202020;
 }
 
 header {
-    background: #2e2e2e;
-    display: flex;
-    justify-content: space-between;
-    padding: 7px 25px 7px 20px;
+  background: #2e2e2e;
+  display: flex;
+  justify-content: space-between;
+  padding: 7px 25px 7px 20px;
+  position: fixed;
+  min-width: 100%;
+  z-index: 1;
 }
 
 .header-icon {
-    width: 36px;
-    height: 36px;
+  width: 36px;
+  height: 36px;
 }
 
 .header-icon:hover {
-    background: rgba(255, 255, 255, 0.4);
-    border-radius: 5px;
-    cursor: pointer;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 .title {
-    display: flex;
-    align-items: center;
-    color: #ffffff;
+  display: flex;
+  align-items: center;
+  color: #ffffff;
 }
 .title h2 {
-    margin-left: 10px;
+  margin-left: 10px;
 }
 
 .profile {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 .profile img {
-    width: 30px;
-    height: 30x;
-    object-fit: cover;
-    margin-left: 15px;
+  width: 30px;
+  height: 30x;
+  object-fit: cover;
+  margin-left: 15px;
 }
 .profile img:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .sidebar {
-    position: relative;
-    height: 100vh;
-    width: 300px;
-    background: #fafafa;
-    padding: 30px 20px;
+  position: relative;
+  height: 100vh;
+  width: 300px;
+  background: #fafafa;
+  padding: 30px 20px;
 }
 .sidebar ul {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
+}
+.sidebar p {
+  user-select: none;
+}
+
+.tasks-timeline {
+  margin-bottom: 25px;
+  margin-top: 45px;
 }
 
 .nav-file {
-    display: flex;
-    align-items: center;
-    padding: 3px 0;
-    border-radius: 5px;
+  display: flex;
+  align-items: center;
+  padding: 3px 0;
+  border-radius: 5px;
 }
 .nav-file svg {
-    width: 33px;
-    height: 33px;
-    margin-right: 3px;
+  width: 33px;
+  height: 33px;
+  margin-right: 3px;
 }
 .nav-file p {
-    white-space: nowrap;
+  white-space: nowrap;
 }
 .nav-file .file-amount {
-    margin-left: auto;
-    text-align: end;
-    padding-right: 10px;
-    color: #666666;
-    font-size: 0.8rem;
+  margin-left: auto;
+  text-align: end;
+  padding-right: 10px;
+  color: #707070;
+  font-size: 0.8rem;
 }
 
 .nav-file:hover {
-    background: #eeeeee;
-    cursor: pointer;
-} /*# sourceMappingURL=style.css.map */
+  background: #eeeeee;
+  cursor: pointer;
+}
+
+.projects-nav-section {
+  position: relative;
+}
+
+.favorites {
+  width: 100%;
+  padding-left: 5px;
+}
+
+.nav-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+.nav-head p {
+  color: #707070;
+  font-weight: bold;
+}
+.nav-head .dropdown-arrow {
+  width: 30px;
+  height: 30px;
+  border-radius: 5px;
+  padding: 5px;
+  transition: transform 0.3s;
+}
+.nav-head .dropdown-arrow path {
+  fill: #707070;
+}
+
+.dropdown-arrow:hover {
+  background: #eeeeee;
+  cursor: pointer;
+}
+.dropdown-arrow:hover path {
+  fill: #3b3b3b;
+}
+
+.drop {
+  transform: rotate(90deg);
+}
+
+.favorites-list {
+  width: 100%;
+  z-index: -2;
+}
+
+.nav-project {
+  display: flex;
+  align-items: center;
+  padding: 3px 0;
+  border-radius: 5px;
+  padding: 10px 0;
+  position: relative;
+}
+.nav-project .project-color {
+  width: 10px;
+  height: 10px;
+  background: skyblue;
+  border-radius: 50%;
+  margin-left: 12px;
+  margin-right: 12px;
+}
+.nav-project p {
+  white-space: nowrap;
+  overflow: hidden;
+}
+.nav-project .file-amount {
+  margin-left: auto;
+  text-align: end;
+  padding-right: 10px;
+  color: #707070;
+  font-size: 0.8rem;
+}
+.nav-project .project-menu-icon {
+  display: none;
+  margin-left: auto;
+  padding: 5px 7px 5px 0;
+}
+.nav-project .project-menu-icon div {
+  width: 3px;
+  height: 3px;
+  background: #707070;
+  border-radius: 50%;
+  margin-left: 3px;
+  pointer-events: none;
+}
+
+.nav-project:hover {
+  background: #eeeeee;
+  cursor: pointer;
+}
+
+.nav-project:hover > .file-amount {
+  display: none;
+}
+
+.nav-project:hover > .project-menu-icon {
+  display: flex;
+}
+
+.project-menu-icon:hover div {
+  background: #3b3b3b;
+}
+
+.projects {
+  padding-top: 20px;
+  padding-left: 5px;
+  width: 100%;
+  z-index: 1;
+  background: #fafafa;
+  position: absolute;
+  top: 30px;
+  transition: top 0.3s;
+}
+
+.projects .nav-head .add-icon {
+  fill: #707070;
+  width: 27px;
+  height: 27px;
+  margin-left: auto;
+  border-radius: 5px;
+}
+
+.add-icon:hover {
+  fill: #3b3b3b !important;
+  background: #eeeeee;
+  cursor: pointer;
+}
+
+.hide-projects {
+  width: 100%;
+  background: #fafafa;
+  position: absolute;
+  left: 0;
+  top: 50px;
+  z-index: 2;
+  transition: top 0.3s;
+}
+
+.project-menu {
+  width: 270px;
+  padding: 7px;
+  background: #ffffff;
+  border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.2039215686);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  top: 0;
+  right: -110%;
+  z-index: 2;
+  overflow: visible;
+}
+.project-menu li {
+  display: flex;
+  align-items: center;
+  padding: 3px 5px;
+  border-radius: 5px;
+  color: #202020;
+}
+.project-menu li * {
+  pointer-events: none;
+  user-select: none;
+}
+.project-menu li:hover {
+  background: #eeeeee;
+  cursor: pointer;
+}
+.project-menu svg {
+  width: 26px;
+  height: 26px;
+  margin-right: 7px;
+}
+.project-menu svg g#SVGRepo_iconCarrier > path {
+  stroke: #3b3b3b;
+}
+.project-menu p {
+  width: fit-content;
+}
+
+.project-menu::after {
+  content: "";
+  width: 100vw;
+  height: 100vh;
+  background: grey;
+  position: absolute;
+  left: 0;
+  top: 0;
+  pointer-events: none;
+}
+
+.add-project-modal {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #202020;
+  display: none;
+  user-select: none;
+  z-index: 999;
+}
+.add-project-modal .add-project-form {
+  background: #ffffff;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  max-width: 450px;
+  padding: 20px;
+  border-radius: 10px;
+}
+.add-project-modal .add-project-form .form-title {
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+.add-project-modal .add-project-form .form-row {
+  display: flex;
+  flex-direction: column;
+  margin-top: 1.3rem;
+}
+
+.form-row {
+  position: relative;
+}
+.form-row label {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.form-row input {
+  padding: 7px 5px;
+  color: #202020;
+  border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.2274509804);
+  transition: border 0.3s;
+}
+.form-row input:focus {
+  border: 1px solid #707070;
+  outline: none;
+}
+.form-row input:valid {
+  border: 1px solid #009600;
+}
+.form-row button {
+  padding: 9px 12px;
+  display: flex;
+  align-items: center;
+  background: none;
+  border: 1px solid rgba(0, 0, 0, 0.2274509804);
+  border-radius: 5px;
+  color: #202020;
+}
+.form-row button #current-color {
+  border-radius: 50%;
+  width: 13px;
+  height: 13px;
+  background: #6accbc;
+  margin-right: 10px;
+}
+.form-row button p {
+  line-height: 1;
+}
+.form-row button:focus {
+  border: 1px solid #707070;
+}
+.form-row button:hover {
+  cursor: pointer;
+}
+
+label[for=form-project-color] {
+  width: fit-content;
+}
+
+.color-list {
+  background: #ffffff;
+  height: 200px;
+  overflow-y: scroll;
+  border-radius: 5px;
+  position: absolute;
+  top: 100%;
+  width: 100%;
+  z-index: 2;
+  display: none;
+}
+.color-list ul li {
+  list-style: none;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 10px 12px;
+}
+.color-list ul li > div {
+  margin-right: 12px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+.color-list ul li > p {
+  white-space: nowrap;
+  font-size: 0.8rem;
+  color: #202020;
+}
+.color-list ul li * {
+  user-select: none;
+  pointer-events: none;
+}
+.color-list ul li[data-color-hex="#B8256F"] > div {
+  background: #b8256f;
+}
+.color-list ul li[data-color-hex="#DB4035"] > div {
+  background: #db4035;
+}
+.color-list ul li[data-color-hex="#FF9933"] > div {
+  background: #ff9933;
+}
+.color-list ul li[data-color-hex="#FAD000"] > div {
+  background: #fad000;
+}
+.color-list ul li[data-color-hex="#AFB83B"] > div {
+  background: #afb83b;
+}
+.color-list ul li[data-color-hex="#7ECC49"] > div {
+  background: #7ecc49;
+}
+.color-list ul li[data-color-hex="#299438"] > div {
+  background: #299438;
+}
+.color-list ul li[data-color-hex="#6ACCBC"] > div {
+  background: #6accbc;
+}
+.color-list ul li[data-color-hex="#158FAD"] > div {
+  background: #158fad;
+}
+.color-list ul li[data-color-hex="#14AAF5"] > div {
+  background: #14aaf5;
+}
+.color-list ul li[data-color-hex="#96C3EB"] > div {
+  background: #96c3eb;
+}
+.color-list ul li[data-color-hex="#4073FF"] > div {
+  background: #4073ff;
+}
+.color-list ul li[data-color-hex="#884DFF"] > div {
+  background: #884dff;
+}
+.color-list ul li[data-color-hex="#AF38EB"] > div {
+  background: #af38eb;
+}
+.color-list ul li[data-color-hex="#EB96EB"] > div {
+  background: #eb96eb;
+}
+.color-list ul li[data-color-hex="#808080"] > div {
+  background: #808080;
+}
+.color-list ul li[data-color-hex="#B8B8B8"] > div {
+  background: #b8b8b8;
+}
+.color-list ul li[data-color-hex="#CCAC93"] > div {
+  background: #ccac93;
+}
+.color-list ul li:hover {
+  background: #eeeeee;
+  cursor: pointer;
+}
+
+input#favorites-checkbox {
+  display: none;
+}
+
+#switch {
+  width: 36px;
+  height: 18px;
+  background: grey;
+  border-radius: 50px;
+  position: relative;
+}
+#switch:after {
+  content: "";
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  left: 3px;
+  top: 3px;
+  background: #ffffff;
+  border-radius: 12px;
+  transition: 0.3s;
+}
+
+#favorites-checkbox:checked + label #switch:after {
+  left: 21px;
+}
+
+#favorites-checkbox:checked + label #switch {
+  background: #ccac93;
+}
+
+#favorites-checkbox:active + label #switch:after {
+  width: 18px;
+}
+
+label[for=favorites-checkbox]:hover {
+  cursor: pointer;
+}
+
+label[for=favorites-checkbox] {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  font-weight: 100;
+}
+
+#switch {
+  margin-right: 1.5rem;
+}
+
+.line-row {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1294117647);
+  width: 100%;
+  height: 1px;
+  margin-top: 20px;
+}
+
+#save-project,
+#cancel-project,
+#add-project {
+  width: 4rem;
+  height: 1.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 1rem;
+  font-weight: bold;
+}
+
+#cancel-project {
+  background: #fafafa;
+  color: #707070;
+}
+
+#cancel-project:hover {
+  background: #eeeeee;
+  color: #3b3b3b;
+}
+
+#save-project,
+#add-project {
+  color: #ffffff;
+  background: #2e2e2e;
+  opacity: 0.5;
+}
+
+#add-project,
+#save-project:hover {
+  cursor: pointer;
+}
+
+#form-btn {
+  display: flex;
+  justify-content: right;
+  flex-direction: row;
+  width: 100%;
+}/*# sourceMappingURL=style.css.map */

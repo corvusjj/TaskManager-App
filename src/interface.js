@@ -2,6 +2,25 @@ import { projectManager } from './app';
 import { Utils } from './utils';
 
 const Interface = (() => {
+    const Modal = (() => {
+        const overlay = document.createElement('div');
+
+        const setModalOverlay = () => {
+            document.body.appendChild(overlay);
+            overlay.style.width = '100vw';
+            overlay.style.height = '100vh';
+            overlay.style.background = 'rgba(0)';
+            overlay.style.position = 'fixed';
+            overlay.style.top = '0px';
+        }
+        
+        const closeModalOverlay = () => {
+            overlay.style.display = 'none';
+        }
+
+        return {setModalOverlay, closeModalOverlay}
+    })();
+
     const NavModule = (() => {
         const favoriteList = document.querySelector('.favorites-list');
         const projectList = document.querySelector('.projects-list');
@@ -27,11 +46,12 @@ const Interface = (() => {
 
             const menuIcon = document.createElement('div');
             menuIcon.classList.add('project-menu-icon');
-            menuIcon.setAttribute('data-project-id', `${project.id}`);
             menuIcon.appendChild(document.createElement('div'));
             menuIcon.appendChild(document.createElement('div'));
             menuIcon.appendChild(document.createElement('div'));
+            menuIcon.addEventListener('click', projectMenuModule.openMenu);
             li.appendChild(menuIcon);
+            
 
             favoriteList.appendChild(li);
         };
@@ -65,10 +85,10 @@ const Interface = (() => {
 
             const menuIcon = document.createElement('div');
             menuIcon.classList.add('project-menu-icon');
-            menuIcon.setAttribute('data-project-id', `${project.id}`);
             menuIcon.appendChild(document.createElement('div'));
             menuIcon.appendChild(document.createElement('div'));
             menuIcon.appendChild(document.createElement('div'));
+            menuIcon.addEventListener('click', projectMenuModule.openMenu);
             li.appendChild(menuIcon);
 
             projectList.appendChild(li);
@@ -207,7 +227,53 @@ const Interface = (() => {
         });
     })();
 
+    const projectMenuModule = (() => {
+        const projects = document.querySelector('.projects');
+        const projectMenu = document.querySelector('.project-menu');
+        const addToFavorite = document.querySelector('#add-to-favorites');
+        const removeFromFavorite = document.querySelector('#remove-from-favorites');
+
+        let currentMenuIcon;
+        let currentFileAmount;
+        let currentProject;
+        let currentId;
+
+        const openMenu = (e) => {
+            //  set project icons to fixed
+            currentMenuIcon = e.target;
+            currentProject = e.target.parentNode;
+            currentFileAmount = currentProject.querySelector('.file-amount');
+
+            currentMenuIcon.style.display = 'flex';
+            currentFileAmount.style.display = 'none';
+            projects.style.overflow = 'visible';
+
+            //  'add or remove to favorites' display
+            currentId = currentProject.id;
+            const selectedProject = projectManager.projects.find((project) => project.id === currentId);
+
+            if (selectedProject.favorite) {
+                addToFavorite.style.display = 'none';
+                removeFromFavorite.style.display = 'flex';
+            } else {
+                addToFavorite.style.display = 'flex';
+                removeFromFavorite.style.display = 'none';
+            }
+
+            //  open menu
+            currentProject.appendChild(projectMenu);
+            projectMenu.style.display = 'block';
+            Modal.setModalOverlay();
+        }
+        
+
+        return {openMenu}
+    })();
+
     return { NavModule, ProjectFormModule };
 })();
 
 export { Interface };
+
+
+//  test / append project-menu beside number 9
