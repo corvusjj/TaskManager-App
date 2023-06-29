@@ -267,6 +267,19 @@ const Interface = (() => {
             menuModal.style.top = dialogModule.getPixelsFromTop(currentMenuIcon) + 'px';
             menuModal.showModal();
         }
+
+        const closeMenu = () => {
+            menuModal.close();
+            currentMenuIcon.style.display = 'none';
+            currentFileAmount.style.display = 'block';
+        }
+
+        menuModal.addEventListener('click', (e) => {
+            if (e.target === menuModal) {
+                closeMenu();
+            }
+        });
+
         return {openMenu}
     })();
 

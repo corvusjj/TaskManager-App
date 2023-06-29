@@ -232,11 +232,11 @@ header {
 }
 
 .nav-project:hover > .file-amount {
-    display: none;
+    display: none !important;
 }
 
 .nav-project:hover > .project-menu-icon {
-    display: flex;
+    display: flex !important;
 }
 
 .project-menu-icon:hover div {
