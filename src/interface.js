@@ -3,30 +3,6 @@ import { Utils } from './utils';
 
 const Interface = (() => {
 
-    const dialogModule = (() => {
-
-        // for modal positioning 
-        const getPixelsFromLeft = (element) => {
-            let pixels = 0;
-            while (element) {
-              pixels += element.offsetLeft;
-              element = element.offsetParent;
-            }
-            return pixels;
-        }
-        
-        const getPixelsFromTop = (element) => {
-            let pixels = 0;
-            while (element) {
-              pixels += element.offsetTop;
-              element = element.offsetParent;
-            }
-            return pixels;
-        }
-
-        return {getPixelsFromLeft, getPixelsFromTop}
-    })();
-
     const NavModule = (() => {
         const favoriteList = document.querySelector('.favorites-list');
         const projectList = document.querySelector('.projects-list');
@@ -143,6 +119,35 @@ const Interface = (() => {
             projectModal.showModal();
         };
 
+        const editProjectModal = (name, color, favorite) => {
+            projectForm.querySelector('.form-title').textContent = 'Edit Project';
+            changeFormState('edit');
+
+            const nameInput = projectForm.querySelector('#form-project-name');
+            const colorBtn = projectForm.querySelector('#form-project-color');
+            const favoritesCheckbox = projectForm.querySelector('#favorites-checkbox');
+            
+            // set name value
+            nameInput.value = name;
+
+            // set color value
+            colorBtn.dataset.colorSelected = color;
+
+            const colorDiv = colorBtn.querySelector('#current-color');
+            colorDiv.style.background = color;
+
+            const colorName = colorBtn.querySelector('p');
+            const colorOptions = [...document.querySelectorAll('.color-option')];
+            colorName.textContent = colorOptions.find((option) => option.dataset.colorHex === color).dataset.colorName;
+
+            // set favorites checkbox
+            if (favorite === true) {
+                favoritesCheckbox.setAttribute('checked', '');
+            }
+
+            projectModal.showModal();
+        }
+
         const openColorList = () => (colorList.style.display = 'block');
 
         const closeColorList = () => {
@@ -235,6 +240,32 @@ const Interface = (() => {
             projectForm.reset();
             toggleBtnStyle(addProjectBtn);
         });
+
+        return { editProjectModal }
+    })();
+
+    const dialogModule = (() => {
+
+        // for modal positioning 
+        const getPixelsFromLeft = (element) => {
+            let pixels = 0;
+            while (element) {
+              pixels += element.offsetLeft;
+              element = element.offsetParent;
+            }
+            return pixels;
+        }
+        
+        const getPixelsFromTop = (element) => {
+            let pixels = 0;
+            while (element) {
+              pixels += element.offsetTop;
+              element = element.offsetParent;
+            }
+            return pixels;
+        }
+
+        return {getPixelsFromLeft, getPixelsFromTop}
     })();
 
     const projectMenuModule = (() => {
@@ -280,6 +311,20 @@ const Interface = (() => {
             if (e.target === menuModal) {
                 closeMenu();
             }
+        });
+
+        const editProject = document.querySelector('#edit-project');
+        editProject.addEventListener('click', () => {
+
+            closeMenu();
+
+            const currentId = currentMenuIcon.parentNode.id;
+            const selectedProject = projectManager.projects.find((project) => project.id === currentId);
+
+            const name = selectedProject.name;
+            const color = selectedProject.color;
+            const favorite = selectedProject.favorite;
+            ProjectFormModule.editProjectModal(name, color, favorite);
         });
 
         return {openMenu}
