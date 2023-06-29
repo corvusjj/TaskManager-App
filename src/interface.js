@@ -118,7 +118,7 @@ const Interface = (() => {
 
     const ProjectFormModule = (() => {
         //  open/close projectForm & colorList listener
-        const projectModal = document.querySelector('.add-project-modal');
+        const projectModal = document.querySelector('#add-project-modal');
         const projectForm = document.querySelector('.add-project-form');
         const addProjectIcon = document.querySelector('#add-project-icon');
         const cancelProjectBtn = document.querySelector('#cancel-project');
@@ -139,21 +139,22 @@ const Interface = (() => {
         };
 
         const openProjectModal = () => {
-            projectForm.reset();
             changeFormState('add');
-            projectModal.style.display = 'block';
+            projectModal.showModal();
         };
 
         const openColorList = () => (colorList.style.display = 'block');
 
-        const closeProjectModal = () => {
-            if (colorList.style.display === 'block') return closeColorList();
-            projectModal.style.display = 'none';
-        };
-
         const closeColorList = () => {
             colorList.style.display = 'none';
         };
+
+        const closeProjectModal = () => {
+            if (colorList.style.display === 'block') return closeColorList();
+            projectModal.close();
+            projectForm.reset();
+        };
+
 
         addProjectIcon.addEventListener('click', () => openProjectModal());
         projectForm.addEventListener('click', (e) => {
@@ -161,11 +162,12 @@ const Interface = (() => {
             closeColorList();
         });
 
-        projectModal.addEventListener('click', () => closeProjectModal());
+        
         cancelProjectBtn.addEventListener('click', () => closeProjectModal());
-
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') closeProjectModal();
+        projectModal.addEventListener('click', (e) => {
+            if (e.target === projectModal) {
+                closeProjectModal();
+            }
         });
 
         colorBtn.addEventListener('click', (e) => {
