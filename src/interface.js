@@ -2,23 +2,29 @@ import { projectManager } from './app';
 import { Utils } from './utils';
 
 const Interface = (() => {
-    const Modal = (() => {
-        const overlay = document.createElement('div');
 
-        const setModalOverlay = () => {
-            document.body.appendChild(overlay);
-            overlay.style.width = '100vw';
-            overlay.style.height = '100vh';
-            overlay.style.background = 'rgba(0)';
-            overlay.style.position = 'fixed';
-            overlay.style.top = '0px';
+    const dialogModule = (() => {
+
+        // for modal positioning 
+        const getPixelsFromLeft = (element) => {
+            let pixels = 0;
+            while (element) {
+              pixels += element.offsetLeft;
+              element = element.offsetParent;
+            }
+            return pixels;
         }
         
-        const closeModalOverlay = () => {
-            overlay.style.display = 'none';
+        const getPixelsFromTop = (element) => {
+            let pixels = 0;
+            while (element) {
+              pixels += element.offsetTop;
+              element = element.offsetParent;
+            }
+            return pixels;
         }
 
-        return {setModalOverlay, closeModalOverlay}
+        return {getPixelsFromLeft, getPixelsFromTop}
     })();
 
     const NavModule = (() => {
@@ -49,6 +55,8 @@ const Interface = (() => {
             menuIcon.appendChild(document.createElement('div'));
             menuIcon.appendChild(document.createElement('div'));
             menuIcon.appendChild(document.createElement('div'));
+          
+            //open project-menu listener
             menuIcon.addEventListener('click', projectMenuModule.openMenu);
             li.appendChild(menuIcon);
             
@@ -228,28 +236,22 @@ const Interface = (() => {
     })();
 
     const projectMenuModule = (() => {
-        const projects = document.querySelector('.projects');
-        const projectMenu = document.querySelector('.project-menu');
+        const menuModal = document.querySelector('#project-menu-modal');
         const addToFavorite = document.querySelector('#add-to-favorites');
         const removeFromFavorite = document.querySelector('#remove-from-favorites');
 
         let currentMenuIcon;
         let currentFileAmount;
-        let currentProject;
-        let currentId;
 
         const openMenu = (e) => {
             //  set project icons to fixed
             currentMenuIcon = e.target;
-            currentProject = e.target.parentNode;
-            currentFileAmount = currentProject.querySelector('.file-amount');
-
+            currentFileAmount = e.target.parentNode.querySelector('.file-amount');
             currentMenuIcon.style.display = 'flex';
             currentFileAmount.style.display = 'none';
-            projects.style.overflow = 'visible';
 
             //  'add or remove to favorites' display
-            currentId = currentProject.id;
+            const currentId = e.target.parentNode.id;
             const selectedProject = projectManager.projects.find((project) => project.id === currentId);
 
             if (selectedProject.favorite) {
@@ -260,13 +262,11 @@ const Interface = (() => {
                 removeFromFavorite.style.display = 'none';
             }
 
-            //  open menu
-            currentProject.appendChild(projectMenu);
-            projectMenu.style.display = 'block';
-            Modal.setModalOverlay();
+            //  display menu
+            menuModal.style.left = dialogModule.getPixelsFromLeft(currentMenuIcon) + 'px';
+            menuModal.style.top = dialogModule.getPixelsFromTop(currentMenuIcon) + 'px';
+            menuModal.showModal();
         }
-        
-
         return {openMenu}
     })();
 

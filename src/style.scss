@@ -279,6 +279,23 @@ header {
     transition: top 0.3s;
 }
 
+%modal {
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    position: absolute;
+}
+
+.menu-modal {
+    @extend %modal;
+    box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.1);
+    transform: translate(-45%, 20px);
+}
+
+.menu-modal::backdrop {
+    background-color: rgba(0, 0, 0, 0);
+}
+
 .project-menu {
     li {
         display: flex;
@@ -317,12 +334,6 @@ header {
     background: $main-bg;
     border-radius: 5px;
     border: 1px solid $form-border-color;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    display: none;
-    position: absolute;
-    top: 30px;
-    transform: translateX(45%);
-    z-index: 1;
 }
 
 .add-project-modal {
