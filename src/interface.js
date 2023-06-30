@@ -306,6 +306,7 @@ const Interface = (() => {
 
         let currentMenuIcon;
         let currentFileAmount;
+        let activeProject;
 
         const openMenu = (e) => {
             //  set project icons to fixed
@@ -317,6 +318,7 @@ const Interface = (() => {
             //  'add or remove to favorites' display
             const currentId = e.target.parentNode.id;
             const selectedProject = projectManager.projects.find((project) => project.id === currentId);
+            activeProject = selectedProject;
 
             if (selectedProject.favorite) {
                 addToFavorite.style.display = 'none';
@@ -351,6 +353,21 @@ const Interface = (() => {
 
             const currentId = currentMenuIcon.parentNode.id;
             ProjectFormModule.editProjectModal(currentId);
+        });
+
+        addToFavorite.addEventListener('click', () => {
+            activeProject.changeFavorite(true);
+            projectManager.updateProjectStorage();
+            NavModule.generateFavoritesToNav();
+            closeMenu();
+        });
+
+        removeFromFavorite.addEventListener('click', () => {
+            activeProject.changeFavorite(false);
+            projectManager.updateProjectStorage();
+            NavModule.generateFavoritesToNav();
+            NavModule.generateProjectsToNav();
+            closeMenu();
         });
 
         return {openMenu}
