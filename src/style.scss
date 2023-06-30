@@ -606,11 +606,15 @@ label[for='favorites-checkbox'] {
     color: $hover-icon-color;
 }
 
-#save-project,
 #add-project {
     color: #ffffff;
     background: $header-bg;
     opacity: 0.5;
+}
+
+#save-project {
+    color: #ffffff;
+    background: $header-bg;
 }
 
 #add-project,

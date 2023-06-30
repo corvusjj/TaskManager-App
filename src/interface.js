@@ -98,8 +98,12 @@ const Interface = (() => {
         const projectForm = document.querySelector('.add-project-form');
         const addProjectIcon = document.querySelector('#add-project-icon');
         const cancelProjectBtn = document.querySelector('#cancel-project');
-        const colorBtn = document.querySelector('#form-project-color');
         const colorList = document.querySelector('.color-list');
+
+        const nameInput = projectForm.querySelector('#form-project-name');
+        const colorBtn = projectForm.querySelector('#form-project-color');
+        const favoritesCheckbox = projectForm.querySelector('#favorites-checkbox');
+        let activeProject;
 
         const changeFormState = (state) => {
             const addBtn = document.querySelector('#add-project');
@@ -114,34 +118,39 @@ const Interface = (() => {
             }
         };
 
+        const resetForm = () => {
+            projectForm.reset();
+            nameInput.value = '';
+            favoritesCheckbox.removeAttribute('checked');
+        }
+
         const openProjectModal = () => {
             changeFormState('add');
             projectModal.showModal();
         };
 
-        const editProjectModal = (name, color, favorite) => {
+        const editProjectModal = (currentId) => {
             projectForm.querySelector('.form-title').textContent = 'Edit Project';
             changeFormState('edit');
 
-            const nameInput = projectForm.querySelector('#form-project-name');
-            const colorBtn = projectForm.querySelector('#form-project-color');
-            const favoritesCheckbox = projectForm.querySelector('#favorites-checkbox');
+            const selectedProject = projectManager.projects.find((project) => project.id === currentId);
+            activeProject = selectedProject;
             
             // set name value
-            nameInput.value = name;
+            nameInput.value = selectedProject.name;
 
             // set color value
-            colorBtn.dataset.colorSelected = color;
+            colorBtn.dataset.colorSelected = selectedProject.color;
 
             const colorDiv = colorBtn.querySelector('#current-color');
-            colorDiv.style.background = color;
+            colorDiv.style.background = selectedProject.color;
 
             const colorName = colorBtn.querySelector('p');
             const colorOptions = [...document.querySelectorAll('.color-option')];
-            colorName.textContent = colorOptions.find((option) => option.dataset.colorHex === color).dataset.colorName;
+            colorName.textContent = colorOptions.find((option) => option.dataset.colorHex === selectedProject.color).dataset.colorName;
 
             // set favorites checkbox
-            if (favorite === true) {
+            if (selectedProject.favorite === true) {
                 favoritesCheckbox.setAttribute('checked', '');
             }
 
@@ -157,7 +166,7 @@ const Interface = (() => {
         const closeProjectModal = () => {
             if (colorList.style.display === 'block') return closeColorList();
             projectModal.close();
-            projectForm.reset();
+            resetForm();
         };
 
 
@@ -237,8 +246,30 @@ const Interface = (() => {
 
             //  reset form to default
             closeProjectModal();
-            projectForm.reset();
+            resetForm();
             toggleBtnStyle(addProjectBtn);
+        });
+
+        // update project listener
+        saveProjectBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (!projectForm.checkValidity()) {
+                return;
+            }
+
+            const newName = nameInput.value;
+            const newColor = colorBtn.dataset.colorSelected;
+            const newFavorite = favoritesCheckbox.checked;
+
+            activeProject.changeName(newName);
+            activeProject.changeColor(newColor);
+            activeProject.changeFavorite(newFavorite);
+
+            projectManager.updateProjectStorage();
+            NavModule.generateFavoritesToNav();
+            NavModule.generateProjectsToNav();
+
+            closeProjectModal();
         });
 
         return { editProjectModal }
@@ -319,12 +350,7 @@ const Interface = (() => {
             closeMenu();
 
             const currentId = currentMenuIcon.parentNode.id;
-            const selectedProject = projectManager.projects.find((project) => project.id === currentId);
-
-            const name = selectedProject.name;
-            const color = selectedProject.color;
-            const favorite = selectedProject.favorite;
-            ProjectFormModule.editProjectModal(name, color, favorite);
+            ProjectFormModule.editProjectModal(currentId);
         });
 
         return {openMenu}
@@ -335,5 +361,4 @@ const Interface = (() => {
 
 export { Interface };
 
-
-//  test / append project-menu beside number 9
+//  updateProject
