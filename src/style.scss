@@ -584,9 +584,7 @@ label[for='favorites-checkbox'] {
     margin-top: 20px;
 }
 
-#save-project,
-#cancel-project,
-#add-project {
+%form-btn {
     width: 4rem;
     height: 1.8rem;
     display: flex;
@@ -596,25 +594,42 @@ label[for='favorites-checkbox'] {
     font-weight: bold;
 }
 
-#cancel-project {
+#save-project,
+#cancel-project,
+#add-project {
+    @extend %form-btn;
+}
+
+%cancel-btn {
     background: $nav-bg;
     color: $font-secondary;
 }
 
-#cancel-project:hover {
+%cancel-btn-hover {
     background: $hover-bg-color;
     color: $hover-icon-color;
 }
 
-#add-project {
+#cancel-project {
+    @extend %cancel-btn;
+}
+
+#cancel-project:hover {
+    @extend %cancel-btn-hover;
+}
+
+%confirm-btn {
     color: #ffffff;
     background: $header-bg;
+}
+
+#add-project {
+    @extend %confirm-btn;
     opacity: 0.5;
 }
 
 #save-project {
-    color: #ffffff;
-    background: $header-bg;
+    @extend %confirm-btn;
 }
 
 #add-project,
@@ -627,4 +642,99 @@ label[for='favorites-checkbox'] {
     justify-content: right !important;
     flex-direction: row !important;
     width: 100%;
+}
+
+#project-delete-modal {
+    @extend %modal;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    max-width: 450px;
+    border-radius: 10px;
+}
+
+.project-delete-form {
+    .form-head {
+
+        h3 {
+            color: #fff;
+            font-size: 1.1rem;
+        }
+
+        svg {
+            g#SVGRepo_iconCarrier > path {
+                stroke: #fff;
+            }
+
+            width: 35px;
+            height: 35px;
+        }
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: $header-bg;
+        padding: 10px 20px;
+        width: 100%;
+    }
+
+    img {
+        width: 50%;
+        height: auto;
+        margin-top: 2rem;
+        border-radius: 10px;
+        object-fit: cover;
+    }
+
+    p {
+
+        span {
+            font-weight: bold;
+        }
+        
+        align-self: flex-start;
+        margin-left: 20px;
+        margin-top: 2rem;
+        font-size: 1rem;
+    }
+
+    #form-btn {
+        margin: 20px;
+        padding-right: 20px;
+    }
+
+    background: $main-bg;
+    color: $font-primary;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#cancel-delete,
+#confirm-delete {
+    @extend %form-btn;
+    outline: none
+}
+
+#cancel-delete {
+    @extend %cancel-btn;
+    border: 1px solid #0000005b;
+    border-radius: 5px;
+}
+
+#cancel-delete:hover {
+    @extend %cancel-btn-hover;
+}
+
+#confirm-delete {
+    @extend %confirm-btn;
+    border-radius: 5px;
+    border: none;
+}
+
+#cancel-delete,
+#confirm-delete {
+    cursor: pointer;
 }

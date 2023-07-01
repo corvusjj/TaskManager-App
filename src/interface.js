@@ -370,6 +370,49 @@ const Interface = (() => {
             closeMenu();
         });
 
+        //  delete project listener
+        const deleteProject = document.querySelector('#delete-project');
+        const deleteProjectModal = document.querySelector('#project-delete-modal');
+
+        deleteProject.addEventListener('click', () => {    
+            closeMenu();
+            const projectName = document.querySelector('.project-delete-form > p > span');
+
+            // display random gif
+            const gifs = [...document.querySelectorAll('.project-delete-form img')];
+            const randomNum = Math.floor(Math.random() * 2) + 1;
+            
+            if (randomNum === 1) {
+                gifs[0].style.display = 'none';
+                gifs[1].style.display = 'block';
+            } else {
+                gifs[0].style.display = 'block';
+                gifs[1].style.display = 'none';
+            }
+
+            projectName.textContent = activeProject.name;
+            deleteProjectModal.showModal();
+        });
+
+        const cancelBtn = document.querySelector('#cancel-delete');
+        cancelBtn.addEventListener('click', () => deleteProjectModal.close()); 
+
+        deleteProjectModal.addEventListener('click', (e) => {
+            if (e.target === deleteProjectModal) {
+                deleteProjectModal.close();
+            }
+        });
+
+        //  confirm delete project listener
+        const confirmDeleteBtn = document.querySelector('#confirm-delete');
+        confirmDeleteBtn.addEventListener('click', () => {
+            deleteProjectModal.close();
+
+            projectManager.deleteProject(activeProject.id);
+            NavModule.generateFavoritesToNav();
+            NavModule.generateProjectsToNav();
+        });
+
         return {openMenu}
     })();
 
