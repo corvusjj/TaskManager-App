@@ -5,14 +5,22 @@ $main-bg: #ffffff;
 // $main-bg: #202020
 
 $font-primary: #202020;
-$font-secondary: #707070;
+$font-secondary: #646464;
 // $font-primary: #ffffff;
 // #font-secondary: #ffffff;
+
+$header-icon-background: #828282;
+// $header-icon-background: #696969;
+
+$save-btn-background: $header-bg;
+
+$btn-border: #dfdada;
+// $btn-border: #555;
 
 $hover-bg-color: #eeeeee;
 // $hover-bg-color: #363636;
 
-$hover-icon-color: #3b3b3b;
+$hover-icon-color: #292929;
 
 $form-border-color: #00000034;
 
@@ -62,6 +70,12 @@ header {
 }
 
 .profile {
+    #add-task-icon {
+        margin-right: 4em;
+        width: 29px;
+        height: 29px;
+    }
+
     img {
         width: 30px;
         height: 30x;
@@ -602,12 +616,13 @@ label[for='favorites-checkbox'] {
 
 %cancel-btn {
     background: $nav-bg;
-    color: $font-secondary;
+    color: $font-primary;
+    border: 1px solid $btn-border !important;
 }
 
 %cancel-btn-hover {
     background: $hover-bg-color;
-    color: $hover-icon-color;
+    color: $font-primary;
 }
 
 #cancel-project {
@@ -620,7 +635,7 @@ label[for='favorites-checkbox'] {
 
 %confirm-btn {
     color: #ffffff;
-    background: $header-bg;
+    background: $save-btn-background;
 }
 
 #add-project {
@@ -638,6 +653,10 @@ label[for='favorites-checkbox'] {
 }
 
 #form-btn {
+    > * * {
+        pointer-events: none;
+    }
+
     display: flex !important;
     justify-content: right !important;
     flex-direction: row !important;
@@ -736,5 +755,163 @@ label[for='favorites-checkbox'] {
 
 #cancel-delete,
 #confirm-delete {
+    cursor: pointer;
+}
+
+.add-task-modal {
+    input {
+        width: 100%;
+        outline: none;
+        font-family: $font-stack;
+        border: none;
+    }
+
+    .form-task-name {
+        font-size: 1.3rem;
+    }
+
+    .form-task-description {
+        margin-top: 7px;
+        font-size: 0.8rem;
+    }
+
+    .line-row {
+        margin-bottom: 1.5rem;
+    }
+
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 570px;
+    border: 1px solid #000;
+    border-radius: 10px;
+    padding: 15px;
+    background: $main-bg;
+}
+
+.schedule-btn {
+    .form-task-date, .form-task-priority {
+        > * {
+            pointer-events: none;
+        }
+
+        &::placeholder {
+            color: $font-secondary;
+        }
+
+        display: flex;
+        align-items: center;
+        margin-right: 10px;
+        padding: 2px;
+        padding-right: 5px;
+        outline: none;
+        border: 1px solid $btn-border;
+        background: none;
+        border-radius: 5px;
+    }
+
+    svg {
+        path {
+            stroke: $font-secondary;
+        }
+
+        width: 22px;
+        height: 22px;
+    }
+
+    p {
+        font-size: 0.8rem;
+        white-space: nowrap;
+        color: $font-secondary;
+    }
+
+    .form-task-date svg {
+        margin-right: 3px;
+    }
+
+    .form-task-priority svg {
+        transform: scale(0.8);
+    }   
+
+    display: flex;
+    margin-top: 1.5rem;
+    user-select: none;
+}
+
+.schedule-btn > button:hover {
+    cursor: pointer;
+    background: $hover-bg-color;
+}
+
+.schedule-btn > button:hover p {
+    color: $hover-icon-color;
+}
+
+.schedule-btn > button:hover svg path {
+    stroke: $hover-icon-color;
+}
+
+#project-select-add,
+#cancel-add-task,
+#cancel-task {
+    @extend %form-btn;
+    border-radius: 5px;
+    border: none;
+}
+
+#project-select-add {
+    #project-select-add-color {
+        width: 7px;
+        height: 7px;
+        background: red;
+        border-radius: 50%;
+    }
+
+    svg {
+        width: 15px;
+        height: 15px;
+        fill: $font-secondary;
+    }
+
+    color: $font-secondary;
+    width: 5.5rem;
+    height: 2rem;
+    margin-right: auto;
+    margin-left: 0;
+    justify-content: space-evenly;
+    background: $main-bg;
+}
+
+#project-select-add:hover {
+    @extend %cancel-btn-hover;
+}
+
+#project-select-add:hover > svg {
+    fill: $hover-icon-color;
+}
+
+
+#cancel-add-task {
+    @extend %cancel-btn;
+}
+
+#cancel-add-task:hover {
+    @extend %cancel-btn-hover;
+}
+
+#add-task {
+    @extend %confirm-btn;
+    width: 5rem;
+    border-radius: 5px;
+    border: none;
+    margin-left: 10px;
+    height: 1.8rem;
+}
+
+#project-select-add,
+#cancel-add-task,
+#add-task:hover {
     cursor: pointer;
 }

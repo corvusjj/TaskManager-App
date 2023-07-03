@@ -18,6 +18,11 @@
                 <h2>ToDo</h2>
             </div>
             <div class="profile">
+                <svg id='add-task-icon' class="header-icon" fill="#ffffff" viewBox="-307.2 -307.2 2534.40 2534.40" xmlns="http://www.w3.org/2000/svg">
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"/>
+                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+                    <g id="SVGRepo_iconCarrier"> <path d="M915.744 213v702.744H213v87.842h702.744v702.744h87.842v-702.744h702.744v-87.842h-702.744V213z" fill-rule="evenodd"/> </g>
+                    </svg>
                 <svg class="header-icon" fill="#ffffff" viewBox="-30.72 -30.72 317.44 317.44" id="Flat" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff" stroke-width="0.00256">
                     <g id="SVGRepo_bgCarrier" stroke-width="0"/>
                     <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
@@ -102,7 +107,6 @@
                 </nav>
             </section>      
         </div>
-        <main></main>
         <dialog id="add-project-modal" class="form-modal">
             <form class="add-project-form">
                 <p class="form-title">Add Project</p>
@@ -216,5 +220,63 @@
                 </div>
             </div>
         </dialog>
+        <div class="add-task-modal">
+            <form action="" class="add-task-form">
+                <input type="text" class="form-task-name" id="task-name-add" placeholder="Task name">
+                <input type="text" class="form-task-description" id="task-name-edit" placeholder="Description">
+                <div class="schedule-btn">
+                    <button class="form-task-date" id="task-date-add" type="button">
+                        <svg viewBox="-2.4 -2.4 28.80 28.80" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#39225d">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"/>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+                            <g id="SVGRepo_iconCarrier"> <g id="Calendar / Calendar_Week"> <path id="Vector" d="M4 8H20M4 8V16.8002C4 17.9203 4 18.4801 4.21799 18.9079C4.40973 19.2842 4.71547 19.5905 5.0918 19.7822C5.5192 20 6.07899 20 7.19691 20H16.8031C17.921 20 18.48 20 18.9074 19.7822C19.2837 19.5905 19.5905 19.2842 19.7822 18.9079C20 18.4805 20 17.9215 20 16.8036V8M4 8V7.2002C4 6.08009 4 5.51962 4.21799 5.0918C4.40973 4.71547 4.71547 4.40973 5.0918 4.21799C5.51962 4 6.08009 4 7.2002 4H8M20 8V7.19691C20 6.07899 20 5.5192 19.7822 5.0918C19.5905 4.71547 19.2837 4.40973 18.9074 4.21799C18.4796 4 17.9203 4 16.8002 4H16M8 4H16M8 4V2M16 4V2M16 12H8" stroke="#8A5ECD" stroke-width="0.9600000000000002" stroke-linecap="round" stroke-linejoin="round"/> </g> </g>
+                        </svg>
+                        <p>Due date</p>
+                    </button>
+                    <button class="form-task-priority" id="task-priority-add" type="button">
+                        <svg viewBox="0 0 24.00 24.00" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#000000">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"/>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+                            <g id="SVGRepo_iconCarrier"> <path d="M17 4V6.89445C17 7.2893 16.8831 7.67531 16.6641 8.00385L14.7396 10.8906C14.2917 11.5624 14.2917 12.4376 14.7396 13.1094L16.6641 15.9962C16.8831 16.3247 17 16.7107 17 17.1056V20M17 4H19M17 4H7M17 20H19M17 20H7M7 4V6.89445C7 7.2893 7.11688 7.67531 7.3359 8.00385L9.2604 10.8906C9.70827 11.5624 9.70827 12.4376 9.2604 13.1094L7.3359 15.9962C7.11688 16.3247 7 16.7107 7 17.1056V20M7 4H5M7 20H5" stroke="#002C9B" stroke-width="1.176" stroke-linecap="round" stroke-linejoin="round"/> </g>
+                        </svg>
+                        <p>Priority</p>
+                    </button>
+                </div>
+                <div class="line-row"></div>
+                <div id="form-btn">
+                    <button class="project-select" id="project-select-add" type="button">
+                        <div id="project-select-add-color"></div>
+                        <p id="project-select-add-name">Inbox</p>
+                        <svg fill="red" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" xml:space="preserve">
+                            <g id="SVGRepo_bgCa#000000#000000ie#000000" st#000000oke-width="0"/>
+                            <g id="SVGRepo_t#000000ace#000000Ca#000000#000000ie#000000" st#000000oke-linecap="#000000ound" st#000000oke-linejoin="#000000ound"/>
+                            <g id="SVGRepo_iconCa#000000#000000ie#000000"> <style type="text/css"> .st0{fill:none;} </style> <path d="M6.5,8.5l6,7l6-7H6.5z"/> &lt;#000000ect class="st0" width="24" height="24"&gt;<!-- Uploaded to: SVG Repo, www.svgrepo.com, Transformed by: SVG Repo Mixer Tools --> &lt;#000000ect class="st0" width="24" height="24"&gt;<!-- Uploaded to: SVG Repo, www.svgrepo.com, Transformed by: SVG Repo Mixer Tools --> </g>
+                        </svg>
+                    </button>
+                    <button id="cancel-add-task" type="button">
+                        <span>Cancel</span>
+                    </button>
+                    <button id="add-task" type="button">
+                        <span>Add Task</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+        <main>
+            <div class="main-head">
+                <h2>Project Title</h2>
+                <svg width="64px" height="64px" viewBox="0 0 512.00 512.00" xmlns="http://www.w3.org/2000/svg" fill="#000000" transform="rotate(90)" stroke="#000000" stroke-width="0.00512">
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"/>
+                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+                    <g id="SVGRepo_iconCarrier"> <path fill="var(--ci-primary-color, #93B874)" d="M256,144a64,64,0,1,0-64-64A64.072,64.072,0,0,0,256,144Zm0-96a32,32,0,1,1-32,32A32.036,32.036,0,0,1,256,48Z" class="ci-primary"/> <path fill="var(--ci-primary-color, #93B874)" d="M256,368a64,64,0,1,0,64,64A64.072,64.072,0,0,0,256,368Zm0,96a32,32,0,1,1,32-32A32.036,32.036,0,0,1,256,464Z" class="ci-primary"/> <path fill="var(--ci-primary-color, #93B874)" d="M256,192a64,64,0,1,0,64,64A64.072,64.072,0,0,0,256,192Zm0,96a32,32,0,1,1,32-32A32.036,32.036,0,0,1,256,288Z" class="ci-primary"/> </g>
+                </svg>
+            </div>
+            <section class="tasks-section">
+                <div class="task">
+                    <button class="check-task-btn"></button>
+                    <p class="task-name"></p>
+                </div>
+            </section>
+        </main>
     </body>
 </html>

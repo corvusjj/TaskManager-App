@@ -19,8 +19,7 @@ import './style.scss';
     const notesLocalData = localStorage.getItem('notes');
     const usedIDsLocalData = localStorage.getItem('usedIDs');
 
-    if (projectsLocalData)
-        projectManager.projects.push(...JSON.parse(projectsLocalData));
+    if (projectsLocalData) projectManager.projects.push(...JSON.parse(projectsLocalData));
     if (tasksLocalData) taskManager.tasks.push(...JSON.parse(tasksLocalData));
     if (notesLocalData) noteManager.notes.push(...JSON.parse(notesLocalData));
     if (usedIDsLocalData) fileId.usedIDs.push(...JSON.parse(usedIDsLocalData));

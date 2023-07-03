@@ -120,6 +120,7 @@ const Interface = (() => {
 
         const resetForm = () => {
             projectForm.reset();
+            document.querySelector('.form-title').textContent = 'Add Project';
             nameInput.value = '';
             favoritesCheckbox.removeAttribute('checked');
         }
@@ -150,7 +151,7 @@ const Interface = (() => {
             colorName.textContent = colorOptions.find((option) => option.dataset.colorHex === selectedProject.color).dataset.colorName;
 
             // set favorites checkbox
-            if (selectedProject.favorite === true) {
+            if (selectedProject.favorite) {
                 favoritesCheckbox.setAttribute('checked', '');
             }
 
@@ -239,7 +240,7 @@ const Interface = (() => {
             projectManager.createProject(name, color, favorite);
             NavModule.generateProjectsToNav();
             Utils.toggleProjects.extend();
-            if (favorite === true) {
+            if (favorite) {
                 NavModule.generateFavoritesToNav();
                 Utils.toggleFavorites.extend();
             }
@@ -268,6 +269,9 @@ const Interface = (() => {
             projectManager.updateProjectStorage();
             NavModule.generateFavoritesToNav();
             NavModule.generateProjectsToNav();
+
+            Utils.toggleFavorites.extend();
+            Utils.toggleProjects.extend();
 
             closeProjectModal();
         });
@@ -309,6 +313,8 @@ const Interface = (() => {
         let activeProject;
 
         const openMenu = (e) => {
+            e.stopPropagation();
+
             //  set project icons to fixed
             currentMenuIcon = e.target;
             currentFileAmount = e.target.parentNode.querySelector('.file-amount');
@@ -359,6 +365,7 @@ const Interface = (() => {
             activeProject.changeFavorite(true);
             projectManager.updateProjectStorage();
             NavModule.generateFavoritesToNav();
+            Utils.toggleFavorites.extend();
             closeMenu();
         });
 
@@ -367,6 +374,7 @@ const Interface = (() => {
             projectManager.updateProjectStorage();
             NavModule.generateFavoritesToNav();
             NavModule.generateProjectsToNav();
+            Utils.toggleFavorites.extend();
             closeMenu();
         });
 
@@ -411,6 +419,9 @@ const Interface = (() => {
             projectManager.deleteProject(activeProject.id);
             NavModule.generateFavoritesToNav();
             NavModule.generateProjectsToNav();
+            
+            Utils.toggleFavorites.extend();
+            Utils.toggleFavorites.extend();
         });
 
         return {openMenu}
