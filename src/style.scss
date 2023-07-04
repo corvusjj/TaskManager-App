@@ -812,6 +812,16 @@ label[for='favorites-checkbox'] {
         border-radius: 5px;
     }
 
+    #task-date-add {
+        // border: 1px solid #000;
+        outline: none;
+        width: 8rem;
+    }
+
+    #task-date-add:hover {
+        cursor: pointer;
+    }
+
     svg {
         path {
             stroke: $font-secondary;
@@ -825,10 +835,6 @@ label[for='favorites-checkbox'] {
         font-size: 0.8rem;
         white-space: nowrap;
         color: $font-secondary;
-    }
-
-    .form-task-date svg {
-        margin-right: 3px;
     }
 
     .form-task-priority svg {
