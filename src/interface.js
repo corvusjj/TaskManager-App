@@ -239,6 +239,8 @@ const Interface = (() => {
 
             projectManager.createProject(name, color, favorite);
             NavModule.generateProjectsToNav();
+            FormProjectList.generateProjectsToForm();
+
             Utils.toggleProjects.extend();
             if (favorite) {
                 NavModule.generateFavoritesToNav();
@@ -269,6 +271,7 @@ const Interface = (() => {
             projectManager.updateProjectStorage();
             NavModule.generateFavoritesToNav();
             NavModule.generateProjectsToNav();
+            FormProjectList.generateProjectsToForm();
 
             Utils.toggleFavorites.extend();
             Utils.toggleProjects.extend();
@@ -419,6 +422,7 @@ const Interface = (() => {
             projectManager.deleteProject(activeProject.id);
             NavModule.generateFavoritesToNav();
             NavModule.generateProjectsToNav();
+            FormProjectList.generateProjectsToForm();
             
             Utils.toggleFavorites.extend();
             Utils.toggleFavorites.extend();
@@ -433,6 +437,7 @@ const Interface = (() => {
         let activeProject;
         const addTaskIcon = document.querySelector('#add-task-icon');
 
+        //  open form listener
         addTaskIcon.addEventListener('click', () => {
             //  let Inbox as default active project
             if (activeProject === undefined || null) activeProject = projectManager.projects.find((proj) => proj.name === 'Inbox@XFvW$W7').id;
@@ -441,9 +446,51 @@ const Interface = (() => {
         });
     })();
 
+    const FormProjectList = (() => {
+        const projectSelectBtn = document.querySelector('#project-select-add');
+        const projectList = document.querySelector('.choose-project-list');
+
+        const ulProjectList = projectList.querySelector('ul');
+        const inboxLi = projectList.querySelector('#inbox-option');
+
+        const addProjectToList = (project) => {
+            const li = document.createElement('li');
+            li.classList.add('project-option');
+            li.setAttribute('data-project-id', project.id);
+
+            const colorDiv = document.createElement('div');
+            colorDiv.classList.add('project-option-color');
+            colorDiv.style.background = project.color;
+            li.appendChild(colorDiv);
+
+            const projectName = document.createElement('p');
+            projectName.classList.add('project-option-name');
+            projectName.textContent = project.name;
+            li.appendChild(projectName);
+
+            ulProjectList.appendChild(li);
+        }
+
+        const generateProjectsToForm = () => {
+            ulProjectList.innerHTML = '';
+            projectList.appendChild(inboxLi);
+
+            const projects = projectManager.projects.filter((proj) => proj.name !== 'Inbox@XFvW$W7');
+            projects.forEach((project) => addProjectToList(project));
+        }
+
+        projectSelectBtn.addEventListener('click', () => {
+            generateProjectsToForm();
+
+            projectList.classList.toggle('open-list');
+        });
+
+        return { generateProjectsToForm }
+    })();
+
     return { NavModule, ProjectFormModule };
 })();
 
 export { Interface };
 
-//  updateProject
+//  place checkmark to selected project

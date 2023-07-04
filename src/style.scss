@@ -615,6 +615,10 @@ label[for='favorites-checkbox'] {
 }
 
 %cancel-btn {
+    * {
+        pointer-events: none;
+    }
+
     background: $nav-bg;
     color: $font-primary;
     border: 1px solid $btn-border !important;
@@ -634,6 +638,10 @@ label[for='favorites-checkbox'] {
 }
 
 %confirm-btn {
+    * {
+        pointer-events: none;
+    }
+
     color: #ffffff;
     background: $save-btn-background;
 }
@@ -653,10 +661,6 @@ label[for='favorites-checkbox'] {
 }
 
 #form-btn {
-    > * * {
-        pointer-events: none;
-    }
-
     display: flex !important;
     justify-content: right !important;
     flex-direction: row !important;
@@ -786,7 +790,6 @@ label[for='favorites-checkbox'] {
     width: 90%;
     max-width: 570px;
     border: none;
-    // border: 1px solid #000;
     border-radius: 10px;
     padding: 15px;
     background: $main-bg;
@@ -874,21 +877,29 @@ label[for='favorites-checkbox'] {
         height: 7px;
         background: red;
         border-radius: 50%;
+        margin-right: 9px;
     }
 
     svg {
         width: 15px;
         height: 15px;
         fill: $font-secondary;
+        margin-left: 6px;
+    }
+
+    & > *:not(.choose-project-list) {
+        pointer-events: none;
     }
 
     color: $font-secondary;
-    width: 5.5rem;
     height: 2rem;
     margin-right: auto;
     margin-left: 0;
     justify-content: space-evenly;
     background: $main-bg;
+    padding: 0 10px;
+    width: fit-content;
+    position: relative;
 }
 
 #project-select-add:hover {
@@ -924,12 +935,30 @@ label[for='favorites-checkbox'] {
 }
 
 .choose-project-list {
-    border: 1px solid #000;
+    #check-project-icon {
+        path#Vector {
+            stroke: $font-primary;
+        }
+
+        width: 19px;
+        height: 19px;
+        margin-left: auto;
+        margin-right: 12px;
+    }
+
+    border: 1px solid $btn-border;
     border-radius: 5px;
-    margin-top: 30px;
     width: 275px;
     overflow-y: scroll;
+    position: absolute;
+    top: 100%;
+    background: $main-bg;
+    font-weight: lighter;
     display: none;
+}
+
+.open-list {
+    display: block;
 }
 
 .project-option {
@@ -938,12 +967,12 @@ label[for='favorites-checkbox'] {
     }
 
     &:first-child {
-        padding: 5px 0;
+        padding: 6px 0;
     }
 
-    .inbox-svg {
-        width: 25px;
-        height: 25px;
+    #inbox-svg {
+        width: 23px;
+        height: 23px;
         margin: 0 6px;
     }
 
@@ -958,17 +987,6 @@ label[for='favorites-checkbox'] {
     .project-option-name {
         color: $font-primary;
         font-size: 0.8rem;
-    }
-
-    #check-project-icon {
-        path#Vector {
-            stroke: $font-primary;
-        }
-
-        width: 20px;
-        height: 20px;
-        margin-left: auto;
-        margin-right: 12px;
     }
 
     &:hover {
