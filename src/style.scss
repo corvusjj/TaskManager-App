@@ -921,3 +921,63 @@ label[for='favorites-checkbox'] {
 #add-task:hover {
     cursor: pointer;
 }
+
+.choose-project-list {
+    border: 1px solid #000;
+    border-radius: 5px;
+    margin-top: 30px;
+    width: 275px;
+    overflow-y: scroll;
+}
+
+.project-option {
+    * {
+        pointer-events: none;
+    }
+
+    &:first-child {
+        padding: 5px 0;
+    }
+
+    .inbox-svg {
+        width: 25px;
+        height: 25px;
+        margin: 0 6px;
+    }
+
+    .project-option-color {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: red;
+        margin: 0 12px;
+    }
+
+    .project-option-name {
+        color: $font-primary;
+        font-size: 0.8rem;
+    }
+
+    #check-project-icon {
+        path#Vector {
+            stroke: $font-primary;
+        }
+
+        width: 20px;
+        height: 20px;
+        margin-left: auto;
+        margin-right: 12px;
+    }
+
+    &:hover {
+        cursor: pointer;
+        background: $hover-bg-color;
+    }
+
+    padding: 9px 0;
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+    user-select: none;
+}
+
