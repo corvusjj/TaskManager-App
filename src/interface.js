@@ -427,6 +427,20 @@ const Interface = (() => {
         return {openMenu}
     })();
 
+    const AddTaskFormModule = (() => {
+        const addTaskModal = document.querySelector('.add-task-modal');
+
+        let activeProject;
+        const addTaskIcon = document.querySelector('#add-task-icon');
+
+        addTaskIcon.addEventListener('click', () => {
+            //  let Inbox as default active project
+            if (activeProject === undefined || null) activeProject = projectManager.projects.find((proj) => proj.name === 'Inbox@XFvW$W7').id;
+            
+            addTaskModal.showModal();
+        });
+    })();
+
     return { NavModule, ProjectFormModule };
 })();
 
