@@ -437,28 +437,63 @@ const Interface = (() => {
         let activeProject;
         const addTaskIcon = document.querySelector('#add-task-icon');
 
+        // toggle project button Icon
+        const projectBtnColor = document.querySelector('#project-select-add-color');
+        const projectBtnSvg = document.querySelector('#project-select-add-svg');
+
+        const toggleProjectBtnIcon = (activeProject) => {
+            if (activeProject === 'inbox') {
+                projectBtnColor.style.display = 'none';
+                projectBtnSvg.style.display = 'inline';
+            } else {
+                projectBtnColor.style.display = 'block';
+                projectBtnSvg.style.display = 'none';
+            }
+        }
+
+        //  assign dataId to projectListBtn
+        const assignIdToProjectBtn = (id) => {
+            document.querySelector('#project-select-add').dataset.projectSelected = id;
+        } 
+
         //  open form listener
         addTaskIcon.addEventListener('click', () => {
-            //  let Inbox as default active project
-            if (activeProject === undefined || null) activeProject = projectManager.projects.find((proj) => proj.name === 'Inbox@XFvW$W7');
 
-            //  assign active project data to projectBtn
+            //  let Inbox as default active project
+            // const inboxLi = projectList.querySelector('#inbox-option');
+
+            if (activeProject === undefined || null ) {  //  initial/default selected Project
+                toggleProjectBtnIcon('inbox');
+                activeProject = projectManager.projects.find((proj) => proj.name === 'Inbox@XFvW$W7');
+                assignIdToProjectBtn(activeProject.id);
+
+            } else if (activeProject.name !== 'Inbox@XFvW$W7') {  //  if activeProject is not Inbox
+                toggleProjectBtnIcon('custom-project');
+                assignIdToProjectBtn(activeProject.id);
+                projectBtnColor.style.background = activeProject.color;
+
+            } else {  //  if activeProject is Inbox
+                toggleProjectBtnIcon('inbox');
+                assignIdToProjectBtn(activeProject.id);
+            } 
+
+            //  assign active project name to projectBtn
             const projectBtnName = document.querySelector('#project-select-add-name');
-            const projectBtnColor = document.querySelector('#project-select-add-color');
             projectBtnName.textContent = activeProject.name;
-            projectBtnColor.style.background = activeProject.color;
 
             if (projectBtnName.textContent === 'Inbox@XFvW$W7') projectBtnName.textContent = 'Inbox';
             
             addTaskModal.showModal();
         });
+
+        return { toggleProjectBtnIcon, assignIdToProjectBtn }
     })();
 
     const FormProjectList = (() => {
         const projectSelectBtn = document.querySelector('#project-select-add');
         const projectList = document.querySelector('.choose-project-list');
 
-        const ulProjectList = projectList.querySelector('ul');
+        const ulProjectList = projectList.querySelector('.choose-project-list > ul');
         const inboxLi = projectList.querySelector('#inbox-option');
         const checkMark = document.querySelector('#check-project-icon');
 
@@ -478,7 +513,7 @@ const Interface = (() => {
             li.appendChild(projectName);
 
             ulProjectList.appendChild(li);
-            li.addEventListener('click', selectProject);
+            li.addEventListener('click', selectProjectFromAddTask);
         }
 
         const generateProjectsToForm = () => {
@@ -487,6 +522,9 @@ const Interface = (() => {
             const projects = projectManager.projects.filter((proj) => proj.name !== 'Inbox@XFvW$W7');
             projects.forEach((project) => addProjectToList(project));
 
+            //  assign inbox list to first index
+            inboxLi.setAttribute('data-project-id', projectManager.projects.find((proj) => proj.name === 'Inbox@XFvW$W7').id);
+            inboxLi.addEventListener('click', selectProjectFromAddTask);
             ulProjectList.insertBefore(inboxLi, ulProjectList.firstChild);
         }
 
@@ -495,20 +533,30 @@ const Interface = (() => {
             const selectedProjectLi = [...ulProjectList.childNodes].find(
                 (projectNode) => projectNode.dataset.projectId === projectSelectBtn.dataset.projectSelected
             );
+            
+            console.log(ulProjectList.childNodes);
             selectedProjectLi.appendChild(checkMark);
             projectList.classList.toggle('open-list');
         });
 
         //  select project
-        const selectProject = (e) => {
+        const selectProjectFromAddTask = (e) => {
             const selectedId = e.target.dataset.projectId;
-            
+            const selectedProject = projectManager.projects.find(project => project.id === selectedId);
+
             const projectBtnColor = projectSelectBtn.querySelector('#project-select-add-color');
             const projectBtnName = projectSelectBtn.querySelector('#project-select-add-name');
 
-            const selectedProject = projectManager.projects.find((project) => project.id === selectedId);
-            projectBtnColor.style.background = selectedProject.color;
-            projectBtnName.textContent = selectedProject.name;
+            if (e.target === inboxLi) {
+                AddTaskFormModule.toggleProjectBtnIcon('inbox');
+                AddTaskFormModule.assignIdToProjectBtn(selectedId);
+                projectBtnName.textContent = 'Inbox';
+            } else {
+                AddTaskFormModule.toggleProjectBtnIcon('custom-project');
+                AddTaskFormModule.assignIdToProjectBtn(selectedId);
+                projectBtnName.textContent = e.target.textContent;
+                projectBtnColor.style.background = selectedProject.color;
+            }
 
             projectSelectBtn.dataset.projectSelected = selectedId;
         }
@@ -522,4 +570,5 @@ const Interface = (() => {
 
 export { Interface };
 
-//  place checkmark to selected project
+//  toggle project btn icon
+//  seperate selectProject for save edit taskForm

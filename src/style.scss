@@ -882,10 +882,11 @@ label[for='favorites-checkbox'] {
     }
 
     svg {
-        width: 15px;
-        height: 15px;
+        width: 20px;
+        height: 20px;
         fill: $font-secondary;
         margin-left: 6px;
+        margin-right: 8px;
     }
 
     & > *:not(.choose-project-list) {
