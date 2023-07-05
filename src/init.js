@@ -81,6 +81,9 @@ import './style.scss';
     // generate projects on nav
     Interface.NavModule.generateProjectsToNav();
 
+    // generate projects on addTask project list
+    Interface.FormProjectList.generateProjectsToForm();
+
     // initiate div with its height === projectHeight to hide projects
     Utils.toggleProjects.hide();
 })();

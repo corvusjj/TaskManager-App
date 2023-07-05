@@ -440,7 +440,15 @@ const Interface = (() => {
         //  open form listener
         addTaskIcon.addEventListener('click', () => {
             //  let Inbox as default active project
-            if (activeProject === undefined || null) activeProject = projectManager.projects.find((proj) => proj.name === 'Inbox@XFvW$W7').id;
+            if (activeProject === undefined || null) activeProject = projectManager.projects.find((proj) => proj.name === 'Inbox@XFvW$W7');
+
+            //  assign active project data to projectBtn
+            const projectBtnName = document.querySelector('#project-select-add-name');
+            const projectBtnColor = document.querySelector('#project-select-add-color');
+            projectBtnName.textContent = activeProject.name;
+            projectBtnColor.style.background = activeProject.color;
+
+            if (projectBtnName.textContent === 'Inbox@XFvW$W7') projectBtnName.textContent = 'Inbox';
             
             addTaskModal.showModal();
         });
@@ -452,6 +460,7 @@ const Interface = (() => {
 
         const ulProjectList = projectList.querySelector('ul');
         const inboxLi = projectList.querySelector('#inbox-option');
+        const checkMark = document.querySelector('#check-project-icon');
 
         const addProjectToList = (project) => {
             const li = document.createElement('li');
@@ -469,26 +478,46 @@ const Interface = (() => {
             li.appendChild(projectName);
 
             ulProjectList.appendChild(li);
+            li.addEventListener('click', selectProject);
         }
 
         const generateProjectsToForm = () => {
             ulProjectList.innerHTML = '';
-            projectList.appendChild(inboxLi);
 
             const projects = projectManager.projects.filter((proj) => proj.name !== 'Inbox@XFvW$W7');
             projects.forEach((project) => addProjectToList(project));
+
+            ulProjectList.insertBefore(inboxLi, ulProjectList.firstChild);
         }
 
         projectSelectBtn.addEventListener('click', () => {
-            generateProjectsToForm();
 
+            const selectedProjectLi = [...ulProjectList.childNodes].find(
+                (projectNode) => projectNode.dataset.projectId === projectSelectBtn.dataset.projectSelected
+            );
+            selectedProjectLi.appendChild(checkMark);
             projectList.classList.toggle('open-list');
         });
+
+        //  select project
+        const selectProject = (e) => {
+            const selectedId = e.target.dataset.projectId;
+            
+            const projectBtnColor = projectSelectBtn.querySelector('#project-select-add-color');
+            const projectBtnName = projectSelectBtn.querySelector('#project-select-add-name');
+
+            const selectedProject = projectManager.projects.find((project) => project.id === selectedId);
+            projectBtnColor.style.background = selectedProject.color;
+            projectBtnName.textContent = selectedProject.name;
+
+            projectSelectBtn.dataset.projectSelected = selectedId;
+        }
+
 
         return { generateProjectsToForm }
     })();
 
-    return { NavModule, ProjectFormModule };
+    return { NavModule, ProjectFormModule, FormProjectList };
 })();
 
 export { Interface };
