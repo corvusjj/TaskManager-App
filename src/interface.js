@@ -287,8 +287,10 @@ const Interface = (() => {
         const getPixelsFromLeft = (element) => {
             let pixels = 0;
             while (element) {
+                console.log(element);
               pixels += element.offsetLeft;
               element = element.offsetParent;
+              console.log(pixels);
             }
             return pixels;
         }
@@ -528,13 +530,15 @@ const Interface = (() => {
         }
 
         projectSelectBtn.addEventListener('click', () => {
-
             const selectedProjectLi = [...ulProjectList.childNodes].find(
                 (projectNode) => projectNode.dataset.projectId === projectSelectBtn.dataset.projectSelected
             );
             
             selectedProjectLi.appendChild(checkMark);
-            projectList.classList.toggle('open-list');
+
+            projectList.showModal();
+            projectList.style.left = projectSelectBtn.getBoundingClientRect().left + 'px';
+            projectList.style.top = projectSelectBtn.getBoundingClientRect().top + projectSelectBtn.getBoundingClientRect().height + 'px';
         });
 
         //  select project
@@ -557,6 +561,7 @@ const Interface = (() => {
             }
 
             projectSelectBtn.dataset.projectSelected = selectedId;
+            projectList.close();
         }
 
 

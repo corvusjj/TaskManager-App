@@ -798,7 +798,7 @@ label[for='favorites-checkbox'] {
 
 .schedule-btn {
     .form-task-date, .form-task-priority {
-        > * {
+        > *:not(#priority-list) {
             pointer-events: none;
         }
 
@@ -842,9 +842,11 @@ label[for='favorites-checkbox'] {
         color: $font-secondary;
     }
 
-    .form-task-priority svg {
-        transform: scale(0.8);
-    }   
+    .form-task-priority {
+        svg {
+            transform: scale(0.8);
+        }
+    }
 
     display: flex;
     margin-top: 1.5rem;
@@ -948,15 +950,17 @@ label[for='favorites-checkbox'] {
         margin-right: 12px;
     }
 
+    &::backdrop {
+        background: rgba(0, 0, 0, 0);
+    }
+
     border: 1px solid $btn-border;
     border-radius: 5px;
     width: 275px;
     overflow-y: scroll;
     position: absolute;
-    top: 100%;
     background: $main-bg;
     font-weight: lighter;
-    display: none;
 }
 
 .open-list {
@@ -1003,7 +1007,7 @@ label[for='favorites-checkbox'] {
     user-select: none;
 }
 
-.priority-list {
+#priority-list {
     ul {
         list-style: none;
     }
@@ -1028,6 +1032,7 @@ label[for='favorites-checkbox'] {
         width: 23px;
         height: 23px;
         margin-right: 10px;
+        transform: none;
     }
 
     p {
@@ -1040,4 +1045,7 @@ label[for='favorites-checkbox'] {
     background: $main-bg;
     overflow-y: scroll;
     border-radius: 5px;
+    position: absolute;
+    transform: translateX(-25%);
+    display: none;
 }
