@@ -103,17 +103,18 @@ const Interface = (() => {
         const nameInput = projectForm.querySelector('#form-project-name');
         const colorBtn = projectForm.querySelector('#form-project-color');
         const favoritesCheckbox = projectForm.querySelector('#favorites-checkbox');
+
+        const addProjectBtn = document.querySelector('#add-project');
+        const saveProjectBtn = document.querySelector('#save-project');
+
         let activeProject;
 
         const changeFormState = (state) => {
-            const addBtn = document.querySelector('#add-project');
-            const saveProjectBtn = document.querySelector('#save-project');
-
             if (state === 'add') {
                 saveProjectBtn.style.display = 'none';
-                addBtn.style.display = 'flex';
+                addProjectBtn.style.display = 'flex';
             } else if (state === 'edit') {
-                addBtn.style.display = 'none';
+                addProjectBtn.style.display = 'none';
                 saveProjectBtn.style.display = 'flex';
             }
         };
@@ -155,6 +156,7 @@ const Interface = (() => {
                 favoritesCheckbox.setAttribute('checked', '');
             }
 
+            toggleBtnStyle(saveProjectBtn);
             projectModal.showModal();
         }
 
@@ -204,9 +206,6 @@ const Interface = (() => {
         });
 
         //  style/set submit buttons to invalid or valid from input listener
-        const addProjectBtn = document.querySelector('#add-project');
-        const saveProjectBtn = document.querySelector('#save-project');
-
         const toggleBtnStyle = (btn) => {
             if (!projectForm.checkValidity()) {
                 btn.style.opacity = '0.5';
@@ -534,7 +533,6 @@ const Interface = (() => {
                 (projectNode) => projectNode.dataset.projectId === projectSelectBtn.dataset.projectSelected
             );
             
-            console.log(ulProjectList.childNodes);
             selectedProjectLi.appendChild(checkMark);
             projectList.classList.toggle('open-list');
         });
@@ -570,5 +568,6 @@ const Interface = (() => {
 
 export { Interface };
 
-//  toggle project btn icon
-//  seperate selectProject for save edit taskForm
+//  figure out saveBtn dont work initial in load
+//  review selectProject functionality for editTaskForm
+//  implement priority
