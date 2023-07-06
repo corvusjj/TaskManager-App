@@ -281,32 +281,6 @@ const Interface = (() => {
         return { editProjectModal }
     })();
 
-    const dialogModule = (() => {
-
-        // for modal positioning 
-        const getPixelsFromLeft = (element) => {
-            let pixels = 0;
-            while (element) {
-                console.log(element);
-              pixels += element.offsetLeft;
-              element = element.offsetParent;
-              console.log(pixels);
-            }
-            return pixels;
-        }
-        
-        const getPixelsFromTop = (element) => {
-            let pixels = 0;
-            while (element) {
-              pixels += element.offsetTop;
-              element = element.offsetParent;
-            }
-            return pixels;
-        }
-
-        return {getPixelsFromLeft, getPixelsFromTop}
-    })();
-
     const projectMenuModule = (() => {
         const menuModal = document.querySelector('#project-menu-modal');
         const addToFavorite = document.querySelector('#add-to-favorites');
@@ -339,8 +313,8 @@ const Interface = (() => {
             }
 
             //  display menu
-            menuModal.style.left = dialogModule.getPixelsFromLeft(currentMenuIcon) + 'px';
-            menuModal.style.top = dialogModule.getPixelsFromTop(currentMenuIcon) + 'px';
+            menuModal.style.left = currentMenuIcon.getBoundingClientRect().left + 'px';
+            menuModal.style.top = currentMenuIcon.getBoundingClientRect().top + 'px';
             menuModal.showModal();
         }
 
