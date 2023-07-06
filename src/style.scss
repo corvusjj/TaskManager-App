@@ -1003,3 +1003,41 @@ label[for='favorites-checkbox'] {
     user-select: none;
 }
 
+.priority-list {
+    ul {
+        list-style: none;
+    }
+
+    li {
+        &:hover {
+            background: $hover-bg-color;
+            cursor: pointer;
+        }
+
+        & * {
+            pointer-events: none;
+        }
+
+        display: flex;
+        align-items: center;
+        padding: 5px;
+        padding-right: 20px;
+    }
+
+    svg {
+        width: 23px;
+        height: 23px;
+        margin-right: 10px;
+    }
+
+    p {
+        font-size: 0.8rem;
+        color: $font-primary;
+    }
+
+    border: 1px solid #000;
+    width: fit-content;
+    background: $main-bg;
+    overflow-y: scroll;
+    border-radius: 5px;
+}

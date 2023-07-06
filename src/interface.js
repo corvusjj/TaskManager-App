@@ -568,6 +568,4 @@ const Interface = (() => {
 
 export { Interface };
 
-//  figure out saveBtn dont work initial in load
-//  review selectProject functionality for editTaskForm
 //  implement priority
