@@ -844,8 +844,16 @@ label[for='favorites-checkbox'] {
 
     .form-task-priority {
         svg {
-            transform: scale(0.8);
+            margin-right: 5px;
+            display: none;
         }
+
+        svg[data-priority-svg="hourglass"] {
+            transform: scale(0.8);
+            display: inline;
+        }
+
+        padding: 0 5px;
     }
 
     display: flex;

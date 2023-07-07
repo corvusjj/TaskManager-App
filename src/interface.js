@@ -435,8 +435,6 @@ const Interface = (() => {
         addTaskIcon.addEventListener('click', () => {
 
             //  let Inbox as default active project
-            // const inboxLi = projectList.querySelector('#inbox-option');
-
             if (activeProject === undefined || null ) {  //  initial/default selected Project
                 toggleProjectBtnIcon('inbox');
                 activeProject = projectManager.projects.find((proj) => proj.name === 'Inbox@XFvW$W7');
@@ -461,12 +459,20 @@ const Interface = (() => {
             addTaskModal.showModal();
         });
 
+        //  close form listener
+        addTaskModal.addEventListener('click', (e) => {
+            if (e.target === addTaskModal) {
+                FormPriorityList.defaultPrioritySvg();
+                addTaskModal.close();
+            }
+        });
+
         return { toggleProjectBtnIcon, assignIdToProjectBtn }
     })();
 
     const FormProjectList = (() => {
         let formState; // add or edit taskForm
-        const taskFormProjectBtn = document.querySelector('#project-select-add'); //  button for the add-task form
+        const addTaskProjectBtn = document.querySelector('#project-select-add'); //  button for the add-task form
         const projectSelectBtn = document.querySelectorAll('.project-select'); //  all project select buttons 'add/edit form'
         const projectList = document.querySelector('.choose-project-list');
 
@@ -540,8 +546,8 @@ const Interface = (() => {
             const selectedId = e.target.dataset.projectId;
             const selectedProject = projectManager.projects.find(project => project.id === selectedId);
 
-            const projectBtnColor = taskFormProjectBtn.querySelector('#project-select-add-color');
-            const projectBtnName = taskFormProjectBtn.querySelector('#project-select-add-name');
+            const projectBtnColor = addTaskProjectBtn.querySelector('#project-select-add-color');
+            const projectBtnName = addTaskProjectBtn.querySelector('#project-select-add-name');
 
             if (e.target === inboxLi) {
                 AddTaskFormModule.toggleProjectBtnIcon('inbox');
@@ -554,7 +560,7 @@ const Interface = (() => {
                 projectBtnColor.style.background = selectedProject.color;
             }
 
-            taskFormProjectBtn.dataset.projectSelected = selectedId;
+            addTaskProjectBtn.dataset.projectSelected = selectedId;
             projectList.close();
         }
 
@@ -563,6 +569,8 @@ const Interface = (() => {
     })();
 
     const FormPriorityList = (() => {
+        let formState;  // add / edit taskForm
+        const addTaskPriorityBtn = document.querySelector('#task-priority-add');
         const selectPriorityBtn = document.querySelectorAll('.form-task-priority');
         const priorityList = document.querySelector('#priority-list');
 
@@ -572,18 +580,56 @@ const Interface = (() => {
                 priorityList.style.top = e.target.getBoundingClientRect().top + e.target.getBoundingClientRect().height + 'px';
                 priorityList.style.left = e.target.getBoundingClientRect().left + 'px';
                 priorityList.showModal();
+
+                formState = e.target.id === 'task-priority-add'? 'add': 'edit';
             });
         });
 
         // close list
         priorityList.addEventListener('click', (e) => {
-            if(e.target === priorityList) priorityList.close(); 
+            if(e.target === priorityList) {
+                priorityList.close();
+            } 
         });
 
-        // select priority 
-        {
+        const displaySvg = (dataSvg) => {
+            const svgs = [...addTaskPriorityBtn.querySelectorAll('svg')];
+            svgs.forEach(svg => svg.style.display = 'none');
 
+            const selectedSvg = svgs.find(svg => svg.dataset.prioritySvg === dataSvg);
+            selectedSvg.style.display = 'inline';
         }
+
+        const selectPriorityFromAddTask = (e) => {
+            const selectedPriority = e.target;
+            const dataSvg = selectedPriority.dataset.prioritySvg;
+            const p = addTaskPriorityBtn.querySelector('p');
+
+            displaySvg(dataSvg);
+            p.textContent = e.target.querySelector('p').textContent;
+
+            addTaskPriorityBtn.dataset.prioritySelected = dataSvg;
+        }
+
+        const defaultPrioritySvg = () => {
+            displaySvg('hourglass');
+            const p = addTaskPriorityBtn.querySelector('p');
+            p.textContent = 'Priority';
+        }
+
+        // select priority
+        const selectPriority = (e) => {
+            if (formState === 'add') {
+                selectPriorityFromAddTask(e);
+            } else {
+                console.log('invoke selectPriorityFromEditTask function');
+            }
+        }
+
+        const priorityOptions = document.querySelectorAll('.priority-option');
+        priorityOptions.forEach(node => node.addEventListener('click', selectPriority));
+
+        return { defaultPrioritySvg }
     })();
 
     return { NavModule, ProjectFormModule, FormProjectList };
