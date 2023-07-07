@@ -465,7 +465,7 @@ const Interface = (() => {
     })();
 
     const FormProjectList = (() => {
-        const projectSelectBtn = document.querySelector('#project-select-add');
+        const projectSelectBtn = document.querySelectorAll('.project-select');
         const projectList = document.querySelector('.choose-project-list');
 
         const ulProjectList = projectList.querySelector('.choose-project-list > ul');
@@ -503,16 +503,22 @@ const Interface = (() => {
             ulProjectList.insertBefore(inboxLi, ulProjectList.firstChild);
         }
 
-        projectSelectBtn.addEventListener('click', () => {
-            const selectedProjectLi = [...ulProjectList.childNodes].find(
-                (projectNode) => projectNode.dataset.projectId === projectSelectBtn.dataset.projectSelected
-            );
+        // open project list
+        // projectSelectBtn.addEventListener('click', () => {
+        //     const selectedProjectLi = [...ulProjectList.childNodes].find(
+        //         (projectNode) => projectNode.dataset.projectId === projectSelectBtn.dataset.projectSelected
+        //     );
             
-            selectedProjectLi.appendChild(checkMark);
+        //     selectedProjectLi.appendChild(checkMark);
 
-            projectList.showModal();
-            projectList.style.left = projectSelectBtn.getBoundingClientRect().left + 'px';
-            projectList.style.top = projectSelectBtn.getBoundingClientRect().top + projectSelectBtn.getBoundingClientRect().height + 'px';
+        //     projectList.showModal();
+        //     projectList.style.left = projectSelectBtn.getBoundingClientRect().left + 'px';
+        //     projectList.style.top = projectSelectBtn.getBoundingClientRect().top + projectSelectBtn.getBoundingClientRect().height + 'px';
+        // });
+
+        // close project list
+        projectList.addEventListener('click', (e) => {
+            if (e.target === projectList) projectList.close();
         });
 
         //  select project
@@ -542,9 +548,28 @@ const Interface = (() => {
         return { generateProjectsToForm }
     })();
 
+    const FormPriorityList = (() => {
+        const selectPriorityBtn = document.querySelectorAll('.form-task-priority');
+        const priorityList = document.querySelector('#priority-list');
+
+        // open list 
+        selectPriorityBtn.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                priorityList.style.top = e.target.getBoundingClientRect().top + e.target.getBoundingClientRect().height + 'px';
+                priorityList.style.left = e.target.getBoundingClientRect().left + 'px';
+                priorityList.showModal();
+            });
+        });
+
+        // close list
+        priorityList.addEventListener('click', (e) => {
+            if(e.target === priorityList) priorityList.close(); 
+        });
+    })();
+
     return { NavModule, ProjectFormModule, FormProjectList };
 })();
 
 export { Interface };
 
-//  implement priority
+//  edit projectList listener to All buttons / change to e.target

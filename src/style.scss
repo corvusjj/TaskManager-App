@@ -963,10 +963,6 @@ label[for='favorites-checkbox'] {
     font-weight: lighter;
 }
 
-.open-list {
-    display: block;
-}
-
 .project-option {
     * {
         pointer-events: none;
@@ -1046,6 +1042,5 @@ label[for='favorites-checkbox'] {
     overflow-y: scroll;
     border-radius: 5px;
     position: absolute;
-    transform: translateX(-25%);
-    display: none;
+    // transform: translateX(-25%);
 }
