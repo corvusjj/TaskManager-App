@@ -465,8 +465,9 @@ const Interface = (() => {
     })();
 
     const FormProjectList = (() => {
-        const taskFormProjectBtn = document.querySelector('#project-select-add');
-        const projectSelectBtn = document.querySelectorAll('.project-select');
+        let formState; // add or edit taskForm
+        const taskFormProjectBtn = document.querySelector('#project-select-add'); //  button for the add-task form
+        const projectSelectBtn = document.querySelectorAll('.project-select'); //  all project select buttons 'add/edit form'
         const projectList = document.querySelector('.choose-project-list');
 
         const ulProjectList = projectList.querySelector('.choose-project-list > ul');
@@ -489,7 +490,7 @@ const Interface = (() => {
             li.appendChild(projectName);
 
             ulProjectList.appendChild(li);
-            li.addEventListener('click', selectProjectFromAddTask);
+            li.addEventListener('click', selectProject);
         }
 
         const generateProjectsToForm = () => {
@@ -515,7 +516,9 @@ const Interface = (() => {
 
                 projectList.style.left = e.target.getBoundingClientRect().left + 'px';
                 projectList.style.top = e.target.getBoundingClientRect().top + e.target.getBoundingClientRect().height + 'px';
-                projectList.showModal();           
+                projectList.showModal();
+                
+                formState = e.target.id === 'project-select-add'? 'add': 'edit';
             });
         });
 
@@ -525,6 +528,14 @@ const Interface = (() => {
         });
 
         //  select project
+        const selectProject = (e) => {
+            if (formState === 'add') {
+                selectProjectFromAddTask(e);
+            } else {
+                console.log('invoke selectProjectFromEditTask function');
+            }
+        }
+
         const selectProjectFromAddTask = (e) => {
             const selectedId = e.target.dataset.projectId;
             const selectedProject = projectManager.projects.find(project => project.id === selectedId);
@@ -568,6 +579,11 @@ const Interface = (() => {
         priorityList.addEventListener('click', (e) => {
             if(e.target === priorityList) priorityList.close(); 
         });
+
+        // select priority 
+        {
+
+        }
     })();
 
     return { NavModule, ProjectFormModule, FormProjectList };
