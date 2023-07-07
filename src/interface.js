@@ -465,6 +465,7 @@ const Interface = (() => {
     })();
 
     const FormProjectList = (() => {
+        const taskFormProjectBtn = document.querySelector('#project-select-add');
         const projectSelectBtn = document.querySelectorAll('.project-select');
         const projectList = document.querySelector('.choose-project-list');
 
@@ -504,17 +505,19 @@ const Interface = (() => {
         }
 
         // open project list
-        // projectSelectBtn.addEventListener('click', () => {
-        //     const selectedProjectLi = [...ulProjectList.childNodes].find(
-        //         (projectNode) => projectNode.dataset.projectId === projectSelectBtn.dataset.projectSelected
-        //     );
+        projectSelectBtn.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const selectedProjectLi = [...ulProjectList.childNodes].find(
+                    (projectNode) => projectNode.dataset.projectId === e.target.dataset.projectSelected
+                );
             
-        //     selectedProjectLi.appendChild(checkMark);
+                selectedProjectLi.appendChild(checkMark);
 
-        //     projectList.showModal();
-        //     projectList.style.left = projectSelectBtn.getBoundingClientRect().left + 'px';
-        //     projectList.style.top = projectSelectBtn.getBoundingClientRect().top + projectSelectBtn.getBoundingClientRect().height + 'px';
-        // });
+                projectList.style.left = e.target.getBoundingClientRect().left + 'px';
+                projectList.style.top = e.target.getBoundingClientRect().top + e.target.getBoundingClientRect().height + 'px';
+                projectList.showModal();           
+            });
+        });
 
         // close project list
         projectList.addEventListener('click', (e) => {
@@ -526,8 +529,8 @@ const Interface = (() => {
             const selectedId = e.target.dataset.projectId;
             const selectedProject = projectManager.projects.find(project => project.id === selectedId);
 
-            const projectBtnColor = projectSelectBtn.querySelector('#project-select-add-color');
-            const projectBtnName = projectSelectBtn.querySelector('#project-select-add-name');
+            const projectBtnColor = taskFormProjectBtn.querySelector('#project-select-add-color');
+            const projectBtnName = taskFormProjectBtn.querySelector('#project-select-add-name');
 
             if (e.target === inboxLi) {
                 AddTaskFormModule.toggleProjectBtnIcon('inbox');
@@ -540,7 +543,7 @@ const Interface = (() => {
                 projectBtnColor.style.background = selectedProject.color;
             }
 
-            projectSelectBtn.dataset.projectSelected = selectedId;
+            taskFormProjectBtn.dataset.projectSelected = selectedId;
             projectList.close();
         }
 
