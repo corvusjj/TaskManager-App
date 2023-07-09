@@ -408,6 +408,12 @@ const Interface = (() => {
 
     const AddTaskFormModule = (() => {
         const addTaskModal = document.querySelector('.add-task-modal');
+        const addTaskForm = document.querySelector('.add-task-form');
+        const addTaskBtn = document.querySelector('#add-task');
+
+        const name = document.querySelector('#task-name-add');
+        const date = document.querySelector('#task-date-add');
+        const priority = document.querySelector('#task-priority-add');
 
         let activeProject;
         const addTaskIcon = document.querySelector('#add-task-icon');
@@ -429,7 +435,25 @@ const Interface = (() => {
         //  assign dataId to projectListBtn
         const assignIdToProjectBtn = (id) => {
             document.querySelector('#project-select-add').dataset.projectSelected = id;
-        } 
+        }
+
+        // toggleValidity for addTask button
+        const verifyValidity = () => {
+
+            function valid() {
+                addTaskBtn.dataset.invalid = 'false';
+            }
+
+            function invalid() {
+                addTaskBtn.dataset.invalid = 'true';
+            }
+
+            if (name.value === '') return invalid();
+            if (date.value === '') return invalid();
+            if (priority.dataset.prioritySelected === '') return invalid();
+
+            return valid();
+        }
 
         //  open form listener
         addTaskIcon.addEventListener('click', () => {
@@ -462,12 +486,18 @@ const Interface = (() => {
         //  close form listener
         addTaskModal.addEventListener('click', (e) => {
             if (e.target === addTaskModal) {
-                FormPriorityList.defaultPrioritySvg();
+                FormPriorityList.resetPriority();
                 addTaskModal.close();
+
+                addTaskForm.reset();
             }
         });
 
-        return { toggleProjectBtnIcon, assignIdToProjectBtn }
+        //  input listeners for validity
+        name.addEventListener('input', verifyValidity);
+        date.addEventListener('input', verifyValidity);
+
+        return { toggleProjectBtnIcon, assignIdToProjectBtn, verifyValidity }
     })();
 
     const FormProjectList = (() => {
@@ -609,12 +639,17 @@ const Interface = (() => {
             p.textContent = e.target.querySelector('p').textContent;
 
             addTaskPriorityBtn.dataset.prioritySelected = dataSvg;
+            AddTaskFormModule.verifyValidity();
+
+            priorityList.close();
         }
 
-        const defaultPrioritySvg = () => {
+        const resetPriority = () => {
             displaySvg('hourglass');
             const p = addTaskPriorityBtn.querySelector('p');
             p.textContent = 'Priority';
+
+            addTaskPriorityBtn.dataset.prioritySelected = '';
         }
 
         // select priority
@@ -629,7 +664,7 @@ const Interface = (() => {
         const priorityOptions = document.querySelectorAll('.priority-option');
         priorityOptions.forEach(node => node.addEventListener('click', selectPriority));
 
-        return { defaultPrioritySvg }
+        return { resetPriority }
     })();
 
     return { NavModule, ProjectFormModule, FormProjectList };
@@ -637,4 +672,6 @@ const Interface = (() => {
 
 export { Interface };
 
-//  edit projectList listener to All buttons / change to e.target
+//  validity
+//  box shadow
+//  add-task

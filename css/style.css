@@ -724,8 +724,16 @@ label[for=favorites-checkbox] {
   white-space: nowrap;
   color: #646464;
 }
+.schedule-btn .form-task-priority {
+  padding: 0 5px;
+}
 .schedule-btn .form-task-priority svg {
+  margin-right: 5px;
+  display: none;
+}
+.schedule-btn .form-task-priority svg[data-priority-svg=hourglass] {
   transform: scale(0.8);
+  display: inline;
 }
 
 .schedule-btn > button:hover {
@@ -789,6 +797,14 @@ label[for=favorites-checkbox] {
   height: 1.8rem;
 }
 
+#add-task[data-invalid=false] {
+  opacity: 100%;
+}
+
+#add-task[data-invalid=true] {
+  opacity: 50%;
+}
+
 #project-select-add,
 #cancel-add-task,
 #add-task:hover {
@@ -813,9 +829,8 @@ label[for=favorites-checkbox] {
 .choose-project-list #check-project-icon path#Vector {
   stroke: #202020;
 }
-
-.open-list {
-  display: block;
+.choose-project-list::backdrop {
+  background: rgba(0, 0, 0, 0);
 }
 
 .project-option {
@@ -853,14 +868,15 @@ label[for=favorites-checkbox] {
 }
 
 #priority-list {
-  border: 1px solid #000;
   width: fit-content;
   background: #ffffff;
   overflow-y: scroll;
   border-radius: 5px;
   position: absolute;
-  transform: translateX(-25%);
-  display: none;
+  border: none;
+}
+#priority-list::backdrop {
+  background: rgba(0, 0, 0, 0);
 }
 #priority-list ul {
   list-style: none;

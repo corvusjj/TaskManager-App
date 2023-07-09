@@ -940,6 +940,14 @@ label[for='favorites-checkbox'] {
     height: 1.8rem;
 }
 
+#add-task[data-invalid="false"] {
+    opacity: 100%;
+}
+
+#add-task[data-invalid="true"] {
+    opacity: 50%;
+}
+
 #project-select-add,
 #cancel-add-task,
 #add-task:hover {
