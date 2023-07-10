@@ -223,7 +223,7 @@
         <dialog class="add-task-modal">
             <form action="" class="add-task-form">
                 <input type="text" class="form-task-name" id="task-name-add" placeholder="Task name">
-                <input type="text" class="form-task-description" id="task-name-edit" placeholder="Description">
+                <input type="text" class="form-task-description" id="task-description-add" placeholder="Description">
                 <div class="schedule-btn">
                     <input type="date" class="form-task-date" id="task-date-add">
                     <button class="form-task-priority" id="task-priority-add" type="button" data-priority-selected>
@@ -336,16 +336,29 @@
         <main>
             <div class="main-head">
                 <h2>Project Title</h2>
-                <svg width="64px" height="64px" viewBox="0 0 512.00 512.00" xmlns="http://www.w3.org/2000/svg" fill="#000000" transform="rotate(90)" stroke="#000000" stroke-width="0.00512">
+                <svg data-project-selected id="main-project-menu" viewBox="0 0 512.00 512.00" xmlns="http://www.w3.org/2000/svg" fill="#000000" transform="rotate(90)" stroke="#000000" stroke-width="0.00512">
                     <g id="SVGRepo_bgCarrier" stroke-width="0"/>
                     <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
                     <g id="SVGRepo_iconCarrier"> <path fill="var(--ci-primary-color, #93B874)" d="M256,144a64,64,0,1,0-64-64A64.072,64.072,0,0,0,256,144Zm0-96a32,32,0,1,1-32,32A32.036,32.036,0,0,1,256,48Z" class="ci-primary"/> <path fill="var(--ci-primary-color, #93B874)" d="M256,368a64,64,0,1,0,64,64A64.072,64.072,0,0,0,256,368Zm0,96a32,32,0,1,1,32-32A32.036,32.036,0,0,1,256,464Z" class="ci-primary"/> <path fill="var(--ci-primary-color, #93B874)" d="M256,192a64,64,0,1,0,64,64A64.072,64.072,0,0,0,256,192Zm0,96a32,32,0,1,1,32-32A32.036,32.036,0,0,1,256,288Z" class="ci-primary"/> </g>
                 </svg>
             </div>
             <section class="tasks-section">
-                <div class="task">
+                <div class="task" data-task-id="task-template">
                     <button class="check-task-btn"></button>
-                    <p class="task-name"></p>
+                    <p class="task-name">Task template</p>
+                    <svg class="task-menu" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g id="SVGRepo_bgCarrier" stroke-width="0"/>
+                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+                        <g id="SVGRepo_iconCarrier"> <path d="M8 12H8.00901M12.0045 12H12.0135M15.991 12H16" stroke="#1C274C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/> <circle cx="12" cy="12" r="10" stroke="#1C274C" stroke-width="1.5"/> </g>
+                    </svg>
+                    <div class="due-date">
+                        <svg viewBox="-2.4 -2.4 28.80 28.80" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#39225d">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"/>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+                            <g id="SVGRepo_iconCarrier"> <g id="Calendar / Calendar_Week"> <path id="Vector" d="M4 8H20M4 8V16.8002C4 17.9203 4 18.4801 4.21799 18.9079C4.40973 19.2842 4.71547 19.5905 5.0918 19.7822C5.5192 20 6.07899 20 7.19691 20H16.8031C17.921 20 18.48 20 18.9074 19.7822C19.2837 19.5905 19.5905 19.2842 19.7822 18.9079C20 18.4805 20 17.9215 20 16.8036V8M4 8V7.2002C4 6.08009 4 5.51962 4.21799 5.0918C4.40973 4.71547 4.71547 4.40973 5.0918 4.21799C5.51962 4 6.08009 4 7.2002 4H8M20 8V7.19691C20 6.07899 20 5.5192 19.7822 5.0918C19.5905 4.71547 19.2837 4.40973 18.9074 4.21799C18.4796 4 17.9203 4 16.8002 4H16M8 4H16M8 4V2M16 4V2M16 12H8" stroke="#8A5ECD" stroke-width="0.9600000000000002" stroke-linecap="round" stroke-linejoin="round"/> </g> </g>
+                        </svg>
+                        <p>10 July</p>
+                    </div>
                 </div>
             </section>
         </main>
