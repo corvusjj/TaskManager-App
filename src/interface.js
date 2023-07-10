@@ -1,4 +1,4 @@
-import { projectManager } from './app';
+import { projectManager, taskManager } from './app';
 import { Utils } from './utils';
 
 const Interface = (() => {
@@ -410,10 +410,13 @@ const Interface = (() => {
         const addTaskModal = document.querySelector('.add-task-modal');
         const addTaskForm = document.querySelector('.add-task-form');
         const addTaskBtn = document.querySelector('#add-task');
+        const cancelTaskBtn = document.querySelector('#cancel-add-task');
 
         const name = document.querySelector('#task-name-add');
+        const description = document.querySelector('#task-description-add');
         const date = document.querySelector('#task-date-add');
         const priority = document.querySelector('#task-priority-add');
+        const project = document.querySelector('#project-select-add');
 
         let activeProject;
         const addTaskIcon = document.querySelector('#add-task-icon');
@@ -483,19 +486,42 @@ const Interface = (() => {
             addTaskModal.showModal();
         });
 
+        //  close Form
+        const closeForm = () => {      
+        FormPriorityList.resetPriority();
+        addTaskModal.close();
+        addTaskForm.reset();
+
+        verifyValidity();
+        }
+
         //  close form listener
         addTaskModal.addEventListener('click', (e) => {
             if (e.target === addTaskModal) {
-                FormPriorityList.resetPriority();
-                addTaskModal.close();
-
-                addTaskForm.reset();
+                closeForm();
             }
         });
+
+        cancelTaskBtn.addEventListener('click', closeForm);
 
         //  input listeners for validity
         name.addEventListener('input', verifyValidity);
         date.addEventListener('input', verifyValidity);
+
+        //  add new task 
+        addTaskBtn.addEventListener('click', () => {
+            if (addTaskBtn.dataset.invalid === 'true') return;
+
+            const taskName = name.value;
+            const taskDescription = description.value;
+            const taskDueDate = date.value;
+            const taskPriority = priority.dataset.prioritySelected;
+            const taskProjectId = project.dataset.projectSelected;
+
+            taskManager.createTask(taskName, taskDescription, taskDueDate, taskPriority, taskProjectId);
+
+            closeForm();
+        })
 
         return { toggleProjectBtnIcon, assignIdToProjectBtn, verifyValidity }
     })();
@@ -672,6 +698,5 @@ const Interface = (() => {
 
 export { Interface };
 
-//  validity
 //  box shadow
 //  add-task

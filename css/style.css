@@ -10,6 +10,7 @@ body {
   font-family: "Helvetica", sans-serif;
   font-size: 0.9rem;
   color: #202020;
+  display: flex;
 }
 
 header {
@@ -64,7 +65,7 @@ header {
 .sidebar {
   position: relative;
   height: 100vh;
-  width: 300px;
+  min-width: 290px;
   background: #fafafa;
   padding: 30px 20px;
 }
@@ -293,6 +294,34 @@ header {
 }
 .project-menu p {
   width: fit-content;
+}
+
+main {
+  border: 1px solid #000;
+  margin-top: 100px;
+  margin-inline: auto;
+  width: 60%;
+}
+main #main-project-menu {
+  width: 20px;
+  height: 20px;
+}
+main #main-project-menu path {
+  fill: var(--ci-primary-color, #646464);
+}
+
+.main-head {
+  border: 1px solid #000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.task .check-task-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: red;
 }
 
 .form-modal {
