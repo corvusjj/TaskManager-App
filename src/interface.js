@@ -33,7 +33,7 @@ const Interface = (() => {
             menuIcon.appendChild(document.createElement('div'));
           
             //open project-menu listener
-            menuIcon.addEventListener('click', projectMenuModule.openMenu);
+            menuIcon.addEventListener('click', projectMenuModule.openMenuFromNav);
             li.appendChild(menuIcon);
             
 
@@ -72,7 +72,7 @@ const Interface = (() => {
             menuIcon.appendChild(document.createElement('div'));
             menuIcon.appendChild(document.createElement('div'));
             menuIcon.appendChild(document.createElement('div'));
-            menuIcon.addEventListener('click', projectMenuModule.openMenu);
+            menuIcon.addEventListener('click', projectMenuModule.openMenuFromNav);
             li.appendChild(menuIcon);
 
             projectList.appendChild(li);
@@ -290,7 +290,7 @@ const Interface = (() => {
         let currentFileAmount;
         let activeProject;
 
-        const openMenu = (e) => {
+        const openMenuFromNav = (e) => {
             e.stopPropagation();
 
             //  set project icons to fixed
@@ -301,6 +301,28 @@ const Interface = (() => {
 
             //  'add or remove to favorites' display
             const currentId = e.target.parentNode.id;
+            const selectedProject = projectManager.projects.find((project) => project.id === currentId);
+            activeProject = selectedProject;
+
+            if (selectedProject.favorite) {
+                addToFavorite.style.display = 'none';
+                removeFromFavorite.style.display = 'flex';
+            } else {
+                addToFavorite.style.display = 'flex';
+                removeFromFavorite.style.display = 'none';
+            }
+
+            //  display menu
+            menuModal.style.left = currentMenuIcon.getBoundingClientRect().left + 'px';
+            menuModal.style.top = currentMenuIcon.getBoundingClientRect().top + 'px';
+            menuModal.showModal();
+        }
+
+        const openMenuFromMain = (e) => {
+            currentMenuIcon = e.target;
+
+            //  'add or remove to favorites' display
+            const currentId = e.target.dataset.projectSelected;
             const selectedProject = projectManager.projects.find((project) => project.id === currentId);
             activeProject = selectedProject;
 
@@ -403,7 +425,7 @@ const Interface = (() => {
             Utils.toggleFavorites.extend();
         });
 
-        return {openMenu}
+        return {openMenuFromNav, openMenuFromMain}
     })();
 
     const AddTaskFormModule = (() => {
@@ -693,8 +715,18 @@ const Interface = (() => {
         return { resetPriority }
     })();
 
+    const TasksModule = (() => {
+        const projectMenuIcon = document.querySelector('#main-project-menu');
+        projectMenuIcon.addEventListener('click', (e) => {
+            e.stopPropagation;
+            projectMenuModule.openMenuFromMain(e);
+        });
+    })();
+
     return { NavModule, ProjectFormModule, FormProjectList };
 })();
+
+
 
 export { Interface };
 
