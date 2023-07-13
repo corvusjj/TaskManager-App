@@ -341,6 +341,8 @@ const Interface = (() => {
         }
 
         const closeMenu = () => {
+            if (currentMenuIcon.id === 'main-project-menu') return menuModal.close();
+
             menuModal.close();
             currentMenuIcon.style.display = 'none';
             currentFileAmount.style.display = 'block';
@@ -356,8 +358,14 @@ const Interface = (() => {
         editProject.addEventListener('click', () => {
 
             closeMenu();
+            let currentId;
 
-            const currentId = currentMenuIcon.parentNode.id;
+            if (currentMenuIcon.id === 'main-project-menu') {
+                currentId = currentMenuIcon.dataset.projectSelected;
+            } else {
+                currentId = currentMenuIcon.parentNode.id;
+            }
+            
             ProjectFormModule.editProjectModal(currentId);
         });
 
