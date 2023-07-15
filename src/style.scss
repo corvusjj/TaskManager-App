@@ -354,6 +354,16 @@ header {
 }
 
 main {
+    margin-top: 100px;
+    margin-inline: auto;
+    width: 60%;
+}
+
+.main-head {
+    h2 {
+        margin-left: 10px;
+    }
+
     #main-project-menu {
 
         path {
@@ -376,17 +386,9 @@ main {
         height: 20px;
     }
 
-    // border: 1px solid #000;
-    margin-top: 100px;
-    margin-inline: auto;
-    width: 60%;
-}
-
-.main-head {
-    border: 1px solid #000;
     display: flex;
     justify-content: space-between;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
 }
 
 .task {
@@ -400,6 +402,7 @@ main {
 
     .task-name {
         color: $font-primary;
+        pointer-events: none;
     }
 
     .task-menu {
@@ -427,8 +430,9 @@ main {
         display: flex;
         align-items: center;
         position: absolute;
-        left: 25px;
+        left: 35px;
         bottom: 10px;
+        pointer-events: none;
     }
 
     .overdue {
@@ -445,6 +449,8 @@ main {
 
     &:hover {
         cursor: pointer;
+        background: $nav-bg;
+        border-radius: 10px;
     }
 
     &:hover > .task-menu {
@@ -455,8 +461,13 @@ main {
     align-items: flex-start;
     border-bottom: 1px solid $btn-border;
     height: 4rem;
-    padding-top: 0.8rem;
+    // padding-top: 0.8rem;
     position: relative;
+    padding: 0.8rem 10px 0 10px;
+}
+
+#task-template {
+    display: none;
 }
 
 .form-modal {

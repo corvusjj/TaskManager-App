@@ -170,10 +170,12 @@ header {
   border-radius: 50%;
   margin-left: 12px;
   margin-right: 12px;
+  pointer-events: none;
 }
 .nav-project p {
   white-space: nowrap;
   overflow: hidden;
+  pointer-events: none;
 }
 .nav-project .file-amount {
   margin-left: auto;
@@ -297,7 +299,6 @@ header {
 }
 
 main {
-  border: 1px solid #000;
   margin-top: 100px;
   margin-inline: auto;
   width: 60%;
@@ -309,19 +310,80 @@ main #main-project-menu {
 main #main-project-menu path {
   fill: var(--ci-primary-color, #646464);
 }
+main #main-project-menu:hover {
+  cursor: pointer;
+}
+main #main-project-menu:hover path {
+  fill: var(--ci-primary-color, #202020);
+}
+main #main-project-menu * {
+  pointer-events: none;
+}
 
 .main-head {
   border: 1px solid #000;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  margin-bottom: 2rem;
 }
 
+.task {
+  display: flex;
+  align-items: flex-start;
+  border-bottom: 1px solid #dfdada;
+  height: 4rem;
+  position: relative;
+  padding: 0.8rem 10px 0 10px;
+}
 .task .check-task-btn {
-  width: 30px;
-  height: 30px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
-  background: red;
+  border: 2px solid red;
+  margin-right: 10px;
+}
+.task .task-name {
+  color: #202020;
+  pointer-events: none;
+}
+.task .task-menu {
+  width: 25px;
+  height: 25px;
+  margin-left: auto;
+  display: none;
+}
+.task .due-date {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  left: 35px;
+  bottom: 10px;
+  pointer-events: none;
+}
+.task .due-date svg {
+  width: 16px;
+  height: 16px;
+}
+.task .due-date svg path {
+  stroke: #202020;
+}
+.task .due-date p {
+  color: #646464;
+  font-size: 0.8rem;
+}
+.task .overdue svg path {
+  stroke: #da2e2e;
+}
+.task .overdue p {
+  color: #da2e2e;
+}
+.task:hover {
+  cursor: pointer;
+  background: #fafafa;
+  border-radius: 10px;
+}
+.task:hover > .task-menu {
+  display: inline;
 }
 
 .form-modal {

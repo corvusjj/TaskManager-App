@@ -39,6 +39,13 @@ const Interface = (() => {
             
             //generate tasks listener
             li.addEventListener('click', TasksModule.generateTasks);
+
+            //update activeProject for task-form projectBtn
+            li.addEventListener('click', AddTaskFormModule.updateActiveProject);
+
+            //update main head data
+            li.addEventListener('click', TasksModule.updateMainHead)
+
             favoriteList.appendChild(li);
         };
 
@@ -78,6 +85,8 @@ const Interface = (() => {
             li.appendChild(menuIcon);
 
             li.addEventListener('click', TasksModule.generateTasks);
+            li.addEventListener('click', AddTaskFormModule.updateActiveProject);
+            li.addEventListener('click', TasksModule.updateMainHead)
             projectList.appendChild(li);
         };
 
@@ -454,6 +463,10 @@ const Interface = (() => {
         let activeProject;
         const addTaskIcon = document.querySelector('#add-task-icon');
 
+        const updateActiveProject = (e) => {
+            activeProject = projectManager.projects.find(proj => proj.id === e.target.id);
+        }
+
         // toggle project button Icon
         const projectBtnColor = document.querySelector('#project-select-add-color');
         const projectBtnSvg = document.querySelector('#project-select-add-svg');
@@ -557,7 +570,7 @@ const Interface = (() => {
             closeForm();
         })
 
-        return { toggleProjectBtnIcon, assignIdToProjectBtn, verifyValidity }
+        return { toggleProjectBtnIcon, assignIdToProjectBtn, verifyValidity, updateActiveProject }
     })();
 
     const FormProjectList = (() => {
@@ -737,6 +750,15 @@ const Interface = (() => {
             projectMenuModule.openMenuFromMain(e);
         });
 
+        const updateMainHead = (e) => {
+            const projectTitle = document.querySelector('.main-head > h2');
+            const menuIcon = document.querySelector('#main-project-menu');
+
+            const selectedProject = projectManager.projects.find(proj => proj.id === e.target.id);
+            projectTitle.textContent = selectedProject.name;
+            menuIcon.dataset.projectSelected = selectedProject.id;
+        }
+
         const generateTasks = (e) => {
             taskSection.innerHTML = '';
             const selectedProject = projectManager.projects.find(proj => proj.id === e.target.id);
@@ -778,7 +800,7 @@ const Interface = (() => {
             });
         
         }
-        return { generateTasks }
+        return { generateTasks, updateMainHead }
     })();
 
     const DateModule = (() => {
@@ -811,5 +833,4 @@ const Interface = (() => {
 export { Interface };
 
 //  box shadow
-//  generate tasks, duplicate task template
 //  update numberOfTasks on Nav
