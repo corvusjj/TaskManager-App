@@ -36,7 +36,8 @@ const Interface = (() => {
             menuIcon.addEventListener('click', projectMenuModule.openMenuFromNav);
             li.appendChild(menuIcon);
             
-
+            //generate tasks listener
+            li.addEventListener('click', TasksModule.generateTasks);
             favoriteList.appendChild(li);
         };
 
@@ -75,6 +76,7 @@ const Interface = (() => {
             menuIcon.addEventListener('click', projectMenuModule.openMenuFromNav);
             li.appendChild(menuIcon);
 
+            li.addEventListener('click', TasksModule.generateTasks);
             projectList.appendChild(li);
         };
 
@@ -514,6 +516,7 @@ const Interface = (() => {
             if (projectBtnName.textContent === 'Inbox@XFvW$W7') projectBtnName.textContent = 'Inbox';
             
             addTaskModal.showModal();
+            verifyValidity();
         });
 
         //  close Form
@@ -724,11 +727,54 @@ const Interface = (() => {
     })();
 
     const TasksModule = (() => {
+        const taskSection = document.querySelector('.tasks-section');
+        const taskTemplate = document.querySelector('#task-template');
+
         const projectMenuIcon = document.querySelector('#main-project-menu');
         projectMenuIcon.addEventListener('click', (e) => {
             e.stopPropagation;
             projectMenuModule.openMenuFromMain(e);
         });
+
+        const generateTasks = (e) => {
+            taskSection.innerHTML = '';
+            const selectedProject = projectManager.projects.find(proj => proj.id === e.target.id);
+
+            selectedProject.tasks.forEach((task) => {
+                const newTask = taskTemplate.cloneNode(true);
+                const btnColor = newTask.querySelector('.check-task-btn');
+                const taskName = newTask.querySelector('.task-name');
+                const taskDate = newTask.querySelector('.due-date > p');
+
+                const taskPrio = task.priority;
+                let prioColor;
+
+                switch (taskPrio) {
+                    case 'man':
+                        prioColor = '#D1453B';
+                        break;
+                    case 'crocodile':
+                        prioColor = '#EB8909';
+                        break;
+                    case 'dog':
+                        prioColor = '#299438';
+                        break;
+                    case 'butterfly':
+                        prioColor = '#246FE0';
+                        break;
+                }
+
+                btnColor.style.border = `2px solid ${prioColor}`;
+                taskName.textContent = task.title;
+                taskDate.textContent = task.dueDate;
+                newTask.id = task.id;
+
+                taskSection.appendChild(newTask);
+            });
+        
+        }
+
+        return { generateTasks }
     })();
 
     return { NavModule, ProjectFormModule, FormProjectList };
@@ -739,4 +785,5 @@ const Interface = (() => {
 export { Interface };
 
 //  box shadow
-//  add-task
+//  generate tasks, duplicate task template
+//  update numberOfTasks on Nav
