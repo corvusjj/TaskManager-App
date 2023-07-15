@@ -556,7 +556,7 @@ const Interface = (() => {
         date.addEventListener('input', verifyValidity);
 
         //  add new task 
-        addTaskBtn.addEventListener('click', () => {
+        addTaskBtn.addEventListener('click', (e) => {
             if (addTaskBtn.dataset.invalid === 'true') return;
 
             const taskName = name.value;
@@ -566,6 +566,7 @@ const Interface = (() => {
             const taskProjectId = project.dataset.projectSelected;
 
             taskManager.createTask(taskName, taskDescription, taskDueDate, taskPriority, taskProjectId);
+            TasksModule.generateTasks(e);
 
             closeForm();
         })
@@ -761,7 +762,15 @@ const Interface = (() => {
 
         const generateTasks = (e) => {
             taskSection.innerHTML = '';
-            const selectedProject = projectManager.projects.find(proj => proj.id === e.target.id);
+            let selectedProject;
+            
+            //  navList selection or addTask from form
+            if (e.target.id === 'add-task') {
+                const projectSelectBtn = document.querySelector('#project-select-add');
+                selectedProject = projectManager.projects.find(proj => proj.id === projectSelectBtn.dataset.projectSelected);
+            } else {
+                selectedProject = projectManager.projects.find(proj => proj.id === e.target.id);
+            }
 
             selectedProject.tasks.forEach((task) => {
                 const newTask = taskTemplate.cloneNode(true);
@@ -833,4 +842,4 @@ const Interface = (() => {
 export { Interface };
 
 //  box shadow
-//  update numberOfTasks on Nav
+//  update / figure out numberOfTasks on Nav
