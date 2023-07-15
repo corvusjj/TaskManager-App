@@ -1,5 +1,6 @@
 import { projectManager, taskManager } from './app';
 import { Utils } from './utils';
+import { format, differenceInDays } from 'date-fns';
 
 const Interface = (() => {
 
@@ -766,15 +767,40 @@ const Interface = (() => {
 
                 btnColor.style.border = `2px solid ${prioColor}`;
                 taskName.textContent = task.title;
-                taskDate.textContent = task.dueDate;
                 newTask.id = task.id;
+
+                taskDate.textContent = DateModule.formatDate(task.dueDate);
+                if (taskDate.textContent.includes('Overdue')) {
+                    taskDate.parentNode.classList.add('overdue');
+                }
 
                 taskSection.appendChild(newTask);
             });
         
         }
-
         return { generateTasks }
+    })();
+
+    const DateModule = (() => {
+        const formatDate = (date) => {
+
+            const today = new Date();
+            const dueDate = new Date(date);
+ 
+            const dayGap = differenceInDays(dueDate, today);
+
+            if (dayGap < 8 && dayGap > -1) {
+                return format(dueDate, 'eeee');
+            } else if (dayGap > 7 && dayGap <= 365) {
+                return format(dueDate, 'dd MMMM');
+            } else if (dayGap > 365) {
+                return format(dueDate, 'MMMM dd, yyyy');
+            } else {
+                return format(dueDate, 'dd MMMM') + ' ' + 'Overdue';
+            }
+        }
+
+        return { formatDate }
     })();
 
     return { NavModule, ProjectFormModule, FormProjectList };

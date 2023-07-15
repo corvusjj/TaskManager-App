@@ -20,6 +20,8 @@ $btn-border: #dfdada;
 $hover-bg-color: #eeeeee;
 // $hover-bg-color: #363636;
 
+$overdue: #da2e2e;
+
 $hover-icon-color: #292929;
 
 $form-border-color: #00000034;
@@ -419,7 +421,7 @@ main {
 
         p {
             color: $font-secondary;
-            font-size: 0.7rem;
+            font-size: 0.8rem;
         }
 
         display: flex;
@@ -427,6 +429,18 @@ main {
         position: absolute;
         left: 25px;
         bottom: 10px;
+    }
+
+    .overdue {
+        svg {
+            path {
+                stroke: $overdue;
+            }
+        }
+
+        p {
+            color: $overdue;
+        }
     }
 
     &:hover {
