@@ -806,6 +806,10 @@ const Interface = (() => {
                 }
 
                 taskSection.appendChild(newTask);
+
+                //  update file amount on nav
+                NavModule.generateFavoritesToNav();
+                NavModule.generateProjectsToNav();
             });
         
         }
