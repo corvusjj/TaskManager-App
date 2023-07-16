@@ -364,8 +364,42 @@ main {
         margin-left: 10px;
     }
 
-    #main-project-menu {
+    #sort-tasks {
+        svg {
+            stroke: $font-secondary;
+            width: 20px;
+            height: 20px;
+            margin-right: 0.2rem;
+        }
 
+        p {
+            font-weight: bold;
+            color: $font-secondary;
+        }
+
+        & * {
+            pointer-events: none;
+        }
+
+        &:hover {
+            svg {
+                stroke: $font-primary;
+            }
+
+            p {
+                color: $font-primary;
+            }
+
+            cursor: pointer;
+        }
+
+        display: flex;
+        align-items: center;
+        margin-left: auto;
+        margin-right: 2.5rem;
+    }
+
+    #main-project-menu {
         path {
             fill: var(--ci-primary-color, $font-secondary);
         }
@@ -388,6 +422,7 @@ main {
 
     display: flex;
     justify-content: space-between;
+    align-items: center;
     margin-bottom: 1.5rem;
 }
 
