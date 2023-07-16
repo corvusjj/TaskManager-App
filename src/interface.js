@@ -820,9 +820,13 @@ const Interface = (() => {
  
             const dayGap = differenceInDays(dueDate, today);
 
-            if (dayGap < 8 && dayGap > -1) {
+            if (format(today, 'MMMM dd yyyy') === format(dueDate, 'MMMM dd yyyy')) {
+                return 'Today';
+            } else if (dayGap === 0) {
+                return 'Tomorrow';
+            } else if (dayGap < 6 && dayGap > -1) { // day today until day 6
                 return format(dueDate, 'eeee');
-            } else if (dayGap > 7 && dayGap <= 365) {
+            } else if (dayGap > 5 && dayGap <= 365) {  //  more than 6 days & less than a year
                 return format(dueDate, 'dd MMMM');
             } else if (dayGap > 365) {
                 return format(dueDate, 'MMMM dd, yyyy');
