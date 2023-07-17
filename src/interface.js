@@ -824,6 +824,8 @@ const Interface = (() => {
             NavModule.generateFavoritesToNav();
             NavModule.generateProjectsToNav();
 
+            const waterDrop = document.querySelector('#check-task-audio');
+            waterDrop.play();
             e.target.parentNode.remove();
         }
         return { generateTasks, updateMainHead }
