@@ -744,7 +744,7 @@ const Interface = (() => {
     const TasksModule = (() => {
         const taskSection = document.querySelector('.tasks-section');
         const taskTemplate = document.querySelector('#task-template');
-        let sortBy
+        let selectedProject = projectManager.projects.find(proj => proj.name === 'Inbox@XFvW$W7');
 
         const projectMenuIcon = document.querySelector('#main-project-menu');
         projectMenuIcon.addEventListener('click', (e) => {
@@ -763,20 +763,18 @@ const Interface = (() => {
 
         const generateTasks = (e) => {
             taskSection.innerHTML = '';
-            let selectedProject;
             
             //  navList selection or addTask from form
             if (e.target.id === 'add-task') {
                 const projectSelectBtn = document.querySelector('#project-select-add');
                 selectedProject = projectManager.projects.find(proj => proj.id === projectSelectBtn.dataset.projectSelected);
-            } else {
+            } else if (e.target.className === 'nav-project') {
                 selectedProject = projectManager.projects.find(proj => proj.id === e.target.id);
-            }
+            };
 
-            //  sort Tasks
-            let sortBy;
-
-            selectedProject.tasks.forEach((task) => {
+            const sortedTasks = SortModule.sortTasks(selectedProject.tasks);
+     
+            sortedTasks.forEach((task) => {
                 const newTask = taskTemplate.cloneNode(true);
                 const btnColor = newTask.querySelector('.check-task-btn');
                 const taskName = newTask.querySelector('.task-name');
@@ -814,8 +812,7 @@ const Interface = (() => {
                 //  update file amount on nav
                 NavModule.generateFavoritesToNav();
                 NavModule.generateProjectsToNav();
-            });
-        
+            });        
         }
         return { generateTasks, updateMainHead }
     })();
@@ -839,7 +836,7 @@ const Interface = (() => {
             } else if (dayGap > 365) {
                 return format(dueDate, 'MMMM dd, yyyy');
             } else {
-                return format(dueDate, 'dd MMMM') + ' ' + 'Overdue';
+                return format(dueDate, 'dd MMMM') + ' ' + 'Overdue';  //  negative dayGap
             }
         }
 
@@ -847,20 +844,75 @@ const Interface = (() => {
     })();
 
     const SortModule = (() => {
-        const sortIcon = document.querySelector('#sort-tasks');
-        const sortMenu = document.querySelector('.sort-menu');
+        let sortBy = 'priority';
 
-        //  open
+        const sortByName = (tasks) => tasks.sort((a, b) => {
+            if (a.title < b.title) return -1;
+            if (a.title > b.title) return 1;
+            return 0;
+        });
+
+        const sortByDueDate = (tasks) => {
+            return tasks.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
+        }
+
+        const sortByDateAdded = (tasks) => {
+            return tasks.sort((a, b) => new Date(a.dateAdded) - new Date(b.dateAdded));
+        }
+
+        const sortByPriority = (tasks) => {
+            return tasks.sort((a, b) => {
+
+                const prioLevel = {
+                    man: 0,
+                    crocodile: 1,
+                    dog: 2,
+                    butterfly: 3,
+                };
+
+                return prioLevel[a.priority] - prioLevel[b.priority];
+            });
+        }
+
+        const sortTasks = (tasks) => {
+            if (sortBy === 'name') return sortByName(tasks);
+            if (sortBy === 'due-date') return sortByDueDate(tasks);
+            if (sortBy === 'date-added') return sortByDateAdded(tasks);
+            if (sortBy === 'priority') return sortByPriority(tasks);
+        }
+
+        const sortIcon = document.querySelector('#sort-tasks');
+        const sortMenu = document.querySelector('.sort-menu');    
+
+        //  open menu
         sortIcon.addEventListener('click', () => {
             sortMenu.style.left = sortIcon.getBoundingClientRect().left + 'px';
             sortMenu.style.top = sortIcon.getBoundingClientRect().top + sortIcon.getBoundingClientRect().height + 'px';
             sortMenu.showModal();
         })
 
-        //close 
+        //  close menu
         sortMenu.addEventListener('click', (e) => {
             if (e.target === sortMenu) sortMenu.close();
         });
+
+        const selectSortType = (type) => {
+            sortBy = type;
+
+            const checkIcon = document.querySelector('#sort-check-icon');
+            const selectedLi = document.querySelector(`[data-sort=${type}]`);
+            selectedLi.appendChild(checkIcon);
+        }
+
+        const sortTypes = document.querySelectorAll('.sort-type');
+        sortTypes.forEach((type) => type.addEventListener('click', (e) => {
+            selectSortType(type.dataset.sort);
+            sortMenu.close();
+
+            TasksModule.generateTasks(e);
+        }));
+
+        return {sortTasks}
     })();
 
     return { NavModule, ProjectFormModule, FormProjectList };

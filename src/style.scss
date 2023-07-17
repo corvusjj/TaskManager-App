@@ -1223,7 +1223,7 @@ label[for='favorites-checkbox'] {
 
 .sort-menu {
     ul {
-        li {
+        .sort-type {
             &:hover {
                 background: $hover-bg-color;
                 cursor: pointer;

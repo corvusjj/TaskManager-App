@@ -215,6 +215,7 @@ const taskManager = (() => {
     const createTask = (title, description, dueDate, priority, projectId) => {
         const task = new Task(title, description, dueDate, priority, projectId);
         task.id = fileId.generateId();
+        task.dateAdded = new Date();
         tasks.push(task);
 
         projectManager.placeTask(task);
