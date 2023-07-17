@@ -86,4 +86,8 @@ import './style.scss';
 
     // initiate div with its height === projectHeight to hide projects
     Utils.toggleProjects.hide();
+
+    // implement sorting
+    const sort = localStorage.getItem('sort');
+    if (sort) Interface.SortModule.selectSortType(sort);
 })();

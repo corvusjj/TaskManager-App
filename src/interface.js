@@ -773,7 +773,7 @@ const Interface = (() => {
             };
 
             const sortedTasks = SortModule.sortTasks(selectedProject.tasks);
-     
+
             sortedTasks.forEach((task) => {
                 const newTask = taskTemplate.cloneNode(true);
                 const btnColor = newTask.querySelector('.check-task-btn');
@@ -907,15 +907,16 @@ const Interface = (() => {
         const sortTypes = document.querySelectorAll('.sort-type');
         sortTypes.forEach((type) => type.addEventListener('click', (e) => {
             selectSortType(type.dataset.sort);
+            localStorage.setItem('sort', type.dataset.sort);
             sortMenu.close();
 
             TasksModule.generateTasks(e);
         }));
 
-        return {sortTasks}
+        return {sortTasks, selectSortType}
     })();
 
-    return { NavModule, ProjectFormModule, FormProjectList };
+    return { NavModule, ProjectFormModule, FormProjectList, SortModule };
 })();
 
 
@@ -923,3 +924,6 @@ const Interface = (() => {
 export { Interface };
 
 //  box shadow
+//  sort localStorage
+//  check tasks / sound
+//  delete project interface
