@@ -744,6 +744,7 @@ const Interface = (() => {
     const TasksModule = (() => {
         const taskSection = document.querySelector('.tasks-section');
         const taskTemplate = document.querySelector('#task-template');
+        let sortBy
 
         const projectMenuIcon = document.querySelector('#main-project-menu');
         projectMenuIcon.addEventListener('click', (e) => {
@@ -771,6 +772,9 @@ const Interface = (() => {
             } else {
                 selectedProject = projectManager.projects.find(proj => proj.id === e.target.id);
             }
+
+            //  sort Tasks
+            let sortBy;
 
             selectedProject.tasks.forEach((task) => {
                 const newTask = taskTemplate.cloneNode(true);
@@ -840,6 +844,23 @@ const Interface = (() => {
         }
 
         return { formatDate }
+    })();
+
+    const SortModule = (() => {
+        const sortIcon = document.querySelector('#sort-tasks');
+        const sortMenu = document.querySelector('.sort-menu');
+
+        //  open
+        sortIcon.addEventListener('click', () => {
+            sortMenu.style.left = sortIcon.getBoundingClientRect().left + 'px';
+            sortMenu.style.top = sortIcon.getBoundingClientRect().top + sortIcon.getBoundingClientRect().height + 'px';
+            sortMenu.showModal();
+        })
+
+        //close 
+        sortMenu.addEventListener('click', (e) => {
+            if (e.target === sortMenu) sortMenu.close();
+        });
     })();
 
     return { NavModule, ProjectFormModule, FormProjectList };

@@ -1220,3 +1220,47 @@ label[for='favorites-checkbox'] {
     position: absolute;
     border: none;
 }
+
+.sort-menu {
+    ul {
+        li {
+            &:hover {
+                background: $hover-bg-color;
+                cursor: pointer;
+            }
+
+            list-style: none;
+            user-select: none;
+            padding: 7px;
+            color: $font-primary;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+        }
+    }
+
+    &::backdrop {
+        background: rgba(0, 0, 0, 0);
+    }
+
+    position: absolute;
+    transform: translate(-25%, 5px);
+    border: 1px solid $form-border-color;
+    background: $main-bg;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 0 10px 1px rgba(0,0,0,.1);
+    width: 150px;
+    outline: none;
+}
+
+#sort-check-icon {
+    path {
+        stroke: $font-primary;
+    }
+
+    width: 16px;
+    height: 16px;
+    margin-left: auto;
+    pointer-events: none;
+}
