@@ -807,12 +807,24 @@ const Interface = (() => {
                     taskDate.parentNode.classList.add('overdue');
                 }
 
+                const taskBtn = newTask.querySelector('.check-task-btn');
+                taskBtn.addEventListener('click', checkTask);
+
                 taskSection.appendChild(newTask);
 
                 //  update file amount on nav
                 NavModule.generateFavoritesToNav();
                 NavModule.generateProjectsToNav();
             });        
+        }
+
+        const checkTask = (e) => {
+            const taskId = e.target.parentNode.id;
+            taskManager.deleteTask(taskId);
+            NavModule.generateFavoritesToNav();
+            NavModule.generateProjectsToNav();
+
+            e.target.parentNode.remove();
         }
         return { generateTasks, updateMainHead }
     })();
@@ -924,6 +936,6 @@ const Interface = (() => {
 export { Interface };
 
 //  box shadow
-//  sort localStorage
 //  check tasks / sound
 //  delete project interface
+//  !generate newTask when adding to new project 
