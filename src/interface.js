@@ -766,6 +766,8 @@ const Interface = (() => {
             } else if(e.target.id === 'confirm-delete') {
                 selectedProject = projectManager.projects.find(proj => proj.name === 'Inbox@XFvW$W7');
                 projectTitle.textContent = 'Inbox';
+            } else {
+                projectTitle.textContent = selectedProject.name;
             }
             menuIcon.dataset.projectSelected = selectedProject.id;
         }
@@ -773,12 +775,15 @@ const Interface = (() => {
         const generateTasks = (e) => {
             taskSection.innerHTML = '';
             
-            //  navList selection or addTask from form or delete Project
+            //  add task
             if (e.target.id === 'add-task') {
                 const projectSelectBtn = document.querySelector('#project-select-add');
                 selectedProject = projectManager.projects.find(proj => proj.id === projectSelectBtn.dataset.projectSelected);
+                updateMainHead(e);
+            //  nav-list selection
             } else if (e.target.className === 'nav-project') {
                 selectedProject = projectManager.projects.find(proj => proj.id === e.target.id);
+            //  deleting project
             } else if (e.target.id === 'confirm-delete') {
                 selectedProject = projectManager.projects[0];
             }
@@ -949,5 +954,4 @@ const Interface = (() => {
 export { Interface };
 
 //  box shadow
-//  delete project interface
-//  !generate newTask when adding to new project 
+//  !generate newTask when adding to new project
