@@ -465,6 +465,7 @@ const Interface = (() => {
 
         let activeProject;
         const addTaskIcon = document.querySelector('#add-task-icon');
+        const addTaskMain = document.querySelector('#add-task-main');
 
         const updateActiveProject = (e) => {
             activeProject = projectManager.projects.find(proj => proj.id === e.target.id);
@@ -507,9 +508,7 @@ const Interface = (() => {
             return valid();
         }
 
-        //  open form listener
-        addTaskIcon.addEventListener('click', () => {
-
+        const openForm = () => {
             //  let Inbox as default active project
             if (activeProject === undefined || null ) {  //  initial/default selected Project
                 toggleProjectBtnIcon('inbox');
@@ -534,7 +533,11 @@ const Interface = (() => {
             
             addTaskModal.showModal();
             verifyValidity();
-        });
+        }
+
+        //  open form listener
+        addTaskIcon.addEventListener('click', openForm);
+        addTaskMain.addEventListener('click', openForm);
 
         //  close Form
         const closeForm = () => {      
@@ -954,4 +957,3 @@ const Interface = (() => {
 export { Interface };
 
 //  box shadow
-//  !generate newTask when adding to new project
