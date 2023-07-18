@@ -433,7 +433,7 @@ const Interface = (() => {
 
         //  confirm delete project listener
         const confirmDeleteBtn = document.querySelector('#confirm-delete');
-        confirmDeleteBtn.addEventListener('click', () => {
+        confirmDeleteBtn.addEventListener('click', (e) => {
             deleteProjectModal.close();
 
             projectManager.deleteProject(activeProject.id);
@@ -443,6 +443,9 @@ const Interface = (() => {
             
             Utils.toggleFavorites.extend();
             Utils.toggleFavorites.extend();
+
+            TasksModule.generateTasks(e);
+            TasksModule.updateMainHead(e);
         });
 
         return {openMenuFromNav, openMenuFromMain}
@@ -756,21 +759,29 @@ const Interface = (() => {
             const projectTitle = document.querySelector('.main-head > h2');
             const menuIcon = document.querySelector('#main-project-menu');
 
-            const selectedProject = projectManager.projects.find(proj => proj.id === e.target.id);
-            projectTitle.textContent = selectedProject.name;
+
+            if (e.target.className === 'nav-project') {
+                let selectedProject = projectManager.projects.find(proj => proj.id === e.target.id);
+                projectTitle.textContent = selectedProject.name;
+            } else if(e.target.id === 'confirm-delete') {
+                selectedProject = projectManager.projects.find(proj => proj.name === 'Inbox@XFvW$W7');
+                projectTitle.textContent = 'Inbox';
+            }
             menuIcon.dataset.projectSelected = selectedProject.id;
         }
 
         const generateTasks = (e) => {
             taskSection.innerHTML = '';
             
-            //  navList selection or addTask from form
+            //  navList selection or addTask from form or delete Project
             if (e.target.id === 'add-task') {
                 const projectSelectBtn = document.querySelector('#project-select-add');
                 selectedProject = projectManager.projects.find(proj => proj.id === projectSelectBtn.dataset.projectSelected);
             } else if (e.target.className === 'nav-project') {
                 selectedProject = projectManager.projects.find(proj => proj.id === e.target.id);
-            };
+            } else if (e.target.id === 'confirm-delete') {
+                selectedProject = projectManager.projects[0];
+            }
 
             const sortedTasks = SortModule.sortTasks(selectedProject.tasks);
 
@@ -938,6 +949,5 @@ const Interface = (() => {
 export { Interface };
 
 //  box shadow
-//  check tasks / sound
 //  delete project interface
 //  !generate newTask when adding to new project 
