@@ -1389,10 +1389,9 @@ label[for='favorites-checkbox'] {
         border-radius: 5px;
         width: 34px;
         height: 34px;
-        border: 1px solid $form-border-color;
     }
 
-    & > div {
+    .quick-edit-section {
         p {
             width: 100%;
             color: $font-primary;
@@ -1467,11 +1466,48 @@ label[for='favorites-checkbox'] {
         margin: 0;
     }
 
+    #move-to-project {
+
+        svg {
+            path {
+                stroke: $font-secondary
+            }
+
+            width: 22px;
+            height: 22px;
+            pointer-events: none;
+        }
+
+        p {
+            color: $font-secondary;
+            margin-left: 5px;
+        }
+
+        &:hover {
+            svg path {
+                stroke: $font-primary;
+            }
+
+            p {
+                color: $font-primary;
+            }
+
+            cursor: pointer;
+            background: $hover-bg-color;
+        }
+
+        display: flex;
+        justify-content: start;
+        align-items: center;
+        padding: 8px 10px;
+    }
+
     border: 1px solid #000;
     position: absolute;
     left: 50%;
     top: 50%;
-    width: 190px;
+    width: 180px;
     border-radius: 10px;
     background: $main-bg;
+    overflow: hidden;
 }
