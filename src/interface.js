@@ -1,6 +1,6 @@
-import { projectManager, taskManager } from './app';
+import { projectManager, taskManager, noteManager } from './app';
 import { Utils } from './utils';
-import { format, differenceInDays } from 'date-fns';
+import { format, differenceInDays, addDays} from 'date-fns';
 
 const Interface = (() => {
 
@@ -831,7 +831,7 @@ const Interface = (() => {
 
                 const taskMenu = newTask.querySelector('.task-menu');
                 taskMenu.addEventListener('click', TaskMenuModule.openMenu);
-
+                
                 taskSection.appendChild(newTask);
 
                 //  update file amount on nav
@@ -876,7 +876,34 @@ const Interface = (() => {
             }
         }
 
-        return { formatDate }
+        const updateToToday = () => {
+            return format(new Date(), 'yyyy-MM-dd');
+        }
+
+        const updateToTomorrow = () => {
+            const tomorrowDate = addDays(new Date(), 1);
+            return format(tomorrowDate, 'yyyy-MM-dd');
+        }
+
+        const updateToThisWeekend = () => {
+            let nextDay = addDays(new Date(), 1);
+            while (nextDay.getDay() !== 6) {
+                nextDay = addDays(nextDay, 1);
+            }
+
+            return format(nextDay, 'yyyy-MM-dd');
+        }
+
+        const updateToNextWeek = () => {
+            let nextDay = addDays(new Date(), 1);
+            while (nextDay.getDay() !== 1) {
+                nextDay = addDays(nextDay, 1);
+            }
+
+            return format(nextDay, 'yyyy-MM-dd');
+        }
+
+        return { formatDate, updateToToday, updateToTomorrow, updateToThisWeekend, updateToNextWeek }
     })();
 
     const SortModule = (() => {
@@ -954,6 +981,7 @@ const Interface = (() => {
 
     const TaskMenuModule = (() => {
         const taskMenu = document.querySelector('#quick-edit-task');
+        const dueDateOptions = document.querySelectorAll('.quick-edit-date');
         const priorityOptions = document.querySelectorAll('.quick-edit-priority');
         let selectedTask;
 
@@ -981,6 +1009,28 @@ const Interface = (() => {
                 closeMenu();
             }
         });
+
+        const updateDueDate = (task, newDate) => {
+            task.changeDueDate(newDate);
+        }
+
+        dueDateOptions.forEach(div => div.addEventListener('click', (e) => {
+            const selectedPrio = e.target.dataset.dateSelected
+
+            if (selectedPrio === 'today') {
+                updateDueDate(selectedTask, DateModule.updateToToday());
+            } else if (selectedPrio === 'tomorrow') {
+                updateDueDate(selectedTask, DateModule.updateToTomorrow());
+            } else if (selectedPrio === 'this-weekend') {
+                updateDueDate(selectedTask, DateModule.updateToThisWeekend());
+            } else if (selectedPrio === 'next-week') {
+                updateDueDate(selectedTask, DateModule.updateToNextWeek());
+            }
+
+            taskManager.updateTaskStorage();
+            TasksModule.generateTasks(e);
+            closeMenu();
+        }));
 
         return {openMenu}
     })();
