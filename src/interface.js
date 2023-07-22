@@ -829,6 +829,9 @@ const Interface = (() => {
                 const taskBtn = newTask.querySelector('.check-task-btn');
                 taskBtn.addEventListener('click', checkTask);
 
+                const taskMenu = newTask.querySelector('.task-menu');
+                taskMenu.addEventListener('click', TaskMenuModule.openMenu);
+
                 taskSection.appendChild(newTask);
 
                 //  update file amount on nav
@@ -949,11 +952,40 @@ const Interface = (() => {
         return {sortTasks, selectSortType}
     })();
 
+    const TaskMenuModule = (() => {
+        const taskMenu = document.querySelector('#quick-edit-task');
+        const priorityOptions = document.querySelectorAll('.quick-edit-priority');
+        let selectedTask;
+
+        const openMenu = (e) => {
+            taskMenu.style.left = e.target.getBoundingClientRect().left + 'px';
+            taskMenu.style.top = e.target.getBoundingClientRect().top + e.target.getBoundingClientRect().height + 'px';
+
+            const selectedId = e.target.parentNode.id;
+            selectedTask = taskManager.tasks.find(task => task.id === selectedId);
+
+            const selectedPriority = selectedTask.priority;
+            priorityOptions.forEach(prio => prio.classList.remove('selected-prio'));
+            const activePrioDiv = taskMenu.querySelector(`[data-priority-selected=${selectedPriority}]`);
+            activePrioDiv.classList.add('selected-prio');
+
+            taskMenu.showModal();
+        }
+
+        const closeMenu = () => {
+            taskMenu.close();
+        }
+
+        taskMenu.addEventListener('click', (e) => {
+            if (e.target === taskMenu) {
+                closeMenu();
+            }
+        });
+
+        return {openMenu}
+    })();
+
     return { NavModule, ProjectFormModule, FormProjectList, SortModule };
 })();
 
-
-
 export { Interface };
-
-//  box shadow
