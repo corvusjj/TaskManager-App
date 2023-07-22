@@ -1015,17 +1015,26 @@ const Interface = (() => {
         }
 
         dueDateOptions.forEach(div => div.addEventListener('click', (e) => {
-            const selectedPrio = e.target.dataset.dateSelected
+            const selectedDate = e.target.dataset.dateSelected;
 
-            if (selectedPrio === 'today') {
+            if (selectedDate === 'today') {
                 updateDueDate(selectedTask, DateModule.updateToToday());
-            } else if (selectedPrio === 'tomorrow') {
+            } else if (selectedDate === 'tomorrow') {
                 updateDueDate(selectedTask, DateModule.updateToTomorrow());
-            } else if (selectedPrio === 'this-weekend') {
+            } else if (selectedDate === 'this-weekend') {
                 updateDueDate(selectedTask, DateModule.updateToThisWeekend());
-            } else if (selectedPrio === 'next-week') {
+            } else if (selectedDate === 'next-week') {
                 updateDueDate(selectedTask, DateModule.updateToNextWeek());
             }
+
+            taskManager.updateTaskStorage();
+            TasksModule.generateTasks(e);
+            closeMenu();
+        }));
+
+        priorityOptions.forEach(div => div.addEventListener('click', (e) => {
+            const selectedPrio = e.target.dataset.prioritySelected;
+            selectedTask.changePriority(selectedPrio);
 
             taskManager.updateTaskStorage();
             TasksModule.generateTasks(e);
