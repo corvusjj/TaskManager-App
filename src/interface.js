@@ -634,21 +634,33 @@ const Interface = (() => {
                 projectList.style.top = e.target.getBoundingClientRect().top + e.target.getBoundingClientRect().height + 'px';
                 projectList.showModal();
                 
-                formState = e.target.id === 'project-select-add'? 'add': 'edit';
+                if (e.target.id === 'project-select-add') {
+                    formState = 'add';
+                } else if (e.target.id === 'project-select-edit') {
+                    formState = 'edit';
+                } else if (e.target.id === 'move-to-project') {
+                    formState  = 'quick-update';
+                }
             });
         });
 
         // close project list
+        const closeProjectList = () => {
+            projectList.close();
+        }
+
         projectList.addEventListener('click', (e) => {
-            if (e.target === projectList) projectList.close();
+            if (e.target === projectList) closeProjectList();
         });
 
         //  select project
         const selectProject = (e) => {
             if (formState === 'add') {
                 selectProjectFromAddTask(e);
-            } else {
+            } else if (formState === 'edit') {
                 console.log('invoke selectProjectFromEditTask function');
+            } else if (formState === 'quick-update') {
+                quickSelectProject(e);
             }
         }
 
@@ -674,8 +686,24 @@ const Interface = (() => {
             projectList.close();
         }
 
+        let activeTask;
+        const updateActiveTask = (task) => activeTask = task;
 
-        return { generateProjectsToForm }
+        const quickSelectProject = (e) => {
+            const selectedId = e.target.dataset.projectId;
+            if (selectedId === activeTask.projectId) return;
+            taskManager.transferToOtherProject(activeTask.id, selectedId);
+
+            TasksModule.generateTasks(e);
+            NavModule.generateFavoritesToNav();
+            NavModule.generateProjectsToNav();
+
+            closeProjectList();
+            TaskMenuModule.closeMenu();
+        }
+
+
+        return { generateProjectsToForm, updateActiveTask, closeProjectList }
     })();
 
     const FormPriorityList = (() => {
@@ -983,6 +1011,7 @@ const Interface = (() => {
         const taskMenu = document.querySelector('#quick-edit-task');
         const dueDateOptions = document.querySelectorAll('.quick-edit-date');
         const priorityOptions = document.querySelectorAll('.quick-edit-priority');
+        const moveToProject = document.querySelector('#move-to-project');
         let selectedTask;
 
         const openMenu = (e) => {
@@ -997,6 +1026,9 @@ const Interface = (() => {
             const activePrioDiv = taskMenu.querySelector(`[data-priority-selected=${selectedPriority}]`);
             activePrioDiv.classList.add('selected-prio');
 
+            moveToProject.dataset.projectSelected = selectedTask.projectId;
+
+            FormProjectList.updateActiveTask(selectedTask);
             taskMenu.showModal();
         }
 
@@ -1041,7 +1073,7 @@ const Interface = (() => {
             closeMenu();
         }));
 
-        return {openMenu}
+        return { openMenu, closeMenu }
     })();
 
     return { NavModule, ProjectFormModule, FormProjectList, SortModule };

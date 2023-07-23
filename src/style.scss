@@ -1027,6 +1027,7 @@ label[for='favorites-checkbox'] {
     padding: 15px;
     background: $main-bg;
     overflow: visible;
+    animation: grow-task-menu 0.3s;
 }
 
 .schedule-btn {
@@ -1210,6 +1211,8 @@ label[for='favorites-checkbox'] {
     position: absolute;
     background: $main-bg;
     font-weight: lighter;
+    transform: translateX(-25%);
+    outline: none;
 }
 
 .project-option {
@@ -1499,6 +1502,9 @@ label[for='favorites-checkbox'] {
     }
 
     #move-to-project {
+        * {
+            pointer-events: none;
+        }
 
         svg {
             path {
