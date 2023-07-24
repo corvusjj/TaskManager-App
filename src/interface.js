@@ -1076,7 +1076,34 @@ const Interface = (() => {
         return { openMenu, closeMenu }
     })();
 
+    const EditTaskModule = (() => {
+        const titleContainer = document.querySelector('#title-and-description');
+        const formBtn = document.querySelector('#form-btn-task');
+        const description = document.querySelector('#task-description');
+        const title = document.querySelector('#task-title');
+
+        const cancelBtn = document.querySelector('#cancel-task');
+        const saveBtn = document.querySelector('#save-task');
+
+        const activeTitle = () => {
+            console.log('active');
+            titleContainer.classList.add('active-title');
+            formBtn.style.display = 'flex';
+        }
+
+        const inactiveTitle = () => {
+            titleContainer.classList.remove('active-title');
+            formBtn.style.display = 'none';
+        }
+
+        description.addEventListener('focus', activeTitle);
+        title.addEventListener('focus', activeTitle);
+
+    })();
+
     return { NavModule, ProjectFormModule, FormProjectList, SortModule };
 })();
 
 export { Interface };
+
+//  date module to es6

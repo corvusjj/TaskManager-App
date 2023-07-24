@@ -1651,13 +1651,16 @@ label[for='favorites-checkbox'] {
             width: 100%;
         }
 
-        border: 1px solid $form-border-color;
         padding: 10px;
         border-radius: 10px;
         margin-bottom: 10px;
     }
 
-    #form-btn {
+    .active-title {
+        border: 1px solid $form-border-color;
+    }
+
+    #form-btn-task {
 
         #cancel-task,
         #save-task {
@@ -1682,5 +1685,6 @@ label[for='favorites-checkbox'] {
             border: none;
         }
 
+        display: none;
     }
 }
