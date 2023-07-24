@@ -1555,3 +1555,132 @@ label[for='favorites-checkbox'] {
     box-shadow: 0 0 10px 1px rgba(0,0,0,.1);
     animation: grow-task-menu 0.2s ease forwards;
 }
+
+.edit-task-form {
+    user-select: none;
+    border: 1px solid #000;
+    border-radius: 10px;
+    background: $main-bg;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 99;
+    width: 90%;
+    max-width: 860px;
+}
+
+.edit-task-header {
+    div {
+        width: 8px;
+        height: 8px;
+        background: brown;
+        border-radius: 50%;
+        margin-left: 20px;
+    }
+
+    p {
+        font-size: 0.8rem;
+        margin-left: 10px;
+    }
+
+    svg {
+        path {
+            stroke: $font-secondary;
+        }
+
+        &:hover {
+            path {
+                stroke: $font-primary;
+            }
+
+            background: $hover-bg-color;
+            cursor: pointer;
+        }
+
+        width: 30px;
+        height: 30px;
+        margin-left: auto;
+        margin-right: 12px;
+        border-radius: 5px;
+    }
+
+    width: 100%;
+    height: 3rem;
+    border-bottom: 1px solid $btn-border;
+    color: $font-primary;
+    display: flex;
+    align-items: center;
+}
+
+.form-split {
+    .edit-task-sec1 {
+        background: $main-bg;
+        flex: 1;
+        border-bottom-left-radius: 10px;
+        padding: 20px 20px 20px 40px;
+    }
+
+    .edit-task-sec2 {
+        min-width: 240px;
+        background: $nav-bg;
+        border-bottom-right-radius: 10px;
+    }
+
+    min-height: 500px;
+    display: flex;
+}
+
+.edit-task-sec1 {
+
+    #title-and-description {
+        #task-title {
+            font-size: 1.3rem;
+            color: $font-primary;
+            width: 100%;
+            outline: none;
+            border: none;
+        }
+
+        #task-description {
+            padding-top: 1.5rem;
+            outline: none;
+            min-height: 5rem;
+            color: $font-primary;
+            font-size: 0.9rem;
+            width: 100%;
+        }
+
+        border: 1px solid $form-border-color;
+        padding: 10px;
+        border-radius: 10px;
+        margin-bottom: 10px;
+    }
+
+    #form-btn {
+
+        #cancel-task,
+        #save-task {
+            &:hover {
+                cursor: pointer;
+            }
+
+            @extend %form-btn;
+        }
+
+        #cancel-task {
+            &:hover {
+                @extend %cancel-btn-hover;
+            }
+
+            @extend %cancel-btn;
+        }
+
+        #save-task {
+            @extend %confirm-btn;
+            border-radius: 5px;
+            border: none;
+        }
+
+    }
+}
