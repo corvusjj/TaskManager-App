@@ -1130,6 +1130,7 @@ const Interface = (() => {
         const formBtn = document.querySelector('#form-btn-task');
         const description = document.querySelector('#task-description');
         const title = document.querySelector('#task-title');
+        const dateInput = document.querySelector('#task-date-edit');
 
         const cancelBtn = document.querySelector('#cancel-task');
         const saveBtn = document.querySelector('#save-task');
@@ -1206,6 +1207,12 @@ const Interface = (() => {
             document.querySelector('#project-select-edit').dataset.projectSelected = id;
         }
 
+        dateInput.addEventListener('input', (e) => {
+            activeTask.changeDueDate(dateInput.value);
+            taskManager.updateTaskStorage();
+            TasksModule.generateTasks(e);
+        });
+
         const openForm = (e) => {
             const selectedId = e.target.id;
             activeTask = taskManager.tasks.find(task => task.id === selectedId);
@@ -1213,7 +1220,7 @@ const Interface = (() => {
             setOriginalTask();
             toggleDescriptionPlaceholder();
 
-            let activeProject = projectManager.projects.find(proj => proj.id === activeTask.projectId);
+            activeProject = projectManager.projects.find(proj => proj.id === activeTask.projectId);
             if (activeProject.name !== 'Inbox@XFvW$W7') {  //  if activeProject is not Inbox
                 toggleProjectBtnIcon('custom-project');
                 assignIdToProjectBtn(activeProject.id);
@@ -1232,6 +1239,8 @@ const Interface = (() => {
 
             //  assign active task to projectList
             FormProjectList.updateActiveTask(activeTask);
+
+            dateInput.value = activeTask.dueDate;
 
             const form = document.querySelector('.edit-task-form');
             form.showModal();
