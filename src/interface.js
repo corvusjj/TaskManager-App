@@ -860,6 +860,7 @@ const Interface = (() => {
                 const taskMenu = newTask.querySelector('.task-menu');
                 taskMenu.addEventListener('click', TaskMenuModule.openMenu);
                 
+                newTask.addEventListener('click', EditTaskModule.openForm);
                 taskSection.appendChild(newTask);
 
                 //  update file amount on nav
@@ -869,6 +870,7 @@ const Interface = (() => {
         }
 
         const checkTask = (e) => {
+            e.stopPropagation();
             const taskId = e.target.parentNode.id;
             taskManager.deleteTask(taskId);
             NavModule.generateFavoritesToNav();
@@ -1015,6 +1017,7 @@ const Interface = (() => {
         let selectedTask;
 
         const openMenu = (e) => {
+            e.stopPropagation();
             taskMenu.style.left = e.target.getBoundingClientRect().left + 'px';
             taskMenu.style.top = e.target.getBoundingClientRect().top + e.target.getBoundingClientRect().height + 'px';
 
@@ -1077,6 +1080,7 @@ const Interface = (() => {
     })();
 
     const EditTaskModule = (() => {
+        const form = document.querySelector('.edit-task-form');
         const titleContainer = document.querySelector('#title-and-description');
         const formBtn = document.querySelector('#form-btn-task');
         const description = document.querySelector('#task-description');
@@ -1085,8 +1089,11 @@ const Interface = (() => {
         const cancelBtn = document.querySelector('#cancel-task');
         const saveBtn = document.querySelector('#save-task');
 
+        const projectBtnColor = document.querySelector('#project-select-edit-color');
+        const projectBtnSvg = document.querySelector('#project-select-edit-svg');
+        let activeTask;
+
         const activeTitle = () => {
-            console.log('active');
             titleContainer.classList.add('active-title');
             formBtn.style.display = 'flex';
         }
@@ -1099,6 +1106,81 @@ const Interface = (() => {
         description.addEventListener('focus', activeTitle);
         title.addEventListener('focus', activeTitle);
 
+        const setOriginalTask = () => {
+            title.value = activeTask.title;
+            description.textContent = activeTask.description;
+        }
+
+        const toggleDescriptionPlaceholder = () => {
+            if (description.textContent === '') {
+                description.textContent = 'Description';
+                description.classList.add('placeholder');
+            } else {
+                description.classList.remove('placeholder');
+            }
+        }
+
+        description.addEventListener('focus', () => {
+            toggleDescriptionPlaceholder();
+            if (description.textContent === 'Description') {
+                description.textContent = '';
+            }
+        });
+
+        cancelBtn.addEventListener('click', () => {
+            inactiveTitle();
+            setOriginalTask();
+            toggleDescriptionPlaceholder();
+        });
+
+        saveBtn.addEventListener('click', () => {
+            const newTitle = title.value;
+            const newDescription = description.textContent;
+            
+            activeTask.changeTitle(newTitle);
+            if (newDescription !== 'Description') {
+                activeTask.changeDescription(newDescription);
+            }
+
+            taskManager.updateTaskStorage();
+            inactiveTitle();
+        });
+
+        const toggleProjectBtnIcon = (activeProject) => {
+            if (activeProject === 'inbox') {
+                projectBtnColor.style.display = 'none';
+                projectBtnSvg.style.display = 'inline';
+            } else {
+                projectBtnColor.style.display = 'block';
+                projectBtnSvg.style.display = 'none';
+            }
+        }
+
+        const openForm = (e) => {
+            const selectedId = e.target.id;
+            activeTask = taskManager.tasks.find(task => task.id === selectedId);
+
+            setOriginalTask();
+            toggleDescriptionPlaceholder();
+
+            const form = document.querySelector('.edit-task-form');
+            form.showModal();
+        }
+
+        const closeForm = () => {
+            form.close();
+        }
+
+        // close form
+        const closeIcon = document.querySelector('#task-close-icon');
+        closeIcon.addEventListener('click', closeForm);
+        form.addEventListener('click', (e) => {
+            if (e.target === form) {
+                closeForm();
+            }
+        });
+
+        return {openForm}
     })();
 
     return { NavModule, ProjectFormModule, FormProjectList, SortModule };
