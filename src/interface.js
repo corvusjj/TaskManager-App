@@ -508,6 +508,17 @@ const Interface = (() => {
             return valid();
         }
 
+        const updateMainHead = (projectId) => {
+            const project = projectManager.projects.find(proj => proj.id === projectId);
+            const title = document.querySelector('.main-head > h2');
+            const menu = document.querySelector('#main-project-menu');
+
+            title.textContent = project.name;
+            menu.dataset.projectSelected = project.id;
+
+            if (title.textContent === 'Inbox@XFvW$W7') title.textContent = 'Inbox';
+        }
+
         const openForm = () => {
             //  let Inbox as default active project
             if (activeProject === undefined || null ) {  //  initial/default selected Project
@@ -574,15 +585,17 @@ const Interface = (() => {
             taskManager.createTask(taskName, taskDescription, taskDueDate, taskPriority, taskProjectId);
             TasksModule.generateTasks(e);
 
+            updateMainHead(taskProjectId);
             closeForm();
         })
 
-        return { toggleProjectBtnIcon, assignIdToProjectBtn, verifyValidity, updateActiveProject }
+        return { toggleProjectBtnIcon, assignIdToProjectBtn, verifyValidity, updateActiveProject, updateMainHead }
     })();
 
     const FormProjectList = (() => {
         let formState; // add or edit taskForm
         const addTaskProjectBtn = document.querySelector('#project-select-add'); //  button for the add-task form
+        const editTaskProjectBtn = document.querySelector('#project-select-edit'); //  button for the edit-task form
         const projectSelectBtn = document.querySelectorAll('.project-select'); //  all project select buttons 'add/edit form'
         const projectList = document.querySelector('.choose-project-list');
 
@@ -617,7 +630,7 @@ const Interface = (() => {
 
             //  assign inbox list to first index
             inboxLi.setAttribute('data-project-id', projectManager.projects.find((proj) => proj.name === 'Inbox@XFvW$W7').id);
-            inboxLi.addEventListener('click', selectProjectFromAddTask);
+            inboxLi.addEventListener('click', selectProject);
             ulProjectList.insertBefore(inboxLi, ulProjectList.firstChild);
         }
 
@@ -658,7 +671,7 @@ const Interface = (() => {
             if (formState === 'add') {
                 selectProjectFromAddTask(e);
             } else if (formState === 'edit') {
-                console.log('invoke selectProjectFromEditTask function');
+                selectProjectFromEditTask(e);
             } else if (formState === 'quick-update') {
                 quickSelectProject(e);
             }
@@ -689,6 +702,38 @@ const Interface = (() => {
         let activeTask;
         const updateActiveTask = (task) => activeTask = task;
 
+        const selectProjectFromEditTask = (e) => {
+            const selectedId = e.target.dataset.projectId;
+            const selectedProject = projectManager.projects.find(project => project.id === selectedId);
+
+            const projectBtnColor = editTaskProjectBtn.querySelector('#project-select-edit-color');
+            const projectBtnName = editTaskProjectBtn.querySelector('#project-select-edit-name');
+
+            if (e.target.dataset.projectId === editTaskProjectBtn.dataset.projectSelected) {
+                return closeProjectList();
+            }
+
+            if (e.target === inboxLi) {
+                EditTaskModule.toggleProjectBtnIcon('inbox');
+                EditTaskModule.assignIdToProjectBtn(selectedId);
+                projectBtnName.textContent = 'Inbox';
+            } else {
+                EditTaskModule.toggleProjectBtnIcon('custom-project');
+                EditTaskModule.assignIdToProjectBtn(selectedId);
+                projectBtnName.textContent = e.target.textContent;
+                projectBtnColor.style.background = selectedProject.color;
+            }
+
+            taskManager.transferToOtherProject(activeTask.id, selectedId);
+            TasksModule.generateTasks(e);
+            NavModule.generateFavoritesToNav();
+            NavModule.generateProjectsToNav();
+
+
+            editTaskProjectBtn.dataset.projectSelected = selectedId;
+            projectList.close();
+        }
+
         const quickSelectProject = (e) => {
             const selectedId = e.target.dataset.projectId;
             if (selectedId === activeTask.projectId) return;
@@ -703,7 +748,7 @@ const Interface = (() => {
         }
 
 
-        return { generateProjectsToForm, updateActiveTask, closeProjectList }
+        return { generateProjectsToForm, updateActiveTask, closeProjectList, selectProject }
     })();
 
     const FormPriorityList = (() => {
@@ -1092,6 +1137,7 @@ const Interface = (() => {
         const projectBtnColor = document.querySelector('#project-select-edit-color');
         const projectBtnSvg = document.querySelector('#project-select-edit-svg');
         let activeTask;
+        let activeProject;
 
         const activeTitle = () => {
             titleContainer.classList.add('active-title');
@@ -1156,12 +1202,36 @@ const Interface = (() => {
             }
         }
 
+        const assignIdToProjectBtn = (id) => {
+            document.querySelector('#project-select-edit').dataset.projectSelected = id;
+        }
+
         const openForm = (e) => {
             const selectedId = e.target.id;
             activeTask = taskManager.tasks.find(task => task.id === selectedId);
 
             setOriginalTask();
             toggleDescriptionPlaceholder();
+
+            let activeProject = projectManager.projects.find(proj => proj.id === activeTask.projectId);
+            if (activeProject.name !== 'Inbox@XFvW$W7') {  //  if activeProject is not Inbox
+                toggleProjectBtnIcon('custom-project');
+                assignIdToProjectBtn(activeProject.id);
+                projectBtnColor.style.background = activeProject.color;
+
+            } else {  //  if activeProject is Inbox
+                toggleProjectBtnIcon('inbox');
+                assignIdToProjectBtn(activeProject.id);
+            } 
+
+            //  assign active project name to projectBtn
+            const projectBtnName = document.querySelector('#project-select-edit-name');
+            projectBtnName.textContent = activeProject.name;
+
+            if (projectBtnName.textContent === 'Inbox@XFvW$W7') projectBtnName.textContent = 'Inbox';
+
+            //  assign active task to projectList
+            FormProjectList.updateActiveTask(activeTask);
 
             const form = document.querySelector('.edit-task-form');
             form.showModal();
@@ -1180,7 +1250,7 @@ const Interface = (() => {
             }
         });
 
-        return {openForm}
+        return {openForm, toggleProjectBtnIcon, assignIdToProjectBtn}
     })();
 
     return { NavModule, ProjectFormModule, FormProjectList, SortModule };
