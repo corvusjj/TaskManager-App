@@ -1696,6 +1696,98 @@ label[for='favorites-checkbox'] {
         display: none;
         justify-content: right;
     }
+
+    .line-row {
+        margin-top: 5px;
+        border-bottom: 1px solid $btn-border;
+    }
+
+    & > p {
+        font-weight: bold;
+        color: $font-secondary;
+        font-size: 0.9rem;
+        margin-top: 1rem;
+    }
+}
+
+#notes-list {
+    li {
+
+        button {
+            &:hover {
+                cursor: pointer;
+            }
+
+            .note-checkmark {
+                path {
+                    stroke: $font-primary;
+                    visibility: hidden;
+                    opacity: 0;
+                    transition: opacity 0.3s ease;
+                }
+
+                &:hover {
+                    path {
+                        visibility: visible;
+                        opacity: 1;
+                    }            
+                }
+
+                width: 16px;
+                height: 16px;
+            }
+
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 1px solid $font-secondary;
+            margin-right: 0.5rem;
+            background: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        p {
+            color: $font-primary;
+            font-size: 0.9rem;
+            pointer-events: none;
+        }
+
+        #edit-note-icon {
+            path {
+                stroke: $font-secondary;
+            }
+
+            &:hover {
+                path {
+                    stroke: $font-primary;
+                }
+
+                background: $hover-bg-color;
+            }
+
+            width: 26px;
+            height: 26px;
+            margin-left: auto;
+            border-radius: 5px;
+            visibility: hidden;
+        }
+
+        &:hover {
+            #edit-note-icon {
+                visibility: visible;
+            }
+
+            cursor: pointer;
+        }
+
+        list-style: none;
+        display: flex;
+        align-items: center;
+        padding: 5px;
+        border-bottom: 1px solid $btn-border;
+    }
 }
 
 .edit-task-sec2 {
