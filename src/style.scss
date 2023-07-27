@@ -1714,10 +1714,6 @@ label[for='favorites-checkbox'] {
     li {
 
         button {
-            &:hover {
-                cursor: pointer;
-            }
-
             .note-checkmark {
                 path {
                     stroke: $font-primary;
@@ -1726,15 +1722,18 @@ label[for='favorites-checkbox'] {
                     transition: opacity 0.3s ease;
                 }
 
-                &:hover {
-                    path {
-                        visibility: visible;
-                        opacity: 1;
-                    }            
-                }
-
                 width: 16px;
                 height: 16px;
+                pointer-events: none;
+            }
+
+            &:hover {
+                .note-checkmark path {
+                    visibility: visible;
+                    opacity: 1;  
+                }                        
+
+                cursor: pointer;
             }
 
             width: 16px;
@@ -1788,6 +1787,57 @@ label[for='favorites-checkbox'] {
         padding: 5px;
         border-bottom: 1px solid $btn-border;
     }
+}
+
+#add-note {
+    #add-note-icon {
+
+        svg {
+            path {
+                fill: $header-bg;
+            }
+
+            width: 17px;
+            height: 17px;
+        }
+
+        background: $main-bg;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-right: 0.5rem;
+        pointer-events: none;
+    }
+
+    p {
+        color: $font-secondary;
+        font-size: 0.9rem;
+        pointer-events: none;
+    }
+
+    &:hover {
+        #add-note-icon {
+
+            svg {
+                path {
+                    fill: $nav-bg;
+                }
+            }
+            background: $header-bg;
+        }
+        cursor: pointer;
+    }
+
+    &:hover > p {
+        color: $font-primary;
+    }
+
+    display: flex;
+    align-items: center;
+    padding: 10px 5px;
 }
 
 .edit-task-sec2 {
