@@ -275,6 +275,11 @@ const Interface = (() => {
             const newColor = colorBtn.dataset.colorSelected;
             const newFavorite = favoritesCheckbox.checked;
 
+            const projectTitle = document.querySelector('.main-head > h2');
+            if (activeProject.name === projectTitle.textContent) {
+                projectTitle.textContent = newName;
+            }
+
             activeProject.changeName(newName);
             activeProject.changeColor(newColor);
             activeProject.changeFavorite(newFavorite);
@@ -880,7 +885,7 @@ const Interface = (() => {
             //  deleting project
             } else if (e.target.id === 'confirm-delete') {
                 selectedProject = projectManager.projects[0];
-            }
+            } 
 
             const sortedTasks = SortModule.sortTasks(selectedProject.tasks);
 
