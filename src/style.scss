@@ -1755,5 +1755,37 @@ label[for='favorites-checkbox'] {
         margin-top: 10px;
     }
 
+    #task-priority-edit {
+        * {
+            pointer-events: none;
+        }
+
+        svg {
+            width: 22px;
+            height: 22px;
+            display: none;
+        }
+
+        p {
+            font-size: 0.9rem;
+            color: $font-primary;
+            margin-left: 5px;
+        }
+
+        &:hover {
+            background: $hover-bg-color;
+            cursor: pointer;
+        }
+
+        display:flex;
+        align-items: center;
+        width: 100%;
+        border: none;
+        background: none;
+        border-radius: 5px;
+        padding: 3px;
+        margin-top: 5px;
+    }
+
     padding: 16px;
 }

@@ -754,6 +754,7 @@ const Interface = (() => {
     const FormPriorityList = (() => {
         let formState;  // add / edit taskForm
         const addTaskPriorityBtn = document.querySelector('#task-priority-add');
+        const editTaskPriorityBtn = document.querySelector('#task-priority-edit');
         const selectPriorityBtn = document.querySelectorAll('.form-task-priority');
         const priorityList = document.querySelector('#priority-list');
 
@@ -775,7 +776,7 @@ const Interface = (() => {
             } 
         });
 
-        const displaySvg = (dataSvg) => {
+        const displaySvgOnAddForm = (dataSvg) => {
             const svgs = [...addTaskPriorityBtn.querySelectorAll('svg')];
             svgs.forEach(svg => svg.style.display = 'none');
 
@@ -788,7 +789,7 @@ const Interface = (() => {
             const dataSvg = selectedPriority.dataset.prioritySvg;
             const p = addTaskPriorityBtn.querySelector('p');
 
-            displaySvg(dataSvg);
+            displaySvgOnAddForm(dataSvg);
             p.textContent = e.target.querySelector('p').textContent;
 
             addTaskPriorityBtn.dataset.prioritySelected = dataSvg;
@@ -798,11 +799,28 @@ const Interface = (() => {
         }
 
         const resetPriority = () => {
-            displaySvg('hourglass');
+            displaySvgOnAddForm('hourglass');
             const p = addTaskPriorityBtn.querySelector('p');
             p.textContent = 'Priority';
 
             addTaskPriorityBtn.dataset.prioritySelected = '';
+        }
+
+        const selectPriorityFromEditTask = (e) => {
+            const selectedPriority = e.target;
+            const dataSvg = selectedPriority.dataset.prioritySvg;
+            const p = editTaskPriorityBtn.querySelector('p');
+
+            if (dataSvg === editTaskPriorityBtn.dataset.prioritySelected) {
+                return priorityList.close();
+            }
+
+            EditTaskModule.displayPriority(dataSvg);
+            EditTaskModule.changeTaskPriority(dataSvg);
+            TasksModule.generateTasks(e);
+
+            editTaskPriorityBtn.dataset.prioritySelected = dataSvg;
+            priorityList.close();
         }
 
         // select priority
@@ -810,7 +828,7 @@ const Interface = (() => {
             if (formState === 'add') {
                 selectPriorityFromAddTask(e);
             } else {
-                console.log('invoke selectPriorityFromEditTask function');
+                selectPriorityFromEditTask(e);
             }
         }
 
@@ -1131,6 +1149,7 @@ const Interface = (() => {
         const description = document.querySelector('#task-description');
         const title = document.querySelector('#task-title');
         const dateInput = document.querySelector('#task-date-edit');
+        const priority = document.querySelector('#task-priority-edit');
 
         const cancelBtn = document.querySelector('#cancel-task');
         const saveBtn = document.querySelector('#save-task');
@@ -1213,6 +1232,36 @@ const Interface = (() => {
             TasksModule.generateTasks(e);
         });
 
+        const displayPriority = (taskPrio) => {
+            const svgs = [...priority.querySelectorAll('svg')];
+            svgs.forEach(svg => {
+                svg.style.display = 'none';
+            });
+            
+            const selectedSvg = svgs.find(svg => svg.dataset.prioritySvg === taskPrio);
+            selectedSvg.style.display = 'inline';
+
+            const p = document.querySelector('#task-priority-edit > p');
+            switch (taskPrio) {
+                case 'man':
+                    p.textContent ='P1';
+                    break;
+                case 'crocodile':
+                    p.textContent ='P2';
+                    break;
+                case 'dog':
+                    p.textContent ='P3';
+                    break;
+                case 'butterfly':
+                    p.textContent ='P4';
+            }
+        }
+
+        const changeTaskPriority = (newPrio) => {
+            activeTask.changePriority(newPrio);
+            taskManager.updateTaskStorage();
+        }
+
         const openForm = (e) => {
             const selectedId = e.target.id;
             activeTask = taskManager.tasks.find(task => task.id === selectedId);
@@ -1241,6 +1290,8 @@ const Interface = (() => {
             FormProjectList.updateActiveTask(activeTask);
 
             dateInput.value = activeTask.dueDate;
+            priority.dataset.prioritySelected = activeTask.priority;
+            displayPriority(activeTask.priority);
 
             const form = document.querySelector('.edit-task-form');
             form.showModal();
@@ -1259,7 +1310,7 @@ const Interface = (() => {
             }
         });
 
-        return {openForm, toggleProjectBtnIcon, assignIdToProjectBtn}
+        return {openForm, toggleProjectBtnIcon, assignIdToProjectBtn, changeTaskPriority, displayPriority}
     })();
 
     return { NavModule, ProjectFormModule, FormProjectList, SortModule };
