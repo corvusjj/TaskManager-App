@@ -21,9 +21,7 @@ $hover-bg-color: #eeeeee;
 // $hover-bg-color: #363636;
 
 $overdue: #da2e2e;
-
 $hover-icon-color: #292929;
-
 $form-border-color: #00000034;
 
 *,
@@ -1793,7 +1791,7 @@ label[for='favorites-checkbox'] {
     }
 }
 
-#add-note {
+#add-note-main {
     #add-note-icon {
 
         svg {
@@ -1809,9 +1807,6 @@ label[for='favorites-checkbox'] {
         width: 19px;
         height: 19px;
         border-radius: 50%;
-        display: flex;
-        // justify-content: center;
-        align-items: center;
         margin-right: 0.5rem;
         pointer-events: none;
     }
@@ -1935,3 +1930,53 @@ label[for='favorites-checkbox'] {
 
     padding: 16px;
 }
+
+#note-form {
+    #input-note {
+        width: 100%;
+        outline: none;
+        border: none;
+        color: $font-primary;
+        padding: 5px 0;
+    }
+
+    .form-btn-note {
+        display: flex;
+        justify-content: right;
+        margin-top: 15px;
+    }
+
+    border: 1px solid $form-border-color;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+#save-note,
+#cancel-note,
+#add-note {
+    @extend %form-btn;
+    border: none;
+    border-radius: 5px;
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+#cancel-note {
+    @extend %cancel-btn;
+}
+
+#cancel-note:hover {
+    @extend %cancel-btn-hover;
+}
+
+#add-note {
+    @extend %confirm-btn;
+    opacity: 0.5;
+}
+
+#save-note {
+    @extend %confirm-btn;
+}
+

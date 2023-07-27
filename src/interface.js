@@ -1319,6 +1319,14 @@ const Interface = (() => {
         return {openForm, toggleProjectBtnIcon, assignIdToProjectBtn, changeTaskPriority, displayPriority}
     })();
 
+    const notesModule = (() => {
+
+    })();
+
+    const noteFormModule = (() => {
+
+    })();
+
     return { NavModule, ProjectFormModule, FormProjectList, SortModule };
 })();
 
