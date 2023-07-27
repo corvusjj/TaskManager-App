@@ -1199,7 +1199,7 @@ const Interface = (() => {
             toggleDescriptionPlaceholder();
         });
 
-        saveBtn.addEventListener('click', () => {
+        saveBtn.addEventListener('click', (e) => {
             const newTitle = title.value;
             const newDescription = description.textContent;
             
@@ -1210,6 +1210,7 @@ const Interface = (() => {
 
             taskManager.updateTaskStorage();
             inactiveTitle();
+            TasksModule.generateTasks(e);
         });
 
         const toggleProjectBtnIcon = (activeProject) => {
