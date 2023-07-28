@@ -1943,7 +1943,11 @@ label[for='favorites-checkbox'] {
     .form-btn-note {
         display: flex;
         justify-content: right;
-        margin-top: 15px;
+        margin-top: 10px;
+    }
+
+    &::backdrop {
+        background: rgba(0, 0, 0, 0);
     }
 
     border: 1px solid $form-border-color;
@@ -1971,12 +1975,17 @@ label[for='favorites-checkbox'] {
     @extend %cancel-btn-hover;
 }
 
+#save-note[data-invalid="true"],
+#add-note[data-invalid="true"] {
+    opacity: 0.5;
+}
+
 #add-note {
     @extend %confirm-btn;
-    opacity: 0.5;
 }
 
 #save-note {
     @extend %confirm-btn;
 }
+
 

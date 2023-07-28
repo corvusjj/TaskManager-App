@@ -1271,6 +1271,8 @@ const Interface = (() => {
         const openForm = (e) => {
             const selectedId = e.target.id;
             activeTask = taskManager.tasks.find(task => task.id === selectedId);
+            noteFormModule.updateActiveTask(activeTask);
+ 
 
             setOriginalTask();
             toggleDescriptionPlaceholder();
@@ -1324,7 +1326,86 @@ const Interface = (() => {
     })();
 
     const noteFormModule = (() => {
+        const noteForm = document.querySelector('#note-form');
+        const addForm = document.querySelector('#add-note-main');
+        const addBtn = document.querySelector('#add-note');
+        const saveBtn = document.querySelector('#save-note');
+        const cancelBtn = document.querySelector('#cancel-note');
+        const noteInput = document.querySelector('#input-note');
+        let activeTask;
 
+        const updateActiveTask = (task) => activeTask = task;
+
+        const notePlaceholders = [
+            'Go trick-or-treating as a Jehova\'s witness',
+            'Beat grandma on fifa',
+            'Teach baby rear naked choke',
+            'Introduce parrot to Linkin Park',
+            'Reduce cost, propose on her birthday'
+        ];
+
+        const changeFormState = (e) => {
+            if (e.target.id === 'add-note-main') {
+                addBtn.style.display = 'flex';
+                saveBtn.style.display = 'none';
+            } else {
+                addBtn.style.display ='none';
+                saveBtn.style.display = 'flex';
+            }
+        }
+
+        const verifyValidity = () => {
+            function valid() {
+                addBtn.dataset.invalid = 'false';
+                saveBtn.dataset.invalid = 'false';
+            }
+
+            function invalid() {
+                addBtn.dataset.invalid = 'true';
+                saveBtn.dataset.invalid = 'true';
+            }
+
+            if (noteInput.value === '') {
+                invalid();
+            } else {
+                valid();
+            }
+        }
+
+        const addNote = () => {
+            if (addBtn.dataset.invalid === 'true') return;
+
+            const note = noteInput.value;
+            noteManager.createNote(note, activeTask.id, activeTask.projectId);
+            noteForm.close();
+        }
+
+        const openForm = (e) => {
+            changeFormState(e);
+            verifyValidity();
+
+            noteForm.showModal();
+            noteForm.style.left = e.target.getBoundingClientRect().left + 'px';
+            noteForm.style.top = e.target.getBoundingClientRect().top + 'px';
+            noteForm.style.width = e.target.clientWidth + 'px';
+        }
+
+        const closeForm = () => {
+            noteForm.close();
+            noteInput.value = '';
+        }
+
+        addForm.addEventListener('click', openForm);
+        noteInput.addEventListener('input', verifyValidity);
+
+        noteForm.addEventListener('click', (e) => {
+            if (e.target === noteForm) closeForm();
+        });
+
+        cancelBtn.addEventListener('click', closeForm);
+        addBtn.addEventListener('click', addNote);
+
+        return {updateActiveTask}
     })();
 
     return { NavModule, ProjectFormModule, FormProjectList, SortModule };
@@ -1333,3 +1414,4 @@ const Interface = (() => {
 export { Interface };
 
 //  date module to es6
+//  invalid /valid problem
