@@ -1325,7 +1325,6 @@ const Interface = (() => {
     const noteFormModule = (() => {
         const noteForm = document.querySelector('#note-form');
         const addForm = document.querySelector('#add-note-main');
-        const editForm = document.querySelectorAll('[data-edit-note]')
         const addBtn = document.querySelector('#add-note');
         const saveBtn = document.querySelector('#save-note');
         const cancelBtn = document.querySelector('#cancel-note');
@@ -1345,6 +1344,11 @@ const Interface = (() => {
             'Introduce parrot to Linkin Park',
             'Reduce cost, propose on her birthday'
         ];
+
+        const setPlaceholder = () => {
+            const randomIndex = Math.floor(Math.random() * notePlaceholders.length);
+            noteInput.placeholder = notePlaceholders[randomIndex];
+        }
 
         const changeFormState = (e) => {
             if (e.target.id === 'add-note-main') {
@@ -1387,6 +1391,8 @@ const Interface = (() => {
         }
 
         const saveNote = () => {
+            if (saveBtn.dataset.invalid === 'true') return;
+
             const newNote = noteInput.value;
             activeNote.updateNote(newNote);
             noteManager.updateNoteStorage();
@@ -1440,6 +1446,7 @@ const Interface = (() => {
                 verifyValidity();
             }    
 
+            setPlaceholder();
             noteForm.showModal();
         }
 
