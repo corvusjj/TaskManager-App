@@ -1752,6 +1752,10 @@ label[for='favorites-checkbox'] {
         }
 
         #edit-note-icon {
+            * {
+                pointer-events: none;
+            }
+
             path {
                 stroke: $font-secondary;
             }

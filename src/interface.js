@@ -1322,13 +1322,10 @@ const Interface = (() => {
         return {openForm, toggleProjectBtnIcon, assignIdToProjectBtn, changeTaskPriority, displayPriority}
     })();
 
-    const notesModule = (() => {
-
-    })();
-
     const noteFormModule = (() => {
         const noteForm = document.querySelector('#note-form');
         const addForm = document.querySelector('#add-note-main');
+        const editForm = document.querySelectorAll('[data-edit-note]')
         const addBtn = document.querySelector('#add-note');
         const saveBtn = document.querySelector('#save-note');
         const cancelBtn = document.querySelector('#cancel-note');
@@ -1336,6 +1333,8 @@ const Interface = (() => {
         const noteTemplate = document.querySelector('#note-template');
         const notesList = document.querySelector('#notes-list');
         let activeTask;
+        let activeNote;
+        let formState;
 
         const updateActiveTask = (task) => activeTask = task;
 
@@ -1349,9 +1348,11 @@ const Interface = (() => {
 
         const changeFormState = (e) => {
             if (e.target.id === 'add-note-main') {
+                formState = 'add';
                 addBtn.style.display = 'flex';
                 saveBtn.style.display = 'none';
             } else {
+                formState = 'edit';
                 addBtn.style.display ='none';
                 saveBtn.style.display = 'flex';
             }
@@ -1382,8 +1383,16 @@ const Interface = (() => {
             noteManager.createNote(note, activeTask.id, activeTask.projectId);
             generateNotes();
 
-            noteInput.value = '';
-            noteForm.close();
+            closeForm();
+        }
+
+        const saveNote = () => {
+            const newNote = noteInput.value;
+            activeNote.updateNote(newNote);
+            noteManager.updateNoteStorage();
+
+            generateNotes();
+            closeForm();
         }
 
         const generateNotes = () => {
@@ -1393,10 +1402,12 @@ const Interface = (() => {
                 const newNote = noteTemplate.cloneNode(true);
                 const p = newNote.querySelector('p');
                 const checkBtn = newNote.querySelector('button');
+                const editIcon = newNote.querySelector('#edit-note-icon');
 
                 newNote.id = n.id;
                 p.textContent = n.note;
                 checkBtn.addEventListener('click', checkNote);
+                editIcon.addEventListener('click', openForm);
 
                 notesList.appendChild(newNote);
             })
@@ -1412,10 +1423,24 @@ const Interface = (() => {
             changeFormState(e);
             verifyValidity();
 
+            if (formState === 'add') {
+                noteForm.style.left = e.target.getBoundingClientRect().left + 'px';
+                noteForm.style.top = e.target.getBoundingClientRect().top + 'px';
+                noteForm.style.width = e.target.clientWidth + 'px';
+            } else if (formState === 'edit') {
+                noteForm.style.left = e.target.parentNode.getBoundingClientRect().left + 'px';
+                noteForm.style.top = e.target.parentNode.getBoundingClientRect().top + 'px';
+                noteForm.style.width = e.target.parentNode.clientWidth + 'px';
+
+                const selectedId = e.target.parentNode.id;
+                const selectedNote = noteManager.notes.find(n => n.id === selectedId);
+
+                noteInput.value = selectedNote.note;
+                activeNote = selectedNote;
+                verifyValidity();
+            }    
+
             noteForm.showModal();
-            noteForm.style.left = e.target.getBoundingClientRect().left + 'px';
-            noteForm.style.top = e.target.getBoundingClientRect().top + 'px';
-            noteForm.style.width = e.target.clientWidth + 'px';
         }
 
         const closeForm = () => {
@@ -1432,6 +1457,7 @@ const Interface = (() => {
 
         cancelBtn.addEventListener('click', closeForm);
         addBtn.addEventListener('click', addNote);
+        saveBtn.addEventListener('click', saveNote);
 
         return {updateActiveTask, generateNotes}
     })();
