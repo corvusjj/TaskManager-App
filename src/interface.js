@@ -1271,8 +1271,6 @@ const Interface = (() => {
         const openForm = (e) => {
             const selectedId = e.target.id;
             activeTask = taskManager.tasks.find(task => task.id === selectedId);
-            noteFormModule.updateActiveTask(activeTask);
- 
 
             setOriginalTask();
             toggleDescriptionPlaceholder();
@@ -1300,6 +1298,9 @@ const Interface = (() => {
             dateInput.value = activeTask.dueDate;
             priority.dataset.prioritySelected = activeTask.priority;
             displayPriority(activeTask.priority);
+
+            noteFormModule.updateActiveTask(activeTask);
+            noteFormModule.generateNotes();
 
             const form = document.querySelector('.edit-task-form');
             form.showModal();
@@ -1332,6 +1333,8 @@ const Interface = (() => {
         const saveBtn = document.querySelector('#save-note');
         const cancelBtn = document.querySelector('#cancel-note');
         const noteInput = document.querySelector('#input-note');
+        const noteTemplate = document.querySelector('#note-template');
+        const notesList = document.querySelector('#notes-list');
         let activeTask;
 
         const updateActiveTask = (task) => activeTask = task;
@@ -1377,7 +1380,32 @@ const Interface = (() => {
 
             const note = noteInput.value;
             noteManager.createNote(note, activeTask.id, activeTask.projectId);
+            generateNotes();
+
+            noteInput.value = '';
             noteForm.close();
+        }
+
+        const generateNotes = () => {
+            notesList.innerHTML = '';
+
+            activeTask.notes.forEach(n => {
+                const newNote = noteTemplate.cloneNode(true);
+                const p = newNote.querySelector('p');
+                const checkBtn = newNote.querySelector('button');
+
+                newNote.id = n.id;
+                p.textContent = n.note;
+                checkBtn.addEventListener('click', checkNote);
+
+                notesList.appendChild(newNote);
+            })
+        }
+
+        const checkNote = (e) => {
+            const selectedId = e.target.parentNode.id;
+            noteManager.deleteNote(selectedId);
+            generateNotes();
         }
 
         const openForm = (e) => {
@@ -1405,7 +1433,7 @@ const Interface = (() => {
         cancelBtn.addEventListener('click', closeForm);
         addBtn.addEventListener('click', addNote);
 
-        return {updateActiveTask}
+        return {updateActiveTask, generateNotes}
     })();
 
     return { NavModule, ProjectFormModule, FormProjectList, SortModule };
@@ -1414,4 +1442,3 @@ const Interface = (() => {
 export { Interface };
 
 //  date module to es6
-//  invalid /valid problem

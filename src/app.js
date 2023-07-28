@@ -273,7 +273,6 @@ const taskManager = (() => {
 
     const removeNote = (note) => {
         const appliedTask = tasks.find((task) => task.id === note.taskId);
-        console.log(appliedTask);
         appliedTask.removeNote(note);
         updateTaskStorage();
 
