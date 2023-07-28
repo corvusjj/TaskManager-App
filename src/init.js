@@ -72,8 +72,11 @@ import './style.scss';
         (proj) => proj.name === 'Inbox@XFvW$W7'
     );
     if (!inboxProjectExist) {
-        projectManager.createProject('Inbox@XFvW$W7', null, false);
+        projectManager.createProject('Inbox@XFvW$W7', null, false);    
     }
+
+    // tasks-timeline 
+    Interface.NavModule.updateTasksTimeline();
 
     // generate favorites
     Interface.NavModule.generateFavoritesToNav();

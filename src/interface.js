@@ -96,11 +96,25 @@ const Interface = (() => {
                 (proj) => proj.name !== 'Inbox@XFvW$W7'
             );
             projects.forEach((project) => addProject(project));
+
+            updateTasksTimeline();
         };
+
+        const updateTasksTimeline = () => {
+            const inbox = projectManager.projects.find(proj => proj.name === 'Inbox@XFvW$W7');
+            const inboxLi = document.querySelector('[data-inbox]');
+            const inboxAmount = document.querySelector('#inbox-amount');
+            inboxAmount.textContent = inbox.tasks.length;
+            inboxLi.id = inbox.id;
+            inboxLi.addEventListener('click', TasksModule.generateTasks);
+            inboxLi.addEventListener('click', AddTaskFormModule.updateActiveProject);
+            inboxLi.addEventListener('click', TasksModule.updateMainHead);
+        }
 
         return {
             generateFavoritesToNav,
             generateProjectsToNav,
+            updateTasksTimeline
         };
     })();
 
@@ -513,16 +527,24 @@ const Interface = (() => {
             return valid();
         }
 
+        const menu = document.querySelector('#main-project-menu');
         const updateMainHead = (projectId) => {
             const project = projectManager.projects.find(proj => proj.id === projectId);
             const title = document.querySelector('.main-head > h2');
-            const menu = document.querySelector('#main-project-menu');
 
             title.textContent = project.name;
             menu.dataset.projectSelected = project.id;
 
-            if (title.textContent === 'Inbox@XFvW$W7') title.textContent = 'Inbox';
+            if (title.textContent === 'Inbox@XFvW$W7') {
+                title.textContent = 'Inbox';
+                return hideMenu();
+            }
+
+            showMenu();
         }
+
+        const hideMenu = () => menu.style.display = 'none';
+        const showMenu = () => menu.style.display = 'inline';
 
         const openForm = () => {
             //  let Inbox as default active project
@@ -594,7 +616,7 @@ const Interface = (() => {
             closeForm();
         })
 
-        return { toggleProjectBtnIcon, assignIdToProjectBtn, verifyValidity, updateActiveProject, updateMainHead }
+        return { toggleProjectBtnIcon, assignIdToProjectBtn, verifyValidity, updateActiveProject, updateMainHead, showMenu, hideMenu }
     })();
 
     const FormProjectList = (() => {
@@ -859,9 +881,10 @@ const Interface = (() => {
             const menuIcon = document.querySelector('#main-project-menu');
 
 
-            if (e.target.className === 'nav-project') {
+            if (e.target.className === 'nav-project' || e.target.hasAttribute('data-inbox')) {
                 let selectedProject = projectManager.projects.find(proj => proj.id === e.target.id);
                 projectTitle.textContent = selectedProject.name;
+                if (projectTitle.textContent === 'Inbox@XFvW$W7') projectTitle.textContent = 'Inbox';
             } else if(e.target.id === 'confirm-delete') {
                 selectedProject = projectManager.projects.find(proj => proj.name === 'Inbox@XFvW$W7');
                 projectTitle.textContent = 'Inbox';
@@ -869,6 +892,12 @@ const Interface = (() => {
                 projectTitle.textContent = selectedProject.name;
             }
             menuIcon.dataset.projectSelected = selectedProject.id;
+
+            if (selectedProject.name === 'Inbox@XFvW$W7') {
+                return AddTaskFormModule.hideMenu();
+            }
+
+            AddTaskFormModule.showMenu();
         }
 
         const generateTasks = (e) => {
@@ -880,7 +909,7 @@ const Interface = (() => {
                 selectedProject = projectManager.projects.find(proj => proj.id === projectSelectBtn.dataset.projectSelected);
                 updateMainHead(e);
             //  nav-list selection
-            } else if (e.target.className === 'nav-project') {
+            } else if (e.target.className === 'nav-project' || e.target.hasAttribute('data-inbox')) {
                 selectedProject = projectManager.projects.find(proj => proj.id === e.target.id);
             //  deleting project
             } else if (e.target.id === 'confirm-delete') {
@@ -1339,7 +1368,7 @@ const Interface = (() => {
 
         const notePlaceholders = [
             'Go trick-or-treating as a Jehova\'s witness',
-            'Beat grandma on fifa',
+            'Beat grandma at fifa',
             'Teach baby rear naked choke',
             'Introduce parrot to Linkin Park',
             'Reduce cost, propose on her birthday'
@@ -1475,3 +1504,4 @@ const Interface = (() => {
 export { Interface };
 
 //  date module to es6
+//  tasks timeline
