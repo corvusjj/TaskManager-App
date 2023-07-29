@@ -994,6 +994,7 @@ const Interface = (() => {
 
     const DateModule = (() => {
         const formatDate = (date) => {
+            let result = null;
 
             const today = new Date();
             const dueDate = new Date(date);
@@ -1001,18 +1002,20 @@ const Interface = (() => {
             const dayGap = differenceInDays(dueDate, today);
 
             if (format(today, 'MMMM dd yyyy') === format(dueDate, 'MMMM dd yyyy')) {
-                return 'Today';
-            } else if (dayGap === 0) {
-                return 'Tomorrow';
-            } else if (dayGap < 6 && dayGap > -1) { // day today until day 6
-                return format(dueDate, 'eeee');
-            } else if (dayGap > 5 && dayGap <= 365) {  //  more than 6 days & less than a year
-                return format(dueDate, 'dd MMMM');
-            } else if (dayGap > 365) {
-                return format(dueDate, 'MMMM dd, yyyy');
-            } else {
-                return format(dueDate, 'dd MMMM') + ' ' + 'Overdue';  //  negative dayGap
+                result = 'Today';
+            } else if (!result && dayGap === 1) {
+                result = 'Tomorrow';
+            } else if (!result && dayGap < 6 && dayGap > 1) { // day today until day 6
+                result = format(dueDate, 'eeee');
+            } else if (!result && dayGap > 5 && dayGap <= 365) {  //  more than 6 days & less than a year
+                result = format(dueDate, 'dd MMMM');
+            } else if (!result && dayGap > 365) {
+                result = format(dueDate, 'MMMM dd, yyyy');
+            } else if (!result) {
+                result = format(dueDate, 'dd MMMM') + ' ' + 'Overdue';  //  negative dayGap
             }
+
+            return result;
         }
 
         const updateToToday = () => {
