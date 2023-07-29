@@ -529,6 +529,7 @@ const Interface = (() => {
         }
 
         const menu = document.querySelector('#main-project-menu');
+        const sort = document.querySelector('#sort-tasks');
         const updateMainHead = (projectId) => {
             const project = projectManager.projects.find(proj => proj.id === projectId);
             const title = document.querySelector('.main-head > h2');
@@ -544,8 +545,14 @@ const Interface = (() => {
             showMenu();
         }
 
-        const hideMenu = () => menu.style.display = 'none';
-        const showMenu = () => menu.style.display = 'inline';
+        const hideMenu = () => {
+            menu.style.display = 'none';
+            sort.style.display = 'flex';
+        }
+        const showMenu = () => {
+            menu.style.display = 'inline';
+            sort.style.display = 'flex';
+        }
 
         const openForm = () => {
             //  let Inbox as default active project
@@ -917,6 +924,8 @@ const Interface = (() => {
                 selectedProject = projectManager.projects[0];
             } else if (e.target.id === 'today-nav') {
                 selectedProject = TasksTimeline.today;
+            } else if (e.target.id === 'this-week-nav') {
+                selectedProject = TasksTimeline.thisWeek;
             }
 
             const sortedTasks = SortModule.sortTasks(selectedProject.tasks);
@@ -1504,7 +1513,9 @@ const Interface = (() => {
 
     const TasksTimeline = (() => {
         const todayNav = document.querySelector('#today-nav');
+        const thisWeekNav = document.querySelector('#this-week-nav');
         const todayAmount = document.querySelector('#today-amount');
+        const thisWeekAmount = document.querySelector('#this-week-amount');
 
         class NavFile {
             constructor (name) {
@@ -1526,42 +1537,49 @@ const Interface = (() => {
             today.tasks.push(...tasksToday);
         }
 
-        const updateTasksTimeline = () => {
-            getToday();
-            todayAmount.textContent = today.tasks.length;
-        }
-
         const getThisWeek = () => {
             const currentDate = new Date();
 
-            // Find the start and end of the current week
-            const startOfWeekDate = startOfWeek(currentDate, { weekStartsOn: 1 }); // Assuming Monday is the first day of the week (use 0 for Sunday, 1 for Monday, etc.)
+            const startOfWeekDate = startOfWeek(currentDate, { weekStartsOn: 1 });
             const endOfWeekDate = endOfWeek(currentDate, { weekStartsOn: 1 });
 
-            // Get an array of dates for the current week
             const datesThisWeek = eachDayOfInterval({ start: startOfWeekDate, end: endOfWeekDate });
             const formattedDates = datesThisWeek.map(d => format(d, 'yyyy-MM-dd'));
 
-            // formattedDates
+            thisWeek.tasks.length = 0;
+            taskManager.tasks.forEach(task => {
+                if (formattedDates.includes(task.dueDate)) {
+                    thisWeek.tasks.push(task);
+                }
+            });
+        }
+
+        const updateTasksTimeline = () => {
+            getToday();
+            getThisWeek();
+            todayAmount.textContent = today.tasks.length;
         }
 
         const icon = document.querySelector('#toggle-sidenav');
         icon.addEventListener('click', () => {
-            getToday.call(today);
-            console.log(today);
+            console.log(getThisWeek());
         });
 
         const updateMainHead = (name) => {
             const title = document.querySelector('.main-head > h2');
             const menu = document.querySelector('#main-project-menu');
+            const sort = document.querySelector('#sort-tasks');
             title.textContent = name;
             menu.style.display = 'none';
+            sort.style.display = 'none';
         }
 
         todayNav.addEventListener('click', TasksModule.generateTasks);
         todayNav.addEventListener('click', () => updateMainHead('Today'));
+        thisWeekNav.addEventListener('click', TasksModule.generateTasks);
+        thisWeekNav.addEventListener('click', () => updateMainHead('This Week'));
 
-        return { updateTasksTimeline, getToday, today }
+        return { updateTasksTimeline, getToday, today, thisWeek }
     })();
 
     return { NavModule, ProjectFormModule, FormProjectList, SortModule };
@@ -1570,4 +1588,5 @@ const Interface = (() => {
 export { Interface };
 
 //  date module to es6
-//  return { updateTasksTimeline, getToday, today } problem
+//  dueDate.... tomorrow > today
+//  thisWeek !today
