@@ -1,6 +1,6 @@
 import { projectManager, taskManager, noteManager } from './app';
 import { Utils } from './utils';
-import { format, differenceInDays, addDays} from 'date-fns';
+import { format, differenceInDays, addDays, startOfWeek, endOfWeek, eachDayOfInterval} from 'date-fns';
 
 const Interface = (() => {
 
@@ -97,10 +97,11 @@ const Interface = (() => {
             );
             projects.forEach((project) => addProject(project));
 
-            updateTasksTimeline();
+            updateInbox();
+            TasksTimeline.updateTasksTimeline();
         };
 
-        const updateTasksTimeline = () => {
+        const updateInbox = () => {
             const inbox = projectManager.projects.find(proj => proj.name === 'Inbox@XFvW$W7');
             const inboxLi = document.querySelector('[data-inbox]');
             const inboxAmount = document.querySelector('#inbox-amount');
@@ -114,7 +115,7 @@ const Interface = (() => {
         return {
             generateFavoritesToNav,
             generateProjectsToNav,
-            updateTasksTimeline
+            updateInbox
         };
     })();
 
@@ -914,7 +915,9 @@ const Interface = (() => {
             //  deleting project
             } else if (e.target.id === 'confirm-delete') {
                 selectedProject = projectManager.projects[0];
-            } 
+            } else if (e.target.id === 'today-nav') {
+                selectedProject = TasksTimeline.today;
+            }
 
             const sortedTasks = SortModule.sortTasks(selectedProject.tasks);
 
@@ -1160,6 +1163,7 @@ const Interface = (() => {
             }
 
             taskManager.updateTaskStorage();
+            TasksTimeline.getToday();
             TasksModule.generateTasks(e);
             closeMenu();
         }));
@@ -1498,10 +1502,72 @@ const Interface = (() => {
         return {updateActiveTask, generateNotes}
     })();
 
+    const TasksTimeline = (() => {
+        const todayNav = document.querySelector('#today-nav');
+        const todayAmount = document.querySelector('#today-amount');
+
+        class NavFile {
+            constructor (name) {
+                this.name = name;
+                this.tasks = [];
+            }
+        }
+
+        const today = new NavFile('Today');
+        const thisWeek = new NavFile('This Week');
+        const important = new NavFile('Important');
+
+        function getToday() {
+            today.tasks.length = 0;
+            const dateToday = format(new Date(), 'yyyy-MM-dd');
+            const tasksToday = taskManager.tasks.filter(
+                (task) => task.dueDate === dateToday
+            );
+            today.tasks.push(...tasksToday);
+        }
+
+        const updateTasksTimeline = () => {
+            getToday();
+            todayAmount.textContent = today.tasks.length;
+        }
+
+        const getThisWeek = () => {
+            const currentDate = new Date();
+
+            // Find the start and end of the current week
+            const startOfWeekDate = startOfWeek(currentDate, { weekStartsOn: 1 }); // Assuming Monday is the first day of the week (use 0 for Sunday, 1 for Monday, etc.)
+            const endOfWeekDate = endOfWeek(currentDate, { weekStartsOn: 1 });
+
+            // Get an array of dates for the current week
+            const datesThisWeek = eachDayOfInterval({ start: startOfWeekDate, end: endOfWeekDate });
+            const formattedDates = datesThisWeek.map(d => format(d, 'yyyy-MM-dd'));
+
+            // formattedDates
+        }
+
+        const icon = document.querySelector('#toggle-sidenav');
+        icon.addEventListener('click', () => {
+            getToday.call(today);
+            console.log(today);
+        });
+
+        const updateMainHead = (name) => {
+            const title = document.querySelector('.main-head > h2');
+            const menu = document.querySelector('#main-project-menu');
+            title.textContent = name;
+            menu.style.display = 'none';
+        }
+
+        todayNav.addEventListener('click', TasksModule.generateTasks);
+        todayNav.addEventListener('click', () => updateMainHead('Today'));
+
+        return { updateTasksTimeline, getToday, today }
+    })();
+
     return { NavModule, ProjectFormModule, FormProjectList, SortModule };
 })();
 
 export { Interface };
 
 //  date module to es6
-//  tasks timeline
+//  return { updateTasksTimeline, getToday, today } problem

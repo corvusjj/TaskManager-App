@@ -75,8 +75,8 @@ import './style.scss';
         projectManager.createProject('Inbox@XFvW$W7', null, false);    
     }
 
-    // tasks-timeline 
-    Interface.NavModule.updateTasksTimeline();
+    // updateInbox
+    Interface.NavModule.updateInbox();
 
     // generate favorites
     Interface.NavModule.generateFavoritesToNav();
