@@ -926,6 +926,8 @@ const Interface = (() => {
                 selectedProject = TasksTimeline.today;
             } else if (e.target.id === 'this-week-nav') {
                 selectedProject = TasksTimeline.thisWeek;
+            } else if (e.target.id === 'important-nav') {
+                selectedProject = TasksTimeline.important;
             }
 
             const sortedTasks = SortModule.sortTasks(selectedProject.tasks);
@@ -980,13 +982,13 @@ const Interface = (() => {
 
         const checkTask = (e) => {
             e.stopPropagation();
+            const waterDrop = document.querySelector('#check-task-audio');
+            waterDrop.play();
+
             const taskId = e.target.parentNode.id;
             taskManager.deleteTask(taskId);
             NavModule.generateFavoritesToNav();
             NavModule.generateProjectsToNav();
-
-            const waterDrop = document.querySelector('#check-task-audio');
-            waterDrop.play();
             e.target.parentNode.remove();
         }
         return { generateTasks, updateMainHead }
@@ -1003,9 +1005,9 @@ const Interface = (() => {
 
             if (format(today, 'MMMM dd yyyy') === format(dueDate, 'MMMM dd yyyy')) {
                 result = 'Today';
-            } else if (!result && dayGap === 1) {
+            } else if (!result && dayGap === 0) {
                 result = 'Tomorrow';
-            } else if (!result && dayGap < 6 && dayGap > 1) { // day today until day 6
+            } else if (!result && dayGap < 6 && dayGap > 0) { // day today until day 6
                 result = format(dueDate, 'eeee');
             } else if (!result && dayGap > 5 && dayGap <= 365) {  //  more than 6 days & less than a year
                 result = format(dueDate, 'dd MMMM');
@@ -1517,8 +1519,8 @@ const Interface = (() => {
     const TasksTimeline = (() => {
         const todayNav = document.querySelector('#today-nav');
         const thisWeekNav = document.querySelector('#this-week-nav');
+        const importantNav = document.querySelector('#important-nav');
         const todayAmount = document.querySelector('#today-amount');
-        const thisWeekAmount = document.querySelector('#this-week-amount');
 
         class NavFile {
             constructor (name) {
@@ -1557,15 +1559,24 @@ const Interface = (() => {
             });
         }
 
+        const getImportant = () => {
+            important.tasks.length = 0;
+            const p1Tasks = taskManager.tasks.filter(
+                (task) => task.priority === 'man'
+            );
+            important.tasks.push(...p1Tasks);
+        }
+
         const updateTasksTimeline = () => {
             getToday();
             getThisWeek();
+            getImportant();
             todayAmount.textContent = today.tasks.length;
         }
 
         const icon = document.querySelector('#toggle-sidenav');
         icon.addEventListener('click', () => {
-            console.log(getThisWeek());
+            console.log(getImportant());
         });
 
         const updateMainHead = (name) => {
@@ -1581,8 +1592,10 @@ const Interface = (() => {
         todayNav.addEventListener('click', () => updateMainHead('Today'));
         thisWeekNav.addEventListener('click', TasksModule.generateTasks);
         thisWeekNav.addEventListener('click', () => updateMainHead('This Week'));
+        importantNav.addEventListener('click', TasksModule.generateTasks);
+        importantNav.addEventListener('click', () => updateMainHead('Important'));
 
-        return { updateTasksTimeline, getToday, today, thisWeek }
+        return { updateTasksTimeline, getToday, today, thisWeek, important }
     })();
 
     return { NavModule, ProjectFormModule, FormProjectList, SortModule };
@@ -1591,5 +1604,3 @@ const Interface = (() => {
 export { Interface };
 
 //  date module to es6
-//  dueDate.... tomorrow > today
-//  thisWeek !today
