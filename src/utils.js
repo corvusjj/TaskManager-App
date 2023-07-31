@@ -67,6 +67,30 @@ const Utils = (() => {
         return {hide, extend}
     })();
 
+    const toggleNav = (() => {
+        const navMenu = document.querySelector('#toggle-sidenav');
+        const sideBar = document.querySelector('.sidebar');
+        const main = document.querySelector('main');
+
+        navMenu.addEventListener('click', () => {    
+            sideBar.classList.toggle('sidebar-hide');
+            main.classList.toggle('main-extended');
+        });
+
+        const handleSidebar = () => {
+            const windowWidth = window.innerWidth;
+            const breakpoint = 768;
+
+            if (windowWidth < breakpoint) {
+                sideBar.classList.add('sidebar-hide');
+                main.classList.add('main-extended');
+            }
+        }
+
+        window.addEventListener('resize', handleSidebar);
+        handleSidebar();
+    })();
+
     return {toggleFavorites, toggleProjects}
 })();
 

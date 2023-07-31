@@ -135,11 +135,17 @@ header {
         user-select: none;
     }
 
-    position: relative;
     height: 100vh;
-    min-width: 290px;
+    width: 290px;
     background: $nav-bg;
     padding: 30px 20px;
+    position: absolute;
+    left: 0%;
+    transition: left 0.3s ease;
+}
+
+.sidebar-hide {
+    left: -100%;
 }
 
 .tasks-timeline {
@@ -390,8 +396,14 @@ header {
 
 main {
     margin-top: 100px;
-    margin-inline: auto;
-    width: 60%;
+    padding: 0 10%;
+    width: 100%;
+    margin-left: 290px;
+    transition: margin-left 0.3s ease;
+}
+
+.main-extended {
+    margin-left: 0px;
 }
 
 .main-head {

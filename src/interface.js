@@ -1574,11 +1574,6 @@ const Interface = (() => {
             todayAmount.textContent = today.tasks.length;
         }
 
-        const icon = document.querySelector('#toggle-sidenav');
-        icon.addEventListener('click', () => {
-            console.log(getImportant());
-        });
-
         const updateMainHead = (name) => {
             const title = document.querySelector('.main-head > h2');
             const menu = document.querySelector('#main-project-menu');
