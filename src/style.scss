@@ -96,7 +96,10 @@ header {
 .title {
     h2 {
         margin-left: 10px;
-        pointer-events: none;
+    }
+
+    h2:hover {
+        cursor: pointer;
     }
 
     display: flex;
@@ -2036,4 +2039,37 @@ label[for='favorites-checkbox'] {
     flex-direction: column;
     align-items: center;
     margin-top: 2rem;
+}
+
+footer {
+    p {
+        color: #ffffff;
+        font-size: 0.9rem;
+    }
+
+    svg {
+        margin-right: 10px;
+    }
+
+    a {
+        color: #ffffff;
+    }
+
+    #github {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    background: $header-bg;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 25px;
 }

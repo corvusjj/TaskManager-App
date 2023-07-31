@@ -91,6 +91,11 @@ const Utils = (() => {
         handleSidebar();
     })();
 
+    const themeModule = (() => {
+        const themeIcon = document.querySelector('#theme-icon');
+        themeIcon.addEventListener('click', () => alert('Themes coming soon'));
+    })();
+
     return {toggleFavorites, toggleProjects}
 })();
 
