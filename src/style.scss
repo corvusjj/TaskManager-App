@@ -2009,7 +2009,7 @@ label[for='favorites-checkbox'] {
     @extend %confirm-btn;
 }
 
-.task-ideas {
+.empty-tasks {
     h4 {
         margin-top: 1.5rem;
     }
@@ -2024,6 +2024,12 @@ label[for='favorites-checkbox'] {
 
     a {
         color: rgb(52, 158, 75);
+    }
+
+    #turtle-dog {
+        width: 224px;
+        height: 224px;
+        object-fit: cover;
     }
 
     display: none;

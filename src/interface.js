@@ -978,9 +978,20 @@ const Interface = (() => {
                 NavModule.generateProjectsToNav();
             });      
             
-            //  task-idea section if !tasks
-            const taskIdeas = document.querySelector('.task-ideas');
-            if (e.target.className === 'nav-project' && selectedProject.tasks.length === 0) {
+            const taskIdeas = document.querySelector('#task-ideas');
+            if (selectedProject.tasks.length === 0) {
+                // display random gif
+                const gifs = [...document.querySelectorAll('#task-ideas img')];
+                const randomNum = Math.floor(Math.random() * 2) + 1;
+                
+                if (randomNum === 1) {
+                    gifs[0].style.display = 'none';
+                    gifs[1].style.display = 'block';
+                } else {
+                    gifs[0].style.display = 'block';
+                    gifs[1].style.display = 'none';
+                }
+
                 return taskIdeas.style.display = 'flex';
             }
 
@@ -996,7 +1007,7 @@ const Interface = (() => {
             taskManager.deleteTask(taskId);
             NavModule.generateFavoritesToNav();
             NavModule.generateProjectsToNav();
-            e.target.parentNode.remove();
+            generateTasks(e);
         }
         return { generateTasks, updateMainHead }
     })();
