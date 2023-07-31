@@ -93,4 +93,8 @@ import './style.scss';
     // implement sorting
     const sort = localStorage.getItem('sort');
     if (sort) Interface.SortModule.selectSortType(sort);
+
+    // run today as default
+    const todayNav = document.querySelector('#today-nav');
+    todayNav.click();
 })();

@@ -911,7 +911,6 @@ const Interface = (() => {
         const generateTasks = (e) => {
             taskSection.innerHTML = '';
             
-            //  add task
             if (e.target.id === 'add-task') {
                 const projectSelectBtn = document.querySelector('#project-select-add');
                 selectedProject = projectManager.projects.find(proj => proj.id === projectSelectBtn.dataset.projectSelected);
@@ -977,7 +976,15 @@ const Interface = (() => {
                 //  update file amount on nav
                 NavModule.generateFavoritesToNav();
                 NavModule.generateProjectsToNav();
-            });        
+            });      
+            
+            //  task-idea section if !tasks
+            const taskIdeas = document.querySelector('.task-ideas');
+            if (e.target.className === 'nav-project' && selectedProject.tasks.length === 0) {
+                return taskIdeas.style.display = 'flex';
+            }
+
+            taskIdeas.style.display = 'none';
         }
 
         const checkTask = (e) => {
@@ -1593,7 +1600,7 @@ const Interface = (() => {
         return { updateTasksTimeline, getToday, today, thisWeek, important }
     })();
 
-    return { NavModule, ProjectFormModule, FormProjectList, SortModule };
+    return { NavModule, ProjectFormModule, FormProjectList, SortModule, TasksModule };
 })();
 
 export { Interface };

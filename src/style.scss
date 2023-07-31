@@ -96,6 +96,7 @@ header {
 .title {
     h2 {
         margin-left: 10px;
+        pointer-events: none;
     }
 
     display: flex;
@@ -2008,4 +2009,25 @@ label[for='favorites-checkbox'] {
     @extend %confirm-btn;
 }
 
+.task-ideas {
+    h4 {
+        margin-top: 1.5rem;
+    }
 
+    p {
+        max-width: 400px;
+        text-align: center;
+        font-size: 0.9rem;
+        color: $font-primary;
+        margin-top: 1rem;
+    }
+
+    a {
+        color: rgb(52, 158, 75);
+    }
+
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 2rem;
+}
