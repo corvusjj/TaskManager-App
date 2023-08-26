@@ -1,6 +1,6 @@
 # ToDo-App
 
-##[Live Demo](https://john0ground.github.io/ToDo-App/)
+## [Live Demo](https://john0ground.github.io/ToDo-App/)
 
 This task is based from [The Odin Project](https://www.theodinproject.com/lessons/node-path-javascript-todo-list) curriculum. Concepts include handling objects, es6 modules, and OOP Principles. The UI is based from [Todoist](https://todoist.com/) app due to its simplicity and plain design.
 
