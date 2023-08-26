@@ -1,4 +1,4 @@
-# TOP-toDoList
+# ToDo-App
 
 ##[Live Demo](https://john0ground.github.io/ToDo-App/)
 
